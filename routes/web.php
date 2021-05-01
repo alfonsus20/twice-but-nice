@@ -18,6 +18,15 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/checkout', function () {
+    return view('checkout');
+});
+
+Route::get('/product-detail', function () {
+    return view('product-detail');
+});
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
