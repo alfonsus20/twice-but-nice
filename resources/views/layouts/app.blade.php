@@ -9,7 +9,7 @@
     <meta content="Twice But Nice Thrifting Shop" name="description">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
-    <link rel="icon" href="img/logo.png">
+    <link rel="icon" href="img/icon.png">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap"
@@ -113,7 +113,7 @@
                 <div class="col-md-3">
                     <div class="logo">
                         <a href="/">
-                            <img src="img/logo.png" alt="Logo">
+                            <img src="img/logo.svg" alt="Logo" class="w-75">
                         </a>
                     </div>
                 </div>

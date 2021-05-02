@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,8 +28,21 @@ Route::get('/', function () {
 // });
 
 Route::get('/admin', function () {
-    return view('admin.index');
-})->middleware(['auth', 'role:admin']);
+    return view('admin.table');
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
+    Route::get('/', function () {
+        return view('admin.index');
+    });
+    Route::get('/products', function () {
+        return view('admin.products');
+    });
+    Route::get('/products/add', function () {
+        return view('admin.add-product');
+    });
+    Route::post('/products/add', [ProductController::class, 'store']);
+});
 
 Route::get('/products', function () {
     return view('product-list');
