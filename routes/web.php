@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/cart', function () {
+    return view('cart');
+});
+
 Route::get('/checkout', function () {
     return view('checkout');
 });
@@ -26,6 +30,13 @@ Route::get('/product-detail', function () {
     return view('product-detail');
 });
 
+Route::get('/product-list', function () {
+    return view('product-list');
+});
+
+Route::get('/login-user', function () {
+    return view('login');
+});
 
 
 Route::get('/dashboard', function () {
