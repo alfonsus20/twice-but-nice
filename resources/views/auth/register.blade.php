@@ -40,12 +40,16 @@
                                 <input class="form-control" type="text" placeholder="Alamat" name="address">
                             </div>
                             <div class="col-md-12">
+                                <label>Tanggal Lahir</label>
+                                <input class="form-control" type="date" placeholder="Tanggal Lahir" name="birth_date">
+                            </div>
+                            <div class="col-md-12">
                                 <label>Password</label>
-                                <input class="form-control" type="text" placeholder="Password" name="password">
+                                <input class="form-control" type="password" placeholder="Password" name="password">
                             </div>
                             <div class="col-md-12">
                                 <label>Konfirmasi Password</label>
-                                <input class="form-control" type="text" placeholder="Konfirmasi Password" name="confirm-password">
+                                <input class="form-control" type="password" placeholder="Konfirmasi Password" name="password_confirmation">
                             </div>
                             <div class="col-md-12">
                                 <button class="btn" type="submit">Register</button>

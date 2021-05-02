@@ -18,29 +18,28 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/cart', function () {
-    return view('cart');
-});
+// Route::get('/cart', function () {
+//     return view('cart');
+// });
 
-Route::get('/checkout', function () {
-    return view('checkout');
-});
+// Route::get('/checkout', function () {
+//     return view('checkout');
+// });
 
-Route::get('/product-detail', function () {
-    return view('product-detail');
-});
+Route::get('/admin', function () {
+    return view('admin.index');
+})->middleware(['auth', 'role:admin']);
 
-Route::get('/product-list', function () {
+Route::get('/products', function () {
     return view('product-list');
 });
 
-Route::get('/login-user', function () {
-    return view('login');
+Route::get('/products/{id}', function () {
+    return view('product-detail');
 });
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

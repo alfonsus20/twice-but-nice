@@ -5,24 +5,30 @@
     <meta charset="utf-8">
     <title>Twice But Nice</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="eCommerce HTML Template Free Download" name="keywords">
-    <meta content="eCommerce HTML Template Free Download" name="description">
+    <meta content="Twice But Nice Thrifting Shop" name="keywords">
+    <meta content="Twice But Nice Thrifting Shop" name="description">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link rel="icon" href="img/logo.png">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap"
         rel="stylesheet">
 
     <!-- CSS Libraries -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="lib/slick/slick.css" rel="stylesheet">
     <link href="lib/slick/slick-theme.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/c09ccc772c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+    </script>
 </head>
 
 <body>
@@ -54,12 +60,10 @@
 
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="product-list.html" class="nav-item nav-link">Products</a>
-                        <a href="product-detail.html" class="nav-item nav-link">Product Detail</a>
-                        <a href="cart.html" class="nav-item nav-link">Cart</a>
-                        <a href="checkout.html" class="nav-item nav-link">Checkout</a>
-                        <a href="my-account.html" class="nav-item nav-link">My Account</a>
+                        <a href="/" class="nav-item nav-link active">Home</a>
+                        <a href="/products" class="nav-item nav-link">Products</a>
+                        <a href="/cart" class="nav-item nav-link">Cart</a>
+                        <a href="/checkout" class="nav-item nav-link">Checkout</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                             <div class="dropdown-menu">
@@ -71,11 +75,30 @@
                     </div>
                     <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
-                            <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Login</a>
-                                <a href="#" class="dropdown-item">Register</a>
-                            </div>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                @if (@isset(auth()->user()->name))
+                                    {{ auth()->user()->name }}
+                                @else
+                                    <i class="fas fa-sign-in-alt"></i> Login
+                                @endif
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @if (@isset(auth()->user()->name))
+                                    <li><a class="dropdown-item" href="/login">Akun Saya</a></li>
+                                    <li><a class="dropdown-item" href="/">Wishlist</a></li>
+                                    <li>
+                                        <form action="{{ route('logout') }}" class="dropdown-item" method="POST">
+                                            @csrf
+                                            <input type="submit" class="dropdown-item p-0" value="Logout">
+                                        </form>
+                                    </li>
+                                @else
+                                    <li><a class="dropdown-item" href="/login">Login</a></li>
+                                    <li><a class="dropdown-item" href="/register">Register</a></li>
+                                    <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                @endif
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -95,7 +118,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="search">
+                    <div class="search position-relative">
                         <input type="text" placeholder="Search">
                         <button><i class="fa fa-search"></i></button>
                     </div>
@@ -197,11 +220,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 copyright">
-                    <p>Copyright &copy; <a href="https://htmlcodex.com">HTML Codex</a>. All Rights Reserved</p>
-                </div>
-
-                <div class="col-md-6 template-by">
-                    <p>Template By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                    <p>Copyright &copy; <a href="https://htmlcodex.com">Twice But Nice 2021</a>. All Rights Reserved</p>
                 </div>
             </div>
         </div>
