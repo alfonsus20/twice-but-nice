@@ -27,8 +27,12 @@ Route::get('/', function () {
 //     return view('checkout');
 // });
 
-Route::get('/admin', function () {
-    return view('admin.table');
+Route::get('/products', function () {
+    return view('product-list');
+});
+
+Route::get('/products/{id}', function () {
+    return view('product-detail');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
@@ -43,17 +47,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     });
     Route::post('/products/add', [ProductController::class, 'store']);
 });
-
-Route::get('/products', function () {
-    return view('product-list');
-});
-
-Route::get('/products/{id}', function () {
-    return view('product-detail');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';

@@ -87,6 +87,9 @@
                                 @if (@isset(auth()->user()->name))
                                     <li><a class="dropdown-item" href="/login">Akun Saya</a></li>
                                     <li><a class="dropdown-item" href="/">Wishlist</a></li>
+                                    @role('admin')
+                                        <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                                    @endrole
                                     <li>
                                         <form action="{{ route('logout') }}" class="dropdown-item" method="POST">
                                             @csrf
@@ -187,7 +190,7 @@
                     <div class="footer-widget">
                         <h2>Purchase Info</h2>
                         <ul>
-                            <li><a href="#">Pyament Policy</a></li>
+                            <li><a href="#">Payment Policy</a></li>
                             <li><a href="#">Shipping Policy</a></li>
                             <li><a href="#">Return Policy</a></li>
                         </ul>

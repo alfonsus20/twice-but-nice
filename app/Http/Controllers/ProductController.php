@@ -60,7 +60,7 @@ class ProductController extends Controller
             $fileName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
             $ext = $image->getClientOriginalExtension();
             $fileNameToStore = $fileName . "_" . time() . "." .$ext;
-            $image->move(public_path('products/'), $fileNameToStore);
+            $image->move(public_path('img/products'), $fileNameToStore);
             $image_paths[] = $fileNameToStore;
         }
 

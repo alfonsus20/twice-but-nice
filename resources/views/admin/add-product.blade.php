@@ -111,13 +111,14 @@
                         </div>
 
                         @if ($errors->any())
-                            @foreach ($errors->all() as $error)
-                                <div class="text-danger">{{ $error }}</div>
-                            @endforeach
+                            <div class="mb-4">
+                                @foreach ($errors->all() as $error)
+                                    <div class="text-danger my-2">{{ $error }}</div>
+                                @endforeach
+                            </div>
                         @endif
 
                         <button class="btn btn-primary" type="submit">Tambah Produk</button>
-
                     </form>
                 </div>
             </div>
@@ -132,15 +133,15 @@
             let images = e.target.files;
             for (let i = 0; i < images.length; i++) {
                 let card = `
-                                                <div class='card m-2' style = 'width: 20rem;'> 
-                                                  <div class='shadow rounded'>
-                                                    <img src=${URL.createObjectURL(images[i])} class='w-100'>
-                                                    <div class='card-body'>
-                                                      <h5 class='card-title text-center text-black'>Gambar ${i+1}</h5>
-                                                    </div>
-                                                  </div>
-                                                </div>      
-                                            `
+                                                    <div class='card m-2' style = 'width: 20rem;'> 
+                                                      <div class='shadow rounded'>
+                                                        <img src=${URL.createObjectURL(images[i])} class='w-100'>
+                                                        <div class='card-body'>
+                                                          <h5 class='card-title text-center text-black'>Gambar ${i+1}</h5>
+                                                        </div>
+                                                      </div>
+                                                    </div>      
+                                                `
                 target.append(card);
             }
             console.log("object")
