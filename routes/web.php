@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +19,41 @@ Route::get('/', function () {
     return view('index');
 });
 
+// Route::get('/cart', function () {
+//     return view('cart');
+// });
+
+// Route::get('/checkout', function () {
+//     return view('checkout');
+// });
+
+Route::get('/admin', function () {
+    return view('admin.table');
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
+    Route::get('/', function () {
+        return view('admin.index');
+    });
+    Route::get('/products', function () {
+        return view('admin.products');
+    });
+    Route::get('/products/add', function () {
+        return view('admin.add-product');
+    });
+    Route::post('/products/add', [ProductController::class, 'store']);
+});
+
+Route::get('/products', function () {
+    return view('product-list');
+});
+
+Route::get('/products/{id}', function () {
+    return view('product-detail');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
