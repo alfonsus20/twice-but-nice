@@ -9,7 +9,7 @@
     <meta content="Twice But Nice Thrifting Shop" name="description">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
-    <link rel="icon" href="img/icon.png">
+    <link rel="icon" href="{{asset('img/icon.png')}}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap"
@@ -19,11 +19,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="lib/slick/slick.css" rel="stylesheet">
-    <link href="lib/slick/slick-theme.css" rel="stylesheet">
+    <link href="{{asset('lib/slick/slick.css')}}" rel="stylesheet">
+    <link href="{{asset('lib/slick/slick-theme.css')}}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{asset('css/style.css')}}" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/c09ccc772c.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
@@ -87,6 +87,9 @@
                                 @if (@isset(auth()->user()->name))
                                     <li><a class="dropdown-item" href="/login">Akun Saya</a></li>
                                     <li><a class="dropdown-item" href="/">Wishlist</a></li>
+                                    @role('admin')
+                                        <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                                    @endrole
                                     <li>
                                         <form action="{{ route('logout') }}" class="dropdown-item" method="POST">
                                             @csrf
@@ -113,7 +116,7 @@
                 <div class="col-md-3">
                     <div class="logo">
                         <a href="/">
-                            <img src="img/logo.svg" alt="Logo" class="w-75">
+                            <img src="{{asset('img/logo.svg')}}" alt="Logo" class="w-75">
                         </a>
                     </div>
                 </div>
@@ -187,7 +190,7 @@
                     <div class="footer-widget">
                         <h2>Purchase Info</h2>
                         <ul>
-                            <li><a href="#">Pyament Policy</a></li>
+                            <li><a href="#">Payment Policy</a></li>
                             <li><a href="#">Shipping Policy</a></li>
                             <li><a href="#">Return Policy</a></li>
                         </ul>
@@ -199,15 +202,15 @@
                 <div class="col-md-6">
                     <div class="payment-method">
                         <h2>We Accept:</h2>
-                        <img src="img/payment-method.png" alt="Payment Method" />
+                        <img src="{{asset('img/payment-method.png')}}" alt="Payment Method" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="payment-security">
                         <h2>Secured By:</h2>
-                        <img src="img/godaddy.svg" alt="Payment Security" />
-                        <img src="img/norton.svg" alt="Payment Security" />
-                        <img src="img/ssl.svg" alt="Payment Security" />
+                        <img src="{{asset('img/godaddy.svg')}}" alt="Payment Security" />
+                        <img src="{{asset('img/norton.svg')}}" alt="Payment Security" />
+                        <img src="{{asset('img/ssl.svg')}}" alt="Payment Security" />
                     </div>
                 </div>
             </div>
@@ -233,11 +236,11 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/slick/slick.min.js"></script>
+    <script src="{{asset('lib/easing/easing.min.js')}}"></script>
+    <script src="{{asset('lib/slick/slick.min.js')}}"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="{{asset('js/main.js')}}"></script>
 </body>
 
 </html>

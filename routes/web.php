@@ -19,41 +19,25 @@ Route::get('/', function () {
     return view('index');
 });
 
-// Route::get('/cart', function () {
-//     return view('cart');
-// });
+Route::get('/products',[ProductController::class, 'index']);
 
-// Route::get('/checkout', function () {
-//     return view('checkout');
-// });
-
-Route::get('/admin', function () {
-    return view('admin.table');
+Route::get('/products/{id}', function () {
+    return view('product-detail');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/', function () {
         return view('admin.index');
     });
-    Route::get('/products', function () {
-        return view('admin.products');
-    });
-    Route::get('/products/add', function () {
-        return view('admin.add-product');
-    });
+    Route::get('/products', [ProductController::class, 'index_admin']);
+    Route::get('/products/add',[ProductController::class, 'create']);
     Route::post('/products/add', [ProductController::class, 'store']);
-});
 
-Route::get('/products', function () {
-    return view('product-list');
-});
+    Route::get('/products/{id}/edit',[ProductController::class, 'edit']);
+    Route::post('/products/{id}/edit',[ProductController::class, 'update']);
+    Route::post('/products/{id}/editpicture',[ProductController::class, 'editProductImages']);
 
-Route::get('/products/{id}', function () {
-    return view('product-detail');
+    Route::get('/products/{id}/delete', [ProductController::class, 'destroy']);
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
