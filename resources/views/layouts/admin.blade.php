@@ -5,16 +5,15 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Admin Page</title>
-
+    <link rel="icon" href="{{ asset('img/icon.png') }}">
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
     <!-- Template CSS -->
-    <link rel="stylesheet" href="{{asset('css/admin-style.css')}}">
-    <link rel="stylesheet" href="{{asset('css/components.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
 </head>
 
 <body>
@@ -34,7 +33,7 @@
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             {{-- <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1"> --}}
-                            <div class="d-sm-none d-lg-inline-block">{{auth()->user()->name}}</div>
+                            <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->name }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="features-profile.html" class="dropdown-item has-icon">
@@ -57,7 +56,7 @@
             <div class="main-sidebar">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="/">Twice But Nice</a>
+                        <a href="/admin">Twice But Nice</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
@@ -95,7 +94,7 @@
                                 <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
                             </ul>
                         </li>
-                        
+
                     </ul>
                 </aside>
             </div>
@@ -122,7 +121,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <!-- Template JS File -->
-    <script src="{{asset('js/scripts.js')}}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
     @yield('script')
 </body>
 

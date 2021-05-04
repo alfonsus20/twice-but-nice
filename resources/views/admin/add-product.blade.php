@@ -15,6 +15,10 @@
                             <input type="text" class="form-control" name="name">
                         </div>
                         <div class="form-group">
+                            <label>Brand Produk</label>
+                            <input type="text" class="form-control" name="brand">
+                        </div>
+                        <div class="form-group">
                             <label>Deskripsi Produk</label>
                             <input type="text" class="form-control" name="description">
                         </div>
@@ -65,7 +69,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Currency</label>
+                            <label>Harga</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">

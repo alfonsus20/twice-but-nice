@@ -10,6 +10,7 @@ use App\Models\Size;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -29,10 +30,18 @@ class ProductController extends Controller
     {
         $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')
             ->join('colors', 'products.color_id', 'colors.id')->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.price', 'products.available')
-            ->get();
+            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.price', 'products.available')
+            ->paginate(9);
 
-        return view('product-list', ['products' => $products]);
+        $product_ids = array();
+
+        foreach ($products as $product) {
+            $product_ids[] = $product->id;
+        }
+
+        $products_images = ProductsImage::whereIn('product_id', $product_ids)->get();
+        
+        return view('product-list', ['products' => $products, 'products_images' => $products_images]);
     }
 
     public function index_admin()
@@ -40,17 +49,11 @@ class ProductController extends Controller
 
         $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')->join('colors', 'products.color_id', 'colors.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.price', 'products.available')
+            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.price', 'products.available')
             ->paginate(10);
-
         return view('admin.products', ['products' => $products]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $categories = Category::all();
@@ -59,16 +62,11 @@ class ProductController extends Controller
         return view('admin.add-product', ['categories' => $categories, 'colors' => $colors, 'sizes' => $sizes]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
+            'brand' => 'required',
             'description' => 'required',
             'category' => 'required',
             'color' => 'required',
@@ -84,13 +82,14 @@ class ProductController extends Controller
         foreach ($images as $image) {
             $fileName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
             $ext = $image->getClientOriginalExtension();
-            $fileNameToStore = $fileName . "_" . time() . "." . $ext;
+            $fileNameToStore = $fileName . "_" . time() . "_" . ((string)Str::uuid()) . "." . $ext;
             $image->move(public_path('img/products'), $fileNameToStore);
             $image_paths[] = $fileNameToStore;
         }
 
         $product = new Product;
         $product->name = $request->name;
+        $product->brand = $request->brand;
         $product->description = $request->description;
         $product->category_id = $request->category;
         $product->color_id = $request->color;
@@ -109,12 +108,6 @@ class ProductController extends Controller
         return redirect('/admin/products/add')->with('success', 'Produk berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
@@ -155,12 +148,6 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $product = Product::find($id);
@@ -171,17 +158,11 @@ class ProductController extends Controller
         return view('admin.edit-product', ['product' => $product, 'categories' => $categories, 'colors' => $colors, 'sizes' => $sizes, 'images' => $images]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
+            'brand' => 'required',
             'description' => 'required',
             'category' => 'required',
             'color' => 'required',
@@ -190,6 +171,7 @@ class ProductController extends Controller
         ]);
         $product = Product::find($id);
         $product->name = $request->name;
+        $product->brand = $request->brand;
         $product->description = $request->description;
         $product->category_id = $request->category;
         $product->color_id = $request->color;
@@ -199,12 +181,6 @@ class ProductController extends Controller
         return back()->with('success', 'Produk berhasil diupdate');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $product = Product::find($id);

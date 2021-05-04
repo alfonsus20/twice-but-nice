@@ -11,6 +11,8 @@
         </div>
     </div>
 
+    @include('components.message')
+
     <div class="section-body">
         <div class="row">
             <div class="col-12">
@@ -21,6 +23,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nama</th>
+                                    <th>Brand</th>
                                     <th>Deskripsi</th>
                                     <th>Kategori</th>
                                     <th>Warna</th>
@@ -39,6 +42,7 @@
                                     <tr>
                                         <td>{{ $key + 1 + (10 * ($page-1)) }}</td>
                                         <td>{{ $product->name }}</td>
+                                        <td>{{ $product->brand }}</td>
                                         <td>{{ $product->description }}</td>
                                         <td>{{ $product->category_name }}</td>
                                         <td>{{ $product->color_name }}</td>

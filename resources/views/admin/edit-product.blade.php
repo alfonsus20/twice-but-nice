@@ -51,6 +51,11 @@
                             <input type="text" class="form-control" name="name" value="{{ $product->name }}">
                         </div>
                         <div class="form-group">
+                            <label>Brand Produk</label>
+                            <input type="text" class="form-control" name="brand"
+                                value="{{ $product->brand }}">
+                        </div>
+                        <div class="form-group">
                             <label>Deskripsi Produk</label>
                             <input type="text" class="form-control" name="description"
                                 value="{{ $product->description }}">
