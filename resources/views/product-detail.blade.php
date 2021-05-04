@@ -21,26 +21,19 @@
                         <div class="row align-items-center">
                             <div class="col-md-5">
                                 <div class="product-slider-single normal-slider">
-                                    <img src="{{asset('img/product-1.jpg')}}" alt="Product Image">
-                                    <img src="{{asset('img/product-3.jpg')}}" alt="Product Image">
-                                    <img src="{{asset('img/product-5.jpg')}}" alt="Product Image">
-                                    <img src="{{asset('img/product-5.jpg')}}" alt="Product Image">
-                                    <img src="{{asset('img/product-7.jpg')}}" alt="Product Image">
-                                    <img src="{{asset('img/product-9.jpg')}}" alt="Product Image">
+                                    @foreach ($product_images as $product_image)
+                                        @if ($product->id == $product_image->product_id)
+                                            <img src="{{ asset('img/products/' . $product_image->path) }}"
+                                                alt="Product Image">
+                                        @endif
+                                    @endforeach
                                 </div>
-                                <div class="product-slider-single-nav normal-slider">
-                                    <div class="slider-nav-img"><img src="{{asset('img/product-1.jpg')}}" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="{{asset('img/product-3.jpg')}}" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="{{asset('img/product-5.jpg')}}"alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="{{asset('img/product-1.jpg')}}" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="{{asset('img/product-3.jpg')}}" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="{{asset('img/product-5.jpg')}}" alt="Product Image"></div>
-                                </div>
+                                
                             </div>
                             <div class="col-md-7">
                                 <div class="product-content">
                                     <div class="title">
-                                        <h2>Product Name</h2>
+                                        <h2>{{ $product->name }}</h2>
                                     </div>
                                     <div class="ratting">
                                         <i class="fa fa-star"></i>
@@ -51,7 +44,8 @@
                                     </div>
                                     <div class="price">
                                         <h4>Price:</h4>
-                                        <p>$99 <span>$149</span></p>
+                                        <p>Rp {{ $product->price }}</p>
+                                        {{-- <p>$99 <span>$149</span></p> --}}
                                     </div>
                                     <div class="quantity">
                                         <h4>Quantity:</h4>
@@ -190,7 +184,7 @@
                                     </div>
                                     <div class="product-image">
                                         <a href="product-detail.html">
-                                            <img src="{{asset('img/product-1.jpg')}}" alt="Product Image">
+                                            <img src="{{ asset('img/product-1.jpg') }}" alt="Product Image">
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -218,7 +212,7 @@
                                     </div>
                                     <div class="product-image">
                                         <a href="product-detail.html">
-                                            <img src="{{asset('img/product-8.jpg')}}" alt="Product Image">
+                                            <img src="{{ asset('img/product-8.jpg') }}" alt="Product Image">
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -246,7 +240,7 @@
                                     </div>
                                     <div class="product-image">
                                         <a href="product-detail.html">
-                                            <img src="{{asset('img/product-6.jpg')}}" alt="Product Image">
+                                            <img src="{{ asset('img/product-6.jpg') }}" alt="Product Image">
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -274,7 +268,7 @@
                                     </div>
                                     <div class="product-image">
                                         <a href="product-detail.html">
-                                            <img src="{{asset('img/product-4.jpg')}}" alt="Product Image">
+                                            <img src="{{ asset('img/product-4.jpg') }}" alt="Product Image">
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -302,7 +296,7 @@
                                     </div>
                                     <div class="product-image">
                                         <a href="product-detail.html">
-                                            <img src="{{asset('img/product-2.jpg')}}" alt="Product Image">
+                                            <img src="{{ asset('img/product-2.jpg') }}" alt="Product Image">
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -361,7 +355,7 @@
                                 </div>
                                 <div class="product-image">
                                     <a href="product-detail.html">
-                                        <img src="{{asset('img/product-7.jpg')}}" alt="Product Image">
+                                        <img src="{{ asset('img/product-7.jpg') }}" alt="Product Image">
                                     </a>
                                     <div class="product-action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -387,7 +381,7 @@
                                 </div>
                                 <div class="product-image">
                                     <a href="product-detail.html">
-                                        <img src="asset{{'img/product-8.jpg'}}" alt="Product Image">
+                                        <img src="asset{{ 'img/product-8.jpg' }}" alt="Product Image">
                                     </a>
                                     <div class="product-action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -413,7 +407,7 @@
                                 </div>
                                 <div class="product-image">
                                     <a href="product-detail.html">
-                                        <img src="{{asset('img/product-1.jpg')}}" alt="Product Image">
+                                        <img src="{{ asset('img/product-1.jpg') }}" alt="Product Image">
                                     </a>
                                     <div class="product-action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>

@@ -71,7 +71,7 @@
                                         <a href="#">{{ $product->name }}</a>
                                     </div>
                                     <div class="product-image">
-                                        <a href="product-detail.html">
+                                        <a href="/products/{{$product->id}}">
                                             @foreach ($products_images as $products_image)
                                                 @if ($product->id == $products_image->product_id)
                                                     <img src="{{asset("img/products/". $products_image->path)}}" alt="Product Image">
@@ -82,7 +82,7 @@
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
                                             <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
+                                            <a href="/products/{{$product->id}}"><i class="fa fa-search"></i></a>
                                         </div>
                                     </div>
                                     <div class="product-price">
@@ -187,7 +187,7 @@
                                     <div class="product-action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>
                                         <a href="#"><i class="fa fa-heart"></i></a>
-                                        <a href="#"><i class="fa fa-search"></i></a>
+                                        <a href="/products/{{$product->id}}"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
                                 <div class="product-price">

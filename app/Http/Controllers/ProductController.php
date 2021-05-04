@@ -110,7 +110,9 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+        $product_images = ProductsImage::where('product_id', $id)->get();
+        return view('product-detail', ['product'=> $product, 'product_images'=>$product_images]);
     }
 
     public function editProductImages(Request $request, $id)

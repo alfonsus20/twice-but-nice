@@ -108,20 +108,19 @@
         ]
     });
     
-    
     // Product Detail Slider
     $('.product-slider-single').slick({
         infinite: true,
         autoplay: true,
-        dots: false,
+        dots: true,
         fade: true,
         slidesToShow: 1,
         slidesToScroll: 1,
-        asNavFor: '.product-slider-single-nav'
     });
+
     $('.product-slider-single-nav').slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
+        slidesToShow: 1,
+        slidesToScroll: 2,
         dots: false,
         centerMode: true,
         focusOnSelect: true,
