@@ -2,26 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductsImage;
+use App\Models\Size;
+use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:admin'], ['except'=>['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct()
-    {
-        $this->middleware(['auth', 'role:admin'])->only(['store', 'destroy']);
-    }
-
     public function index()
     {
-        //
+        $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')
+            ->join('colors', 'products.color_id', 'colors.id')->join('sizes', 'products.size_id', 'sizes.id')
+            ->select('products.id', 'products.name', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.price', 'products.available')
+            ->get();
+
+        return view('product-list', ['products' => $products]);
+    }
+
+    public function index_admin()
+    {
+
+        $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')->join('colors', 'products.color_id', 'colors.id')
+            ->join('sizes', 'products.size_id', 'sizes.id')
+            ->select('products.id', 'products.name', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.price', 'products.available')
+            ->paginate(10);
+
+        return view('admin.products', ['products' => $products]);
     }
 
     /**
@@ -31,7 +54,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.add-product');
     }
 
     /**
@@ -59,7 +82,7 @@ class ProductController extends Controller
         foreach ($images as $image) {
             $fileName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
             $ext = $image->getClientOriginalExtension();
-            $fileNameToStore = $fileName . "_" . time() . "." .$ext;
+            $fileNameToStore = $fileName . "_" . time() . "." . $ext;
             $image->move(public_path('img/products'), $fileNameToStore);
             $image_paths[] = $fileNameToStore;
         }
@@ -95,6 +118,41 @@ class ProductController extends Controller
         //
     }
 
+    public function editProductImages(Request $request, $id)
+    {
+        $images = $request->file('product_images');
+        if (!$images) {
+            return back();
+        } else {
+            $request->validate(['product_images' => 'required', 'product_images.*' => 'image|mimes:jpeg,png,jpg']);
+            $image_paths = array();
+
+            foreach ($images as $image) {
+                $fileName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $ext = $image->getClientOriginalExtension();
+                $fileNameToStore = $fileName . "_" . time() . "." . $ext;
+                $image->move(public_path('img/products'), $fileNameToStore);
+                $image_paths[] = $fileNameToStore;
+            }
+
+            $old_images = ProductsImage::where('product_id', $id);
+
+            foreach ($old_images->get() as $old_image) {
+                File::delete(asset('img/products') . '/' . $old_image->path);
+            }
+
+            $old_images->delete();
+
+            foreach ($image_paths as $image_path) {
+                $products_image = new ProductsImage;
+                $products_image->product_id = $id;
+                $products_image->path = $image_path;
+                $products_image->save();
+            }
+            return back()->with('success', 'Foto produk berhasil diubah');
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -103,7 +161,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        $categories = Category::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+        $images = ProductsImage::where('product_id', $id)->get();
+        return view('admin.edit-product', ['product' => $product, 'categories' => $categories, 'colors' => $colors, 'sizes' => $sizes, 'images' => $images]);
     }
 
     /**
@@ -115,7 +178,23 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+            'color' => 'required',
+            'size' => 'required',
+            'price' => 'required|integer',
+        ]);
+        $product = Product::find($id);
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->category_id = $request->category;
+        $product->color_id = $request->color;
+        $product->size_id = $request->size;
+        $product->price = $request->price;
+        $product->save();
+        return back()->with('success', 'Produk berhasil diupdate');
     }
 
     /**
@@ -126,6 +205,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        $images = ProductsImage::where('product_id', $id);
+
+        foreach ($images->get() as $image) {
+            File::delete(asset('img/products') . '/' . $image->path);
+        }
+
+        $images->delete();
+        $product->delete();
+
+        return back()->with('success', 'Produk berhasil dihapus');
     }
 }

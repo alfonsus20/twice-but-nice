@@ -39,13 +39,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     Route::get('/', function () {
         return view('admin.index');
     });
-    Route::get('/products', function () {
-        return view('admin.products');
-    });
-    Route::get('/products/add', function () {
-        return view('admin.add-product');
-    });
+    Route::get('/products', [ProductController::class, 'index_admin']);
+    Route::get('/products/add',[ProductController::class, 'create']);
     Route::post('/products/add', [ProductController::class, 'store']);
+
+    Route::get('/products/{id}/edit',[ProductController::class, 'edit']);
+    Route::post('/products/{id}/edit',[ProductController::class, 'update']);
+    Route::post('/products/{id}/editpicture',[ProductController::class, 'editProductImages']);
+
+    Route::get('/products/{id}/delete', [ProductController::class, 'destroy']);
 });
 
 require __DIR__ . '/auth.php';

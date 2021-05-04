@@ -135,7 +135,7 @@
                 let card = `
                                                     <div class='card m-2' style = 'width: 20rem;'> 
                                                       <div class='shadow rounded'>
-                                                        <img src=${URL.createObjectURL(images[i])} class='w-100'>
+                                                        <img src="${URL.createObjectURL(images[i])}" class='w-100'>
                                                         <div class='card-body'>
                                                           <h5 class='card-title text-center text-black'>Gambar ${i+1}</h5>
                                                         </div>
