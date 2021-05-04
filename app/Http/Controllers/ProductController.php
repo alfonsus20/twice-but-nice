@@ -49,7 +49,7 @@ class ProductController extends Controller
 
         $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')->join('colors', 'products.color_id', 'colors.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.price', 'products.available')
+            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.sex', 'products.quality','products.price', 'products.available')
             ->paginate(10);
         return view('admin.products', ['products' => $products]);
     }
@@ -65,9 +65,11 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'brand' => 'required',
-            'description' => 'required',
+            'name' => 'required|string',
+            'brand' => 'required|string',
+            'sex' => 'required|boolean',
+            'quality' => 'required|integer',
+            'description' => 'required|string',
             'category' => 'required',
             'color' => 'required',
             'size' => 'required',
@@ -94,6 +96,8 @@ class ProductController extends Controller
         $product->category_id = $request->category;
         $product->color_id = $request->color;
         $product->size_id = $request->size;
+        $product->sex = $request->sex;
+        $product->quality = $request->quality;
         $product->price = $request->price;
         $product->save();
 
@@ -165,6 +169,8 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'brand' => 'required',
+            'sex' => 'required|boolean',
+            'quality' => 'required|integer',
             'description' => 'required',
             'category' => 'required',
             'color' => 'required',
@@ -178,6 +184,8 @@ class ProductController extends Controller
         $product->category_id = $request->category;
         $product->color_id = $request->color;
         $product->size_id = $request->size;
+        $product->sex = $request->sex;
+        $product->quality = $request->quality;
         $product->price = $request->price;
         $product->save();
         return back()->with('success', 'Produk berhasil diupdate');

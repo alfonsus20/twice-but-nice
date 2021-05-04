@@ -61,6 +61,17 @@
                                 value="{{ $product->description }}">
                         </div>
                         <div class="form-group">
+                            <label>Sex</label>
+                            <select class="form-control" name="sex">
+                                <option value="0" {{ $product->sex == 0 || $product->sex == '0' ? 'selected = selected' : '' }}>
+                                    Wanita
+                                </option>
+                                <option value="1" {{ $product->sex == 1 || $product->sex == '1'? 'selected = selected' : '' }}>
+                                    Pria
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Kategori</label>
                             <select class="form-control" name="category">
                                 @foreach ($categories as $category)
@@ -98,6 +109,13 @@
                                         <span class="selectgroup-button">{{ $size->size_name }}</span>
                                     </label>
                                 @endforeach
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Kualitas (skala 10)</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control currency" name="quality" value="{{$product->quality}}">
                             </div>
                         </div>
 
