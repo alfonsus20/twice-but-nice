@@ -21,9 +21,11 @@
                         <div class="form-group">
                             <label>Kategori</label>
                             <select class="form-control" name="category">
-                                <option value="1">Baju</option>
-                                <option value="2">Celana</option>
-                                <option value="3">Hoodie</option>
+                                @foreach ($categories as $category)
+                                    <option value={{ $category->id }}>
+                                        {{ $category->category_name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
@@ -36,65 +38,29 @@
 
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Color Input</label>
+                            <label class="form-label">Warna</label>
                             <div class="col gutters-xs">
-                                <div class="col-auto d-flex align-items-center">
-                                    <input name="color" type="radio" value="1" class="mr-2" id='color_1' />
-                                    <label class="colorinput" for="color_1">
-                                        <span class="colorinput-color bg-primary"></span>
-                                    </label>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <input name="color" type="radio" value="2" class="mr-2" id='color_2' />
-                                    <label class="colorinput" for="color_2">
-                                        <span class="colorinput-color bg-secondary"></span>
-                                    </label>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <input name="color" type="radio" value="3" class="mr-2" id='color_3' />
-                                    <label class="colorinput" for="color_3">
-                                        <span class="colorinput-color bg-danger"></span>
-                                    </label>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <input name="color" type="radio" value="4" class="mr-2" id='color_4' />
-                                    <label class="colorinput" for="color_4">
-                                        <span class="colorinput-color bg-warning"></span>
-                                    </label>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <input name="color" type="radio" value="5" class="mr-2" id='color_5' />
-                                    <label class="colorinput" for="color_5">
-                                        <span class="colorinput-color bg-info"></span>
-                                    </label>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <input name="color" type="radio" value="6" class="mr-2" id='color_6' />
-                                    <label class="colorinput" for="color_6">
-                                        <span class="colorinput-color bg-success"></span>
-                                    </label>
-                                </div>
+                                @foreach ($colors as $color)
+                                    <div class="col-auto d-flex align-items-center">
+                                        <input name="color" type="radio" value="{{ $color->id }}" class="mr-2"
+                                            id="color_{{ $color->id }}" />
+                                        <label class="colorinput" for="color_{{ $color->id }}">
+                                            {{ $color->color_name }}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Size</label>
                             <div class="selectgroup w-100">
-                                <label class="selectgroup-item">
-                                    <input type="radio" name="size" value="1" class="selectgroup-input" checked="">
-                                    <span class="selectgroup-button">S</span>
-                                </label>
-                                <label class="selectgroup-item">
-                                    <input type="radio" name="size" value="2" class="selectgroup-input">
-                                    <span class="selectgroup-button">M</span>
-                                </label>
-                                <label class="selectgroup-item">
-                                    <input type="radio" name="size" value="3" class="selectgroup-input">
-                                    <span class="selectgroup-button">L</span>
-                                </label>
-                                <label class="selectgroup-item">
-                                    <input type="radio" name="size" value="4" class="selectgroup-input">
-                                    <span class="selectgroup-button">XL</span>
-                                </label>
+                                @foreach ($sizes as $size)
+                                    <label class="selectgroup-item">
+                                        <input type="radio" name="size" value="{{ $size->id }}"
+                                            class="selectgroup-input">
+                                        <span class="selectgroup-button">{{ $size->size_name }}</span>
+                                    </label>
+                                @endforeach
                             </div>
                         </div>
 
@@ -133,15 +99,15 @@
             let images = e.target.files;
             for (let i = 0; i < images.length; i++) {
                 let card = `
-                                                    <div class='card m-2' style = 'width: 20rem;'> 
-                                                      <div class='shadow rounded'>
-                                                        <img src="${URL.createObjectURL(images[i])}" class='w-100'>
-                                                        <div class='card-body'>
-                                                          <h5 class='card-title text-center text-black'>Gambar ${i+1}</h5>
-                                                        </div>
-                                                      </div>
-                                                    </div>      
-                                                `
+                                                                        <div class='card m-2' style = 'width: 20rem;'> 
+                                                                          <div class='shadow rounded'>
+                                                                            <img src="${URL.createObjectURL(images[i])}" class='w-100'>
+                                                                            <div class='card-body'>
+                                                                              <h5 class='card-title text-center text-black'>Gambar ${i+1}</h5>
+                                                                            </div>
+                                                                          </div>
+                                                                        </div>      
+                                                                    `
                 target.append(card);
             }
             console.log("object")

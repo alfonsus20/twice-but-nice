@@ -19,17 +19,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-// Route::get('/cart', function () {
-//     return view('cart');
-// });
-
-// Route::get('/checkout', function () {
-//     return view('checkout');
-// });
-
-Route::get('/products', function () {
-    return view('product-list');
-});
+Route::get('/products',[ProductController::class, 'index_admin']);
 
 Route::get('/products/{id}', function () {
     return view('product-detail');

@@ -7,7 +7,6 @@ use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductsImage;
 use App\Models\Size;
-use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +16,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'role:admin'], ['except'=>['index', 'show']]);
+        $this->middleware(['auth', 'role:admin'], ['except' => ['index', 'show']]);
     }
 
     /**
@@ -54,7 +53,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.add-product');
+        $categories = Category::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+        return view('admin.add-product', ['categories' => $categories, 'colors' => $colors, 'sizes' => $sizes]);
     }
 
     /**
