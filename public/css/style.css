@@ -2,15 +2,18 @@
 /********** General CSS ***********/
 /**********************************/
 
-:root{
-    --primary-color : #897853;
-    --overlay-color : rgba(137, 120, 83,0.7);
-    --secondary-overlay-color : rgba(137, 120, 83,0.5);
+:root {
+    --primary-color: #897853;
+    --secondary-color : #4e3620;
+    --soft-pink-color : #f8f4ei;
+    --soft-blue-color : #c8eed9;
+    --overlay-color: rgba(137, 120, 83, 0.7);
+    --secondary-overlay-color: rgba(137, 120, 83, 0.5);
 }
 
 body {
     color: #353535;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 400;
     background: #f3f6ff;
 }
@@ -28,22 +31,21 @@ a:focus {
 }
 
 h1 {
-    font-family: 'Source Code Pro', monospace;
+    font-family: "Source Code Pro", monospace;
     font-weight: 900;
 }
 
 h2 {
-    font-family: 'Source Code Pro', monospace;
+    font-family: "Source Code Pro", monospace;
     font-weight: 700;
 }
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
     .container-fluid {
         padding-right: 60px;
         padding-left: 60px;
     }
 }
-
 
 /**********************************/
 /******** Back to Top CSS *********/
@@ -70,7 +72,6 @@ h2 {
     color: #ffffff;
 }
 
-
 /**********************************/
 /********* Form Input CSS *********/
 /**********************************/
@@ -81,7 +82,7 @@ h2 {
     padding: 0 15px;
     color: #999999;
     border: 1px solid #dddddd;
-    margin-bottom: 15px
+    margin-bottom: 15px;
 }
 
 .form-control:focus,
@@ -101,8 +102,8 @@ h2 {
     border-color: #dddddd;
 }
 
-.custom-radio .custom-control-input:checked~.custom-control-label::before,
-.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before,
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
     color: #ffffff;
     background: var(--primary-color);
     border-color: var(--primary-color);
@@ -123,7 +124,6 @@ h2 {
     box-shadow: none;
 }
 
-
 /**********************************/
 /******* Normal Slider CSS ********/
 /**********************************/
@@ -133,7 +133,7 @@ h2 {
     height: 40px;
     z-index: 1;
     opacity: 0;
-    transition: .5s;
+    transition: 0.5s;
     background: var(--overlay-color);
     border-radius: 4px;
 }
@@ -160,7 +160,7 @@ h2 {
 .normal-slider .slick-prev:focus,
 .normal-slider .slick-next:hover,
 .normal-slider .slick-next:focus {
-    background: rgba(0, 0, 0, .7);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .normal-slider .slick-prev:hover::before,
@@ -203,7 +203,6 @@ h2 {
     margin-bottom: 0;
 }
 
-
 /**********************************/
 /********** Top Bar CSS ***********/
 /**********************************/
@@ -228,15 +227,14 @@ h2 {
 
 @media (max-width: 575.98px) {
     .top-bar {
-        border-bottom: 1px solid rgba(255,255,255,.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     .top-bar .col-sm-6:first-child,
     .top-bar .col-sm-6:last-child {
         text-align: center;
     }
 }
-
 
 /**********************************/
 /*********** Nav Bar CSS **********/
@@ -269,22 +267,24 @@ h2 {
     background: #f8f9fa;
 }
 
+
+
 @media (min-width: 768px) {
     .nav,
     .nav .navbar {
         background: var(--primary-color) !important;
     }
-    
+
     .nav .navbar-brand {
         display: none;
     }
-    
+
     .nav .navbar-dark a.nav-link {
         color: #ffffff;
         font-size: 14px;
         text-transform: uppercase;
     }
-    
+
     .nav .navbar-dark a.nav-link:hover,
     .nav .navbar-dark a.nav-link.active {
         color: #000000;
@@ -295,21 +295,20 @@ h2 {
     .nav {
         padding: 5px 0;
     }
-    
+
     .nav,
     .nav .navbar {
         background: #000000 !important;
     }
-    
+
     .nav a.nav-link {
         padding: 5px 0;
     }
-    
+
     .nav .dropdown-menu {
         box-shadow: none;
     }
 }
-
 
 /**********************************/
 /********* Bottom Bar CSS *********/
@@ -333,7 +332,7 @@ h2 {
     width: 100%;
 }
 
-.bottom-bar .search input[type=text] {
+.bottom-bar .search input[type="text"] {
     width: 100%;
     height: 40px;
     padding: 0 15px;
@@ -400,12 +399,11 @@ h2 {
         text-align: center;
         margin-bottom: 15px;
     }
-    
+
     .bottom-bar .user {
         margin-bottom: 0;
     }
 }
-
 
 /**********************************/
 /*********** Header CSS ***********/
@@ -448,7 +446,6 @@ h2 {
     color: var(--primary-color);
 }
 
-
 .header .navbar i {
     color: var(--primary-color);
     width: 20px;
@@ -489,7 +486,7 @@ h2 {
     text-align: center;
     color: #ffffff;
     font-size: 22px;
-    font-family: 'Source Code Pro', monospace;
+    font-family: "Source Code Pro", monospace;
     font-weight: 700;
 }
 
@@ -520,9 +517,9 @@ h2 {
 }
 
 .header .img-item img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .header .img-text {
@@ -539,7 +536,7 @@ h2 {
 }
 
 .header .img-text:hover {
-    opacity: 1;     
+    opacity: 1;
 }
 
 .header .img-text p {
@@ -553,9 +550,8 @@ h2 {
 }
 
 .header .img-text:hover p {
-    margin: 0;       
+    margin: 0;
 }
-
 
 /**********************************/
 /********* Breadcrumb CSS *********/
@@ -570,8 +566,6 @@ h2 {
     padding: 0;
     background: transparent;
 }
-
-
 
 /**********************************/
 /********** Category CSS **********/
@@ -610,9 +604,9 @@ h2 {
 }
 
 .category .category-item img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .category .category-name {
@@ -629,7 +623,7 @@ h2 {
 }
 
 .category .category-name:hover {
-    opacity: 1;     
+    opacity: 1;
 }
 
 .category .category-name p {
@@ -643,9 +637,8 @@ h2 {
 }
 
 .category .category-name:hover p {
-    margin: 0;       
+    margin: 0;
 }
-
 
 /**********************************/
 /*********** Feature CSS **********/
@@ -682,7 +675,6 @@ h2 {
     margin: 0;
 }
 
-
 /**********************************/
 /******** Product Item CSS ********/
 /**********************************/
@@ -694,7 +686,7 @@ h2 {
     padding: 15px;
     text-align: center;
     background: #000000;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .product-item:hover .product-title {
@@ -728,6 +720,11 @@ h2 {
 .product-item:hover .product-title a,
 .product-item:hover .product-title .ratting i {
     color: #ffffff;
+    text-decoration: none !important;
+}
+
+.product-item .product-title a {
+    text-decoration: none !important;
 }
 
 .product-item:hover .product-content .price span {
@@ -742,12 +739,12 @@ h2 {
 .product-item .product-image a {
     display: block;
     background: #ffffff;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .product-item .product-image img {
-    width: 100%; 
-    transition: all .3s;
+    width: 100%;
+    transition: all 0.3s;
 }
 
 .product-item:hover .product-image img {
@@ -764,14 +761,14 @@ h2 {
     align-items: center;
     justify-content: center;
     background: var(--secondary-overlay-color);
-    transition: all .3s;
+    transition: all 0.3s;
     font-size: 0;
     z-index: 1;
     opacity: 0;
 }
 
 .product-item:hover .product-image .product-action {
-    opacity: 1; 
+    opacity: 1;
 }
 
 .product-item .product-image .product-action a {
@@ -786,7 +783,7 @@ h2 {
     background: var(--primary-color);
     border: 1px solid #ffffff;
     border-radius: 4px;
-    transition: all .3s;
+    transition: all 0.3s;
     margin-top: 50px;
 }
 
@@ -807,7 +804,7 @@ h2 {
 .product-item .product-price {
     padding: 20px;
     background: #000000;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .product-item:hover .product-price {
@@ -841,7 +838,6 @@ h2 {
     margin-right: 5px;
 }
 
-
 /**********************************/
 /******** Featured Product ********/
 /**********************************/
@@ -868,7 +864,7 @@ h2 {
     width: 30px;
     height: 30px;
     z-index: 1;
-    transition: .5s;
+    transition: 0.5s;
     color: var(--primary-color);
     background: #ffffff;
     border: 1px solid var(--primary-color);
@@ -913,7 +909,6 @@ h2 {
     color: #ffffff;
 }
 
-
 /**********************************/
 /******** Product View CSS ********/
 /**********************************/
@@ -942,15 +937,15 @@ h2 {
     background: transparent;
     border: 1px solid #353535;
     border-radius: 4px;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .product-view .product-search input:focus {
     border-color: var(--primary-color);
 }
 
-.product-view .product-search button {
-    position: absolute;
+.product-view .product-search a {
+    /* position: absolute; */
     width: 35px;
     height: 33px;
     top: 1px;
@@ -959,15 +954,15 @@ h2 {
     background: transparent;
     color: #353535;
     border: none;
-    border-radius: 0 4px 4px 0;
-    transition: all .3s;
+    border-radius: 4px;
+    transition: all 0.3s;
 }
 
-.product-view .product-search button i {
+.product-view .product-search a i {
     font-size: 16px;
 }
 
-.product-view .product-search button:hover {
+.product-view .product-search a:hover {
     background: var(--primary-color);
     color: #ffffff;
 }
@@ -990,7 +985,7 @@ h2 {
     text-align: left;
     border-radius: 4px;
     cursor: pointer;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .product-view .product-short .dropdown .dropdown-toggle:hover,
@@ -1009,6 +1004,10 @@ h2 {
 .product-view .product-price-range .dropdown-menu {
     margin: -1px 0 0 0;
     border-radius: 0;
+}
+
+.dropdown-item{
+    cursor: pointer;
 }
 
 .product-view .product-item {
@@ -1036,7 +1035,6 @@ h2 {
         margin-bottom: 30px;
     }
 }
-
 
 /**********************************/
 /******* Product Detail CSS *******/
@@ -1073,7 +1071,7 @@ h2 {
 
 .product-detail .product-slider-single-nav img {
     width: 100%;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .product-detail .product-slider-single-nav img:hover {
@@ -1193,7 +1191,7 @@ h2 {
     color: var(--primary-color);
     background: #000000;
     border-radius: 0;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .product-detail .nav.nav-pills .nav-link:hover,
@@ -1218,8 +1216,8 @@ h2 {
 }
 
 .product-detail .tab-content ul li::before {
-    content: '\f061';
-    font-family: 'Font Awesome 5 Free';
+    content: "\f061";
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
     padding-right: 5px;
 }
@@ -1279,14 +1277,13 @@ h2 {
     border: 1px solid var(--primary-color);
     border-radius: 4px;
     margin-bottom: 15px;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .product-detail .tab-content .form button:hover {
     color: #ffffff;
     background: var(--primary-color);
 }
-
 
 /**********************************/
 /********** Sidebar CSS ***********/
@@ -1355,11 +1352,11 @@ h2 {
 }
 
 .sidebar-widget.brands ul li {
-    margin-bottom: 12px; 
+    margin-bottom: 12px;
 }
 
 .sidebar-widget.brands ul li:last-child {
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .sidebar-widget.brands ul li a {
@@ -1367,12 +1364,12 @@ h2 {
     white-space: nowrap;
     display: inline-block;
     line-height: 23px;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .sidebar-widget.brands ul li a::before {
-    content: '\f105';
-    font-family: 'Font Awesome 5 Free';
+    content: "\f105";
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
     padding-right: 5px;
 }
@@ -1382,13 +1379,13 @@ h2 {
 }
 
 .sidebar-widget.brands ul li a:hover::before {
-    content: '\f101';
-    font-family: 'Font Awesome 5 Free';
+    content: "\f101";
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
 }
 
 .sidebar-widget.brands ul li a:hover {
-    padding-left: 10px; 
+    padding-left: 10px;
 }
 
 .sidebar-widget.brands ul li span {
@@ -1411,7 +1408,7 @@ h2 {
 
 .sidebar-widget.image img {
     max-width: 100%;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .sidebar-widget.image img:hover {
@@ -1429,7 +1426,7 @@ h2 {
     background: #ffffff;
     border: 1px solid #353535;
     border-radius: 4px;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .sidebar-widget.tag a:hover {
@@ -1437,7 +1434,6 @@ h2 {
     background: var(--primary-color);
     border-color: var(--primary-color);
 }
-
 
 /**********************************/
 /************ Cart CSS ************/
@@ -1460,7 +1456,7 @@ h2 {
 }
 
 .cart-page .table .thead-dark th {
-    font-family: 'Source Code Pro', monospace;
+    font-family: "Source Code Pro", monospace;
     font-size: 18px;
     font-weight: 700;
     color: #353535;
@@ -1549,7 +1545,7 @@ h2 {
     border: 1px solid #dddddd;
     border-radius: 4px;
     margin-right: 15px;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .cart-page .coupon input:focus {
@@ -1630,7 +1626,6 @@ h2 {
     background: var(--primary-color);
 }
 
-
 /**********************************/
 /********** Wishlist CSS **********/
 /**********************************/
@@ -1651,7 +1646,7 @@ h2 {
 }
 
 .wishlist-page .table .thead-dark th {
-    font-family: 'Source Code Pro', monospace;
+    font-family: "Source Code Pro", monospace;
     font-size: 18px;
     font-weight: 700;
     color: #353535;
@@ -1722,7 +1717,6 @@ h2 {
     background: #000000;
     border: none;
 }
-
 
 /**********************************/
 /********** Checkout CSS **********/
@@ -1800,7 +1794,7 @@ h2 {
     width: 100%;
     height: 50px;
     padding: 2px 10px;
-    font-family: 'Source Code Pro', monospace;
+    font-family: "Source Code Pro", monospace;
     font-weight: 700;
     font-size: 25px;
     text-align: center;
@@ -1808,14 +1802,13 @@ h2 {
     background: var(--primary-color);
     border: none;
     border-radius: 4px;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .checkout .checkout-payment .checkout-btn button:hover {
     color: var(--primary-color);
     background: #000000;
 }
-
 
 /**********************************/
 /********* My Account CSS *********/
@@ -1831,7 +1824,7 @@ h2 {
     background: #ffffff;
     border-radius: 0;
     border-bottom: 1px solid #dddddd;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .my-account .nav.nav-pills .nav-link:last-child {
@@ -1872,7 +1865,6 @@ h2 {
     vertical-align: middle;
 }
 
-
 /**********************************/
 /******* Call to Action CSS *******/
 /**********************************/
@@ -1900,7 +1892,7 @@ h2 {
     color: #ffffff;
     font-size: 30px;
     letter-spacing: 2px;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .call-to-action a:hover {
@@ -1913,12 +1905,11 @@ h2 {
     .call-to-action .col-md-6:last-child {
         text-align: center;
     }
-    
+
     .call-to-action h1 {
         margin-bottom: 20px;
     }
 }
-
 
 /**********************************/
 /********* Newsletter CSS *********/
@@ -1973,16 +1964,15 @@ h2 {
     .newsletter {
         text-align: center;
     }
-    
+
     .newsletter h1 {
         margin-bottom: 20px;
     }
-    
+
     .newsletter .form {
         margin: 0 auto;
     }
 }
-
 
 /**********************************/
 /*********** Brand CSS ************/
@@ -1995,12 +1985,12 @@ h2 {
 }
 
 .brand .brand-item {
-    text-align: center; 
+    text-align: center;
 }
 
 .brand .brand-item img {
     max-width: 100%;
-    margin: auto; 
+    margin: auto;
 }
 
 .brand .slick-prev,
@@ -2009,7 +1999,7 @@ h2 {
     height: 40px;
     z-index: 1;
     opacity: 0;
-    transition: .5s;
+    transition: 0.5s;
     background: var(--primary-color);
     border-radius: 4px;
 }
@@ -2062,7 +2052,6 @@ h2 {
     content: "\f105";
 }
 
-
 /**********************************/
 /*********** Review CSS ***********/
 /**********************************/
@@ -2088,9 +2077,9 @@ h2 {
 }
 
 .review .review-img img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .review .review-text {
@@ -2131,7 +2120,6 @@ h2 {
 .review .slick-slider:hover .slick-next {
     right: 30px;
 }
-
 
 /**********************************/
 /********** Contact CSS ***********/
@@ -2199,7 +2187,6 @@ h2 {
     height: 450px;
 }
 
-
 /**********************************/
 /****** Register & Login CSS ******/
 /**********************************/
@@ -2214,7 +2201,6 @@ h2 {
     background: #ffffff;
     margin-bottom: 30px;
 }
-
 
 /**********************************/
 /********** Footer CSS ************/
@@ -2234,7 +2220,7 @@ h2 {
 .footer .footer-widget h2 {
     font-size: 25px;
     white-space: nowrap;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
 }
 
 .footer .footer-widget ul {
@@ -2244,11 +2230,11 @@ h2 {
 }
 
 .footer .footer-widget ul li {
-    margin-bottom: 12px; 
+    margin-bottom: 12px;
 }
 
 .footer .footer-widget ul li:last-child {
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .footer .footer-widget ul li a {
@@ -2256,12 +2242,12 @@ h2 {
     white-space: nowrap;
     display: block;
     line-height: 23px;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .footer .footer-widget ul li a::before {
-    content: '\f105';
-    font-family: 'Font Awesome 5 Free';
+    content: "\f105";
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
     padding-right: 5px;
 }
@@ -2271,8 +2257,8 @@ h2 {
 }
 
 .footer .footer-widget ul li a:hover::before {
-    content: '\f101';
-    font-family: 'Font Awesome 5 Free';
+    content: "\f101";
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
 }
 
@@ -2301,7 +2287,7 @@ h2 {
     color: #353535;
     border: 1px solid #353535;
     border-radius: 4px;
-    transition: all .3s;
+    transition: all 0.3s;
 }
 
 .footer .social a:hover {
@@ -2312,7 +2298,7 @@ h2 {
 .footer .payment {
     padding-top: 25px;
     padding-bottom: 25px;
-    border-top: 1px solid rgba(0,0,0,.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 @media (min-width: 992px) {
@@ -2339,11 +2325,11 @@ h2 {
     .footer .payment-method {
         margin-bottom: 15px;
     }
-    
+
     .footer .payment-method,
     .footer .payment-security {
-        text-align: center; 
-    } 
+        text-align: center;
+    }
 }
 
 .footer .payment-method h2,
@@ -2359,7 +2345,6 @@ h2 {
 .footer .payment-security img {
     height: 25px;
 }
-
 
 /**********************************/
 /******** Footer Bottom CSS *******/
@@ -2395,9 +2380,54 @@ h2 {
     color: #ffffff;
 }
 
+
+#slider-range-price .ui-slider-handle, #slider-range-quality .ui-slider-handle {
+    background-color: var(--primary-color);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 21px;
+    top: -6px;
+    transition: none 0s ease 0s;
+    width: 21px;
+    box-shadow: 0px 0px 6.65px 0.35px rgba(0,0,0,0.15);
+}
+#slider-range-price .ui-slider-range, #slider-range-quality .ui-slider-range {
+    background-color: var(--primary-color);
+    border-radius: 0;
+}
+#slider-range-price, #slider-range-quality {
+    background: #010101;
+    border: medium none;
+    border-radius: 50px;
+    float: left;
+    height: 10px;
+    margin-top: 14px;
+    width: 100%;
+}
+.price-box-slider p{
+    clear: both;
+    margin-top: 20px;
+    display: inline-block;
+    width: 100%;
+}
+.price-box-slider p input{
+    margin-top: 5px;
+}
+.price-box-slider p button{
+    border: none;
+    color: #ffffff;
+    float: right;
+}
+
 @media (max-width: 768.98px) {
     .footer-bottom .copyright,
     .footer-bottom .template-by {
-        text-align: center; 
-    } 
+        text-align: center;
+    }
+}
+
+.active-query a{
+    color: var(--primary-color) !important;
+    text-decoration: underline;
 }

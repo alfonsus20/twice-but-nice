@@ -21,6 +21,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="{{asset('lib/slick/slick.css')}}" rel="stylesheet">
     <link href="{{asset('lib/slick/slick-theme.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- Template Stylesheet -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
@@ -121,10 +122,10 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="search position-relative">
-                        <input type="text" placeholder="Search">
-                        <button><i class="fa fa-search"></i></button>
-                    </div>
+                    <form class="search position-relative" action="/products" method="GET">
+                        <input type="text" placeholder="Search" name="keyword">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
                 </div>
                 <div class="col-md-3">
                     <div class="user">
@@ -241,6 +242,10 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('js/main.js')}}"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    @yield('script')
 </body>
 
 </html>
