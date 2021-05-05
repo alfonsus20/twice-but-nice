@@ -23,6 +23,17 @@
                             <input type="text" class="form-control" name="description">
                         </div>
                         <div class="form-group">
+                            <label>Sex</label>
+                            <select class="form-control" name="sex">
+                                <option value="0">
+                                    Wanita
+                                </option>
+                                <option value="1">
+                                    Pria
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Kategori</label>
                             <select class="form-control" name="category">
                                 @foreach ($categories as $category)
@@ -69,6 +80,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Kualitas (skala 10)</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control currency" name="quality">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label>Harga</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -103,15 +121,15 @@
             let images = e.target.files;
             for (let i = 0; i < images.length; i++) {
                 let card = `
-                                                                        <div class='card m-2' style = 'width: 20rem;'> 
-                                                                          <div class='shadow rounded'>
-                                                                            <img src="${URL.createObjectURL(images[i])}" class='w-100'>
-                                                                            <div class='card-body'>
-                                                                              <h5 class='card-title text-center text-black'>Gambar ${i+1}</h5>
-                                                                            </div>
-                                                                          </div>
-                                                                        </div>      
-                                                                    `
+                                                                                <div class='card m-2' style = 'width: 20rem;'> 
+                                                                                  <div class='shadow rounded'>
+                                                                                    <img src="${URL.createObjectURL(images[i])}" class='w-100'>
+                                                                                    <div class='card-body'>
+                                                                                      <h5 class='card-title text-center text-black'>Gambar ${i+1}</h5>
+                                                                                    </div>
+                                                                                  </div>
+                                                                                </div>      
+                                                                            `
                 target.append(card);
             }
             console.log("object")

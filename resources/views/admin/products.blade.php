@@ -25,9 +25,11 @@
                                     <th>Nama</th>
                                     <th>Brand</th>
                                     <th>Deskripsi</th>
+                                    <th>Sex</th>
                                     <th>Kategori</th>
                                     <th>Warna</th>
                                     <th>Size</th>
+                                    <th>Kualitas</th>
                                     <th>Harga</th>
                                     <th>Stok</th>
                                     <th colspan="2" class="text-center">Action</th>
@@ -40,13 +42,18 @@
                                 @endphp
                                 @foreach ($products as $key => $product)
                                     <tr>
-                                        <td>{{ $key + 1 + (10 * ($page-1)) }}</td>
+                                        <td>{{ $key + 1 + 10 * ($page - 1) }}</td>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->brand }}</td>
                                         <td>{{ $product->description }}</td>
+                                        <td>
+                                            <div class="badge badge-{{ $product->sex ? 'info' : 'secondary' }}">
+                                                {{ $product->sex ? 'Pria' : 'Wanita' }}</div>
+                                        </td>
                                         <td>{{ $product->category_name }}</td>
                                         <td>{{ $product->color_name }}</td>
                                         <td>{{ $product->size_name }}</td>
+                                        <td>{{ $product->quality }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>
                                             <div class="badge badge-{{ $product->available ? 'success' : 'danger' }}">
@@ -54,7 +61,8 @@
                                         </td>
                                         <td class="text-center"><a href="/admin/products/{{ $product->id }}/edit"
                                                 class="btn btn-warning">Ubah</a></td>
-                                        <td class="text-center"><a href="/admin/products/{{ $product->id }}/delete" class="btn btn-danger">Hapus</a></td>
+                                        <td class="text-center"><a href="/admin/products/{{ $product->id }}/delete"
+                                                class="btn btn-danger">Hapus</a></td>
                                     </tr>
                                 @endforeach
                             </table>
