@@ -24,6 +24,7 @@ Route::get('/products',[ProductController::class, 'index']);
 
 Route::get('/products/{id}',[ProductController::class, 'show']);
 
+
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/', function () {
         return view('admin.index');
@@ -40,5 +41,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
 });
 
 Route::get('/wishlist',[WishlistController::class, 'index']);
+
+Route::get('/wishlist/{id}/add',[WishlistController::class, 'store']);
+
+Route::get('/wishlist/{id}/delete',[WishlistController::class, 'destroy']);
 
 require __DIR__ . '/auth.php';

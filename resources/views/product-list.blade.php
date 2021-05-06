@@ -42,17 +42,18 @@
                         <nav class="navbar">
                             <ul class="navbar-nav">
                                 @foreach ($categories as $category)
-                                    <li class="nav-item {{Request::get('category') == $category->id ? "active-query" : "" }}">
+                                    <li
+                                        class="nav-item {{ Request::get('category') == $category->id ? 'active-query' : '' }}">
                                         <a class="nav-link"
                                             href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => $category->id])) }}"></i>{{ ucfirst(trans($category->category_name)) }}</a>
                                     </li>
                                 @endforeach
-                                <li class="nav-item {{Request::get('category') == "pria" ? "active-query" : "" }}">
+                                <li class="nav-item {{ Request::get('category') == 'pria' ? 'active-query' : '' }}">
                                     <a class="nav-link"
                                         href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => 'pria'])) }}"></i>Pakaian
                                         Pria</a>
                                 </li>
-                                <li class="nav-item {{Request::get('category') == "wanita" ? "active-query" : "" }}">
+                                <li class="nav-item {{ Request::get('category') == 'wanita' ? 'active-query' : '' }}">
                                     <a class="nav-link"
                                         href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => 'wanita'])) }}">Pakaian
                                         Wanita</a>
@@ -65,18 +66,22 @@
                         <div class="sidebar-widget brands" style="padding-top: 0">
                             <h2 class="title">Harga</h2>
                             <div class="row w-100 px-3">
-                                <input type="text" class="col-md-5" value = "{{ Request::get('min_price') }}" name="min_price" id="" placeholder="MIN">
+                                <input type="text" class="col-md-5" value="{{ Request::get('min_price') }}"
+                                    name="min_price" id="" placeholder="MIN">
                                 <div class="col-md-2 text-center"> - </div>
-                                <input type="text" class="col-md-5" value = "{{ Request::get('max_price') }}" name="max_price" id="" placeholder="MAX">
+                                <input type="text" class="col-md-5" value="{{ Request::get('max_price') }}"
+                                    name="max_price" id="" placeholder="MAX">
                             </div>
                         </div>
 
                         <div class="sidebar-widget brands">
                             <h2 class="title">Kualitas</h2>
                             <div class="row w-100 px-3">
-                                <input type="text" class="col-md-5" value = "{{ Request::get('min_quality') }}" name="min_quality" id="" placeholder="MIN">
+                                <input type="text" class="col-md-5" value="{{ Request::get('min_quality') }}"
+                                    name="min_quality" id="" placeholder="MIN">
                                 <div class="col-md-2 text-center"> - </div>
-                                <input type="text" class="col-md-5" value = "{{ Request::get('max_quality') }}" name="max_quality" id="" placeholder="MAX">
+                                <input type="text" class="col-md-5" value="{{ Request::get('max_quality') }}"
+                                    name="max_quality" id="" placeholder="MAX">
                             </div>
                         </div>
 
@@ -98,7 +103,7 @@
                         <h2 class="title">Brand</h2>
                         <ul class="navbar-nav">
                             @foreach ($brands as $brand)
-                                <li class="nav-item {{Request::get('brand') == $brand->brand ? "active-query" : "" }}">
+                                <li class="nav-item {{ Request::get('brand') == $brand->brand ? 'active-query' : '' }}">
                                     <a class="nav-link"
                                         href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['brand' => $brand->brand])) }}">{{ $brand->brand }}</a>
                                 </li>
@@ -174,7 +179,7 @@
                         </a>
                         <div class="product-action">
                             <a href="#"><i class="fa fa-cart-plus"></i></a>
-                            <a href="#"><i class="fa fa-heart"></i></a>
+                            <a href="/wishlist/{{$product->id}}/add" class="{{ in_array($product->id, $liked_products) ? "liked-product" : "" }}"><i class="fa fa-heart"></i></a>
                             <a href="/products/{{ $product->id }}"><i class="fa fa-search"></i></a>
                         </div>
                     </div>
@@ -205,7 +210,7 @@
                 </nav>
             </div>
             <!-- Pagination Start -->
-            {{$products->links()}}
+            {{ $products->links() }}
         </div>
 
         <!-- Side Bar Start -->
@@ -214,5 +219,15 @@
         </div>
         </div>
         <!-- Product List End -->
-
+        @include('components.toast')
+    @endsection
+    @section('script')
+        <script>
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function(toastEl) {
+                return new bootstrap.Toast(toastEl, {})
+            })
+            var toast = document.getElementById("toast");
+            toastList[0].show();
+        </script>
     @endsection

@@ -7,11 +7,12 @@ use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductsImage;
 use App\Models\Size;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
 
@@ -38,7 +39,12 @@ class ProductController extends Controller
                 'products.available',
                 'products.created_at'
             );
-
+        $user_id = Auth::id();
+        
+        $liked_products =  Wishlist::where("user_id", $user_id)->whereIn("product_id", $products->pluck('id'))->pluck('product_id')->toArray();
+        
+        // var_dump($liked_products);
+        
         if ($request->has('keyword')) {
             $products->where('name', 'LIKE', '%' . $request->input('keyword') . '%');
         }
@@ -98,7 +104,7 @@ class ProductController extends Controller
 
         $products_images = ProductsImage::whereIn('product_id', $product_ids)->get();
 
-        return view('product-list', ['products' => $products, 'products_images' => $products_images, 'brands' => $brands, 'categories' => $categories]);
+        return view('product-list', ['products' => $products, 'products_images' => $products_images, 'brands' => $brands, 'categories' => $categories, 'liked_products' => $liked_products]);
     }
 
     public function index_admin()
