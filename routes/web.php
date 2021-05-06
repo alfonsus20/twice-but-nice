@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,5 +38,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
 
     Route::get('/products/{id}/delete', [ProductController::class, 'destroy']);
 });
+
+Route::get('/wishlist',[WishlistController::class, 'index']);
 
 require __DIR__ . '/auth.php';
