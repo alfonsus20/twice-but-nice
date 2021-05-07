@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\ProductsImage;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        //
+        return view("order");
     }
 
     /**
@@ -80,19 +81,17 @@ class OrderController extends Controller
         }
 
         $user = Auth::user();
-        $delivery_costs = $curl->getDeliveryCosts(256, $user->city_id, $weight);
+        $delivery_cost = $curl->getDeliveryCosts(256, $user->city_id, $weight);
 
         $delivery_info = explode("|", $request->delivery);
 
         $shipping_cost = 0;
 
-        foreach ($delivery_costs as $info) {
-            if ($info->code == $delivery_info[0]) {
-                foreach ($info->costs as $cost) {
-                    if ($cost->service == $delivery_info[1]) {
-                        $shipping_cost = $cost->cost->value;
-                        return;
-                    }
+        if ($delivery_cost[$delivery_info[0]][0]->code == $delivery_info[0]) {
+            foreach ($delivery_cost[$delivery_info[0]][0]->costs as $cost) {
+                if ($cost->service == $delivery_info[1]) {
+                    $shipping_cost = $cost->cost[0]->value;
+                    break;
                 }
             }
         }
@@ -106,6 +105,9 @@ class OrderController extends Controller
             $order_item->order_id = $order->id;
             $order_item->product_id = $item->id;
             $order_item->save();
+            $product = Product::find($item->id);
+            $product->available = false;
+            $product->save();
         }
 
         $shipping =  new Shipping;
@@ -113,9 +115,11 @@ class OrderController extends Controller
         $shipping->delivered = false;
         $shipping->courier = $delivery_info[0];
         $shipping->service = $delivery_info[1];
+        $shipping->cost = $shipping_cost;
         $shipping->save();
 
-        return view("order")->with("success", "Pesanan berhasil dibuat");
+        return redirect("/order")->with("success", "Pesanan berhasil dibuat");
+        // return "hello world";
     }
 
     /**

@@ -5,7 +5,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="checkout-inner" action="/order/create">
+                    <form class="checkout-inner" action="/order/create" method="POST">
+                        @csrf
                         <div class="checkout-summary">
                             <h1><i class="fas fa-map-marker-alt"></i> Alamat Pengiriman</h1>
                             <div class="row">
