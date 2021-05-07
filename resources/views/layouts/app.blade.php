@@ -66,7 +66,7 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                             <div class="dropdown-menu">
-                                <a href="wishlist.html" class="dropdown-item">Wishlist</a>
+                                <a href="/wishlist" class="dropdown-item">Wishlist</a>
                                 <a href="login.html" class="dropdown-item">Login & Register</a>
                                 <a href="contact.html" class="dropdown-item">Contact Us</a>
                             </div>
@@ -85,7 +85,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @if (@isset(auth()->user()->name))
                                     <li><a class="dropdown-item" href="/login">Akun Saya</a></li>
-                                    <li><a class="dropdown-item" href="/">Wishlist</a></li>
+                                    <li><a class="dropdown-item" href="/wishlist">Wishlist</a></li>
                                     @role('admin')
                                     <li><a class="dropdown-item" href="/admin">Admin</a></li>
                                     @endrole
@@ -228,9 +228,6 @@
         </div>
     </div>
     <!-- Footer Bottom End -->
-
-    <!-- Back to Top -->
-    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

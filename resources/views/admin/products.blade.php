@@ -27,12 +27,11 @@
                                     <th>Deskripsi</th>
                                     <th>Sex</th>
                                     <th>Kategori</th>
-                                    <th>Warna</th>
                                     <th>Size</th>
                                     <th>Kualitas</th>
                                     <th>Harga</th>
                                     <th>Stok</th>
-                                    <th colspan="2" class="text-center">Action</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                                 @php
                                     $page = (int) request()->get('page');
@@ -51,7 +50,6 @@
                                                 {{ $product->sex ? 'Pria' : 'Wanita' }}</div>
                                         </td>
                                         <td>{{ $product->category_name }}</td>
-                                        <td>{{ $product->color_name }}</td>
                                         <td>{{ $product->size_name }}</td>
                                         <td>{{ $product->quality }}</td>
                                         <td>{{ $product->price }}</td>
@@ -61,8 +59,6 @@
                                         </td>
                                         <td class="text-center"><a href="/admin/products/{{ $product->id }}/edit"
                                                 class="btn btn-warning">Ubah</a></td>
-                                        <td class="text-center"><a href="/admin/products/{{ $product->id }}/delete"
-                                                class="btn btn-danger">Hapus</a></td>
                                     </tr>
                                 @endforeach
                             </table>

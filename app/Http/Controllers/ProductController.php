@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductsImage;
 use App\Models\Size;
@@ -13,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+
 class ProductController extends Controller
 {
 
@@ -24,7 +24,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')
-            ->join('colors', 'products.color_id', 'colors.id')->join('sizes', 'products.size_id', 'sizes.id')
+            ->join('sizes', 'products.size_id', 'sizes.id')
             ->select(
                 'products.id',
                 'products.name',
@@ -32,7 +32,6 @@ class ProductController extends Controller
                 'products.description',
                 DB::raw("categories.id AS category_id"),
                 'categories.category_name',
-                'colors.color_name',
                 'sizes.size_name',
                 'products.quality',
                 'products.price',
@@ -40,11 +39,11 @@ class ProductController extends Controller
                 'products.created_at'
             );
         $user_id = Auth::id();
-        
+
         $liked_products =  Wishlist::where("user_id", $user_id)->whereIn("product_id", $products->pluck('id'))->pluck('product_id')->toArray();
-        
+
         // var_dump($liked_products);
-        
+
         if ($request->has('keyword')) {
             $products->where('name', 'LIKE', '%' . $request->input('keyword') . '%');
         }
@@ -110,9 +109,9 @@ class ProductController extends Controller
     public function index_admin()
     {
 
-        $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')->join('colors', 'products.color_id', 'colors.id')
+        $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
+            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
             ->paginate(10);
         return view('admin.products', ['products' => $products]);
     }
@@ -120,9 +119,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $colors = Color::all();
         $sizes = Size::all();
-        return view('admin.add-product', ['categories' => $categories, 'colors' => $colors, 'sizes' => $sizes]);
+        return view('admin.add-product', ['categories' => $categories, 'sizes' => $sizes]);
     }
 
     public function store(Request $request)
@@ -134,7 +132,6 @@ class ProductController extends Controller
             'quality' => 'required|integer',
             'description' => 'required|string',
             'category' => 'required',
-            'color' => 'required',
             'size' => 'required',
             'product_images' => 'required',
             'product_images.*' => 'image|mimes:jpeg,png,jpg',
@@ -157,7 +154,6 @@ class ProductController extends Controller
         $product->brand = $request->brand;
         $product->description = $request->description;
         $product->category_id = $request->category;
-        $product->color_id = $request->color;
         $product->size_id = $request->size;
         $product->sex = $request->sex;
         $product->quality = $request->quality;
@@ -177,9 +173,9 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = DB::table('products')->where("products.id", $id)->join('categories', 'products.category_id', 'categories.id')->join('colors', 'products.color_id', 'colors.id')
+        $product = DB::table('products')->where("products.id", $id)->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name', 'colors.color_name', 'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
+            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
             ->first();
         $product_images = ProductsImage::where('product_id', $id)->get();
         return view('product-detail', ['product' => $product, 'product_images' => $product_images]);
@@ -224,10 +220,9 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $categories = Category::all();
-        $colors = Color::all();
         $sizes = Size::all();
         $images = ProductsImage::where('product_id', $id)->get();
-        return view('admin.edit-product', ['product' => $product, 'categories' => $categories, 'colors' => $colors, 'sizes' => $sizes, 'images' => $images]);
+        return view('admin.edit-product', ['product' => $product, 'categories' => $categories, 'sizes' => $sizes, 'images' => $images]);
     }
 
     public function update(Request $request, $id)
@@ -239,7 +234,6 @@ class ProductController extends Controller
             'quality' => 'required|integer',
             'description' => 'required',
             'category' => 'required',
-            'color' => 'required',
             'size' => 'required',
             'price' => 'required|integer',
         ]);
@@ -248,7 +242,6 @@ class ProductController extends Controller
         $product->brand = $request->brand;
         $product->description = $request->description;
         $product->category_id = $request->category;
-        $product->color_id = $request->color;
         $product->size_id = $request->size;
         $product->sex = $request->sex;
         $product->quality = $request->quality;

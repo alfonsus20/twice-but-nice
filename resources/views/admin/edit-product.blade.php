@@ -81,23 +81,6 @@
                                 @endforeach
                             </select>
                         </div>
-
-
-                        <div class="form-group">
-                            <label class="form-label">Color Input</label>
-                            <div class="col gutters-xs">
-                                @foreach ($colors as $color)
-                                    <div class="col-auto d-flex align-items-center">
-                                        <input name="color" type="radio" value="{{ $color->id }}" class="mr-2"
-                                            id="color_{{ $color->id }}"
-                                            {{ $product->color_id == $color->id ? 'checked = checked' : '' }} />
-                                        <label class="colorinput" for="color_{{ $color->id }}">
-                                            {{ $color->color_name }}
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="form-label">Size</label>
                             <div class="selectgroup w-100">

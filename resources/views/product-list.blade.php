@@ -178,7 +178,7 @@
                         @endforeach
                         </a>
                         <div class="product-action">
-                            <a href="#"><i class="fa fa-cart-plus"></i></a>
+                            <a href="/cart/{{$product->id}}/add"><i class="fa fa-cart-plus"></i></a>
                             <a href="/wishlist/{{$product->id}}/add" class="{{ in_array($product->id, $liked_products) ? "liked-product" : "" }}"><i class="fa fa-heart"></i></a>
                             <a href="/products/{{ $product->id }}"><i class="fa fa-search"></i></a>
                         </div>

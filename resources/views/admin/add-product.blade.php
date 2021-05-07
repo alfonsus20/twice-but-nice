@@ -53,20 +53,6 @@
 
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Warna</label>
-                            <div class="col gutters-xs">
-                                @foreach ($colors as $color)
-                                    <div class="col-auto d-flex align-items-center">
-                                        <input name="color" type="radio" value="{{ $color->id }}" class="mr-2"
-                                            id="color_{{ $color->id }}" />
-                                        <label class="colorinput" for="color_{{ $color->id }}">
-                                            {{ $color->color_name }}
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="form-label">Size</label>
                             <div class="selectgroup w-100">
                                 @foreach ($sizes as $size)
