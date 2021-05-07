@@ -64,8 +64,12 @@ Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
     Route::get('/', [ProfileController::class, 'index']);
 
     Route::post('/update', [ProfileController::class, 'update']);
+});
 
-    // Route::get('/{product_id}/delete', [CartController::class, 'destroy']);
+Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
+    // Route::get('/', [ProfileController::class, 'index']);
+
+    Route::post('/create', [OrderController::class, 'store']);
 });
 
 

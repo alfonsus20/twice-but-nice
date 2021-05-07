@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\ProductsImage;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,20 +16,26 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showCheckoutPage(){
+    public function showCheckoutPage()
+    {
         $cart = new CartController();
         $curl = new CurlController();
         $cart_items = $cart->getUserCartItems();
-    
-        foreach($cart_items as $item){
-            if(!$item->available){
+
+        $weight = 0;
+
+        foreach ($cart_items as $item) {
+            if (!$item->available) {
                 return back()->with('error', 'Terdapat produk yang stoknya habis');
             }
+            $weight = $weight + $item->weight;
         }
 
         $user = Auth::user();
-        $delivery_costs = $curl->getDeliveryCosts($user->city_id, 256, 1200);
-        return view('checkout', ['cart_items' => $cart_items, 'delivery_costs' => $delivery_costs]);
+        $delivery_costs = $curl->getDeliveryCosts(256, $user->city_id, $weight);
+
+        $products_images = ProductsImage::whereIn('product_id', $cart_items->pluck('id')->toArray())->get();
+        return view('checkout', ['cart_items' => $cart_items, 'delivery_costs' => $delivery_costs, 'products_images' => $products_images]);
     }
 
 
@@ -52,7 +62,60 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $request->validate([
+            "delivery" => "required"
+        ]);
+
+        $cart = new CartController();
+        $curl = new CurlController();
+        $cart_items = $cart->getUserCartItems();
+
+        $weight = 0;
+
+        foreach ($cart_items as $item) {
+            if (!$item->available) {
+                return back()->with('error', 'Terdapat produk yang stoknya habis');
+            }
+            $weight = $weight + $item->weight;
+        }
+
+        $user = Auth::user();
+        $delivery_costs = $curl->getDeliveryCosts(256, $user->city_id, $weight);
+
+        $delivery_info = explode("|", $request->delivery);
+
+        $shipping_cost = 0;
+
+        foreach ($delivery_costs as $info) {
+            if ($info->code == $delivery_info[0]) {
+                foreach ($info->costs as $cost) {
+                    if ($cost->service == $delivery_info[1]) {
+                        $shipping_cost = $cost->cost->value;
+                        return;
+                    }
+                }
+            }
+        }
+
+        $order = new Order;
+        $order->user_id = $user->id;
+        $order->save();
+
+        foreach ($cart_items as $item) {
+            $order_item = new OrderItem;
+            $order_item->order_id = $order->id;
+            $order_item->product_id = $item->id;
+            $order_item->save();
+        }
+
+        $shipping =  new Shipping;
+        $shipping->order_id = $order->id;
+        $shipping->delivered = false;
+        $shipping->courier = $delivery_info[0];
+        $shipping->service = $delivery_info[1];
+        $shipping->save();
+
+        return view("order")->with("success", "Pesanan berhasil dibuat");
     }
 
     /**
