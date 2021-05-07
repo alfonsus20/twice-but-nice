@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\CurlController;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -19,7 +20,10 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        $curl  = new CurlController();
+        $provinces = $curl->getProvince();
+        $cities = $curl->getCity();
+        return view('auth.register', ['provinces' => $provinces, 'cities' => $cities]);
     }
 
     /**
@@ -39,6 +43,8 @@ class RegisteredUserController extends Controller
             'telephone' => 'required|string',
             'address' => 'required|string|max:255',
             'birth_date' => 'required|date',
+            'province_id' => 'required',
+            'city_id' => 'required',
         ]);
 
         $user = User::create([
@@ -47,8 +53,12 @@ class RegisteredUserController extends Controller
             'telephone' => $request->telephone,
             'address' => $request->address,
             'birth_date' => $request->birth_date,
+            'province_id' => (int)$request->province_id,
+            'city_id' => (int)$request->city_id,
             'password' => Hash::make($request->password),
         ]);
+
+        // var_dump((int)$request->province_id, $request->city_id);
 
         event(new Registered($user));
 

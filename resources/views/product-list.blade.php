@@ -17,42 +17,43 @@
                 <div class="col-lg-4 sidebar">
                     <div class="sidebar-widget brands">
                         <form class="row" action="/products" method="GET">
-                            <div class="col-md-10" style="padding : 0">
+                            <div class="col-md-12 position-relative" style="padding : 0">
                                 @if (Request::get('category'))
                                     <input type="hidden" name="category" value="{{ Request::get('category') }}">
                                 @endif
                                 <label class="form-label">Masukkan kata kunci</label>
                                 <input type="text" class="form-control" name="keyword" placeholder="Cari produk ..."
-                                    onchange="setURL(event.target.value)" value="{{ Request::get('keyword') }}">
+                                    onchange="setURL(event.target.value)" value="{{ Request::get('keyword') }}" style="padding-right: 34px">
                                 @if (Request::get('sort'))
                                     <input type="hidden" name="sort" value="{{ Request::get('sort') }}">
                                 @endif
-
+                                <button type="submit" id="searchByKeyword"
+                                class="btn d-flex align-items-center justify-content-center"
+                                style="background-color : #897853;color : white;text-decoration : none;"><i
+                                    class="fa fa-search"></i></button>
                             </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <div style="margin-bottom: 15px; color : white;" class="product-search">
-                                    <button type="submit" id="searchByKeyword"
-                                        class="btn d-flex align-items-center justify-content-center"
-                                        style="background-color : #897853;color : white;text-decoration : none;"><i
-                                            class="fa fa-search"></i></button>
-                                </div>
+                            <div class="col-md-2 d-flex align-items-end position-relative">
+                                {{-- <div style="margin-bottom: 15px; color : white;" class="product-search"> --}}
+                           
+                                {{-- </div> --}}
                             </div>
                         </form>
                         <h2 class="title">Kategori</h2>
                         <nav class="navbar">
                             <ul class="navbar-nav">
                                 @foreach ($categories as $category)
-                                    <li class="nav-item {{Request::get('category') == $category->id ? "active-query" : "" }}">
+                                    <li
+                                        class="nav-item {{ Request::get('category') == $category->id ? 'active-query' : '' }}">
                                         <a class="nav-link"
                                             href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => $category->id])) }}"></i>{{ ucfirst(trans($category->category_name)) }}</a>
                                     </li>
                                 @endforeach
-                                <li class="nav-item {{Request::get('category') == "pria" ? "active-query" : "" }}">
+                                <li class="nav-item {{ Request::get('category') == 'pria' ? 'active-query' : '' }}">
                                     <a class="nav-link"
                                         href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => 'pria'])) }}"></i>Pakaian
                                         Pria</a>
                                 </li>
-                                <li class="nav-item {{Request::get('category') == "wanita" ? "active-query" : "" }}">
+                                <li class="nav-item {{ Request::get('category') == 'wanita' ? 'active-query' : '' }}">
                                     <a class="nav-link"
                                         href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => 'wanita'])) }}">Pakaian
                                         Wanita</a>
@@ -65,18 +66,22 @@
                         <div class="sidebar-widget brands" style="padding-top: 0">
                             <h2 class="title">Harga</h2>
                             <div class="row w-100 px-3">
-                                <input type="text" class="col-md-5" value = "{{ Request::get('min_price') }}" name="min_price" id="" placeholder="MIN">
+                                <input type="text" class="col-md-5" value="{{ Request::get('min_price') }}"
+                                    name="min_price" id="" placeholder="MIN">
                                 <div class="col-md-2 text-center"> - </div>
-                                <input type="text" class="col-md-5" value = "{{ Request::get('max_price') }}" name="max_price" id="" placeholder="MAX">
+                                <input type="text" class="col-md-5" value="{{ Request::get('max_price') }}"
+                                    name="max_price" id="" placeholder="MAX">
                             </div>
                         </div>
 
                         <div class="sidebar-widget brands">
                             <h2 class="title">Kualitas</h2>
                             <div class="row w-100 px-3">
-                                <input type="text" class="col-md-5" value = "{{ Request::get('min_quality') }}" name="min_quality" id="" placeholder="MIN">
+                                <input type="text" class="col-md-5" value="{{ Request::get('min_quality') }}"
+                                    name="min_quality" id="" placeholder="MIN">
                                 <div class="col-md-2 text-center"> - </div>
-                                <input type="text" class="col-md-5" value = "{{ Request::get('max_quality') }}" name="max_quality" id="" placeholder="MAX">
+                                <input type="text" class="col-md-5" value="{{ Request::get('max_quality') }}"
+                                    name="max_quality" id="" placeholder="MAX">
                             </div>
                         </div>
 
@@ -98,7 +103,7 @@
                         <h2 class="title">Brand</h2>
                         <ul class="navbar-nav">
                             @foreach ($brands as $brand)
-                                <li class="nav-item {{Request::get('brand') == $brand->brand ? "active-query" : "" }}">
+                                <li class="nav-item {{ Request::get('brand') == $brand->brand ? 'active-query' : '' }}">
                                     <a class="nav-link"
                                         href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['brand' => $brand->brand])) }}">{{ $brand->brand }}</a>
                                 </li>
@@ -173,8 +178,8 @@
                         @endforeach
                         </a>
                         <div class="product-action">
-                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                            <a href="#"><i class="fa fa-heart"></i></a>
+                            <a href="/cart/{{$product->id}}/add"><i class="fa fa-cart-plus"></i></a>
+                            <a href="/wishlist/{{$product->id}}/add" class="{{ in_array($product->id, $liked_products) ? "liked-product" : "" }}"><i class="fa fa-heart"></i></a>
                             <a href="/products/{{ $product->id }}"><i class="fa fa-search"></i></a>
                         </div>
                     </div>
@@ -205,7 +210,7 @@
                 </nav>
             </div>
             <!-- Pagination Start -->
-            {{$products->links()}}
+            {{ $products->links() }}
         </div>
 
         <!-- Side Bar Start -->
@@ -214,5 +219,15 @@
         </div>
         </div>
         <!-- Product List End -->
-
+        @include('components.toast')
+    @endsection
+    @section('script')
+        <script>
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function(toastEl) {
+                return new bootstrap.Toast(toastEl, {})
+            })
+            var toast = document.getElementById("toast");
+            toastList[0].show();
+        </script>
     @endsection

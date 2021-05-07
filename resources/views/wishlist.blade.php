@@ -19,114 +19,64 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Add to Cart</th>
-                                        <th>Remove</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="align-middle">
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-6.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-7.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-8.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-9.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-10.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            @if ($liked_products->count() > 0)
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nama Produk</th>
+                                            <th>Brand</th>
+                                            <th>Harga</th>
+                                            <th>Add to Cart</th>
+                                            <th>Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                        @foreach ($liked_products as $product)
+                                            <tr>
+                                                <td>
+                                                    <div class="img">
+                                                        @foreach ($products_images as $products_image)
+                                                            @if ($product->id == $products_image->product_id)
+                                                                <img src="{{ asset('img/products/' . $products_image->path) }}"
+                                                                    alt="Product Image">
+                                                            @break
+                                                            @endif
+                                                        @endforeach
+                                                        <p>{{ $product->name }}</p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{ ucfirst(trans($product->brand)) }}
+                                                </td>
+                                                <td>{{ $product->price }}</td>
+                                                <td><button class="btn-cart">Add to Cart</button></td>
+                                                <td><a href="/wishlist/{{ $product->id }}/delete"><i class="fa fa-trash"></i></a></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <div style="min-height: 40vh" class="d-flex justify-content-center align-items-center">
+                                    <h4 class="text-center">Belum ada produk yang ditambahkan ke wishlist</h4>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Wishlist End -->
 @endsection
+
+{{-- @section('script')
+    <script>
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function(toastEl) {
+            return new bootstrap.Toast(toastEl, {})
+        })
+        var toast = document.getElementById("toast");
+        toastList[0].show();
+    </script>
+@endsection --}}

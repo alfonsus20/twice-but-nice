@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CurlController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,25 +24,62 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/products',[ProductController::class, 'index']);
+Route::get('/products', [ProductController::class, 'index']);
 
-Route::get('/products/{id}',[ProductController::class, 'show']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/', function () {
         return view('admin.index');
     });
     Route::get('/products', [ProductController::class, 'index_admin']);
-    Route::get('/products/add',[ProductController::class, 'create']);
+    Route::get('/products/add', [ProductController::class, 'create']);
     Route::post('/products/add', [ProductController::class, 'store']);
 
-    Route::get('/products/{id}/edit',[ProductController::class, 'edit']);
-    Route::post('/products/{id}/edit',[ProductController::class, 'update']);
-    Route::post('/products/{id}/editpicture',[ProductController::class, 'editProductImages']);
+    Route::get('/products/{id}/edit', [ProductController::class, 'edit']);
+    Route::post('/products/{id}/edit', [ProductController::class, 'update']);
+    Route::post('/products/{id}/editpicture', [ProductController::class, 'editProductImages']);
 
-    Route::get('/products/{id}/delete', [ProductController::class, 'destroy']);
+    // Route::get('/products/{id}/delete', [ProductController::class, 'destroy']);
 });
 
-Route::get('/wishlist',[WishlistController::class, 'index']);
+Route::group(['prefix' => 'wishlist', 'middleware' => ['auth']], function () {
+    Route::get('/', [WishlistController::class, 'index']);
+
+    Route::get('/{product_id}/add', [WishlistController::class, 'store']);
+
+    Route::get('/{product_id}/delete', [WishlistController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'cart', 'middleware' => ['auth']], function () {
+    Route::get('/', [CartController::class, 'index']);
+
+    Route::get('/{product_id}/add', [CartController::class, 'store']);
+
+    Route::get('/{product_id}/delete', [CartController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
+    Route::get('/', [ProfileController::class, 'index']);
+
+    Route::post('/update', [ProfileController::class, 'update']);
+});
+
+Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
+    Route::get('/', [OrderController::class, 'index']);
+
+    Route::post('/create', [OrderController::class, 'store']);
+});
+
+
+Route::get('checkout',[OrderController::class, 'showCheckoutPage']);
+
+Route::get('contact', function(){
+    return view('contact');
+});
+
+
+Route::get("curl", [CurlController::class, 'getCity']);
 
 require __DIR__ . '/auth.php';

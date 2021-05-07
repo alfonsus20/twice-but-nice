@@ -1597,31 +1597,33 @@ h2 {
     margin: 0;
 }
 
-.cart-page .cart-summary .cart-btn button {
+.cart-page .cart-summary .cart-btn a {
     margin-top: 15px;
-    width: calc(50% - 15px);
-    height: 50px;
-    padding: 2px 10px;
+    width: calc(50%);
+    /* height: 50px; */
+    cursor: pointer;
+    padding: 8px 10px;
     text-align: center;
     color: #ffffff;
     background: var(--primary-color);
     border: none;
     border-radius: 4px;
+    text-decoration: none;
 }
 
-.cart-page .cart-summary .cart-btn button:hover {
+.cart-page .cart-summary .cart-btn a:hover {
     color: var(--primary-color);
     background: #000000;
 }
 
-.cart-page .cart-summary .cart-btn button:first-child {
+.cart-page .cart-summary .cart-btn a:first-child {
     margin-right: 25px;
     color: var(--primary-color);
     background: #ffffff;
     border: 1px solid var(--primary-color);
 }
 
-.cart-page .cart-summary .cart-btn button:first-child:hover {
+.cart-page .cart-summary .cart-btn a:first-child:hover {
     color: #ffffff;
     background: var(--primary-color);
 }
@@ -1736,6 +1738,7 @@ h2 {
 .checkout .shipping-address {
     position: relative;
     width: 100%;
+    padding: 2rem;
 }
 
 .checkout .shipping-address {
@@ -1764,7 +1767,7 @@ h2 {
 .checkout .checkout-summary,
 .checkout .checkout-payment .payment-methods {
     padding: 30px;
-    background: #f3f6ff;
+    /* background: #f3f6ff; */
     margin-bottom: 30px;
 }
 
@@ -2430,4 +2433,29 @@ h2 {
 .active-query a{
     color: var(--primary-color) !important;
     text-decoration: underline;
+}
+
+.liked-product {
+    background-color: white !important;
+    color: var(--primary-color) !important;
+}
+
+/* .spec{
+    padding-right: 4rem;
+    padding-top: 2rem;
+} */
+
+.spec-row td{
+    padding: 1rem 0;
+}
+
+.spec-row td:first-child{
+    padding: 1rem 4rem 1rem 0rem;
+}
+
+#searchByKeyword {
+    padding: 8px;
+    position: absolute;
+    right: 0;
+    bottom: 15px;
 }

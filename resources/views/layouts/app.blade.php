@@ -9,7 +9,7 @@
     <meta content="Twice But Nice Thrifting Shop" name="description">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
-    <link rel="icon" href="{{asset('img/icon.png')}}">
+    <link rel="icon" href="{{ asset('img/icon.png') }}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap"
@@ -19,17 +19,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="{{asset('lib/slick/slick.css')}}" rel="stylesheet">
-    <link href="{{asset('lib/slick/slick-theme.css')}}" rel="stylesheet">
+    <link href="{{ asset('lib/slick/slick.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/slick/slick-theme.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- Template Stylesheet -->
-    <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/c09ccc772c.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-    </script>
+
 </head>
 
 <body>
@@ -68,7 +66,7 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                             <div class="dropdown-menu">
-                                <a href="wishlist.html" class="dropdown-item">Wishlist</a>
+                                <a href="/wishlist" class="dropdown-item">Wishlist</a>
                                 <a href="login.html" class="dropdown-item">Login & Register</a>
                                 <a href="contact.html" class="dropdown-item">Contact Us</a>
                             </div>
@@ -86,10 +84,10 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @if (@isset(auth()->user()->name))
-                                    <li><a class="dropdown-item" href="/login">Akun Saya</a></li>
-                                    <li><a class="dropdown-item" href="/">Wishlist</a></li>
+                                    <li><a class="dropdown-item" href="/profile">Akun Saya</a></li>
+                                    <li><a class="dropdown-item" href="/wishlist">Wishlist</a></li>
                                     @role('admin')
-                                        <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                                    <li><a class="dropdown-item" href="/admin">Admin</a></li>
                                     @endrole
                                     <li>
                                         <form action="{{ route('logout') }}" class="dropdown-item" method="POST">
@@ -117,23 +115,19 @@
                 <div class="col-md-3">
                     <div class="logo">
                         <a href="/">
-                            <img src="{{asset('img/logo.svg')}}" alt="Logo" class="w-75">
+                            <img src="{{ asset('img/logo.svg') }}" alt="Logo" class="w-75">
                         </a>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <form class="search position-relative" action="/products" method="GET">
-                        <input type="text" placeholder="Search" name="keyword">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </form>
                 </div>
                 <div class="col-md-3">
                     <div class="user">
-                        <a href="wishlist.html" class="btn wishlist">
+                        <a href="/wishlist" class="btn wishlist">
                             <i class="fa fa-heart"></i>
                             <span>(0)</span>
                         </a>
-                        <a href="cart.html" class="btn cart">
+                        <a href="/cart" class="btn cart">
                             <i class="fa fa-shopping-cart"></i>
                             <span>(0)</span>
                         </a>
@@ -203,15 +197,15 @@
                 <div class="col-md-6">
                     <div class="payment-method">
                         <h2>We Accept:</h2>
-                        <img src="{{asset('img/payment-method.png')}}" alt="Payment Method" />
+                        <img src="{{ asset('img/payment-method.png') }}" alt="Payment Method" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="payment-security">
                         <h2>Secured By:</h2>
-                        <img src="{{asset('img/godaddy.svg')}}" alt="Payment Security" />
-                        <img src="{{asset('img/norton.svg')}}" alt="Payment Security" />
-                        <img src="{{asset('img/ssl.svg')}}" alt="Payment Security" />
+                        <img src="{{ asset('img/godaddy.svg') }}" alt="Payment Security" />
+                        <img src="{{ asset('img/norton.svg') }}" alt="Payment Security" />
+                        <img src="{{ asset('img/ssl.svg') }}" alt="Payment Security" />
                     </div>
                 </div>
             </div>
@@ -231,20 +225,20 @@
     </div>
     <!-- Footer Bottom End -->
 
-    <!-- Back to Top -->
-    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="{{asset('lib/easing/easing.min.js')}}"></script>
-    <script src="{{asset('lib/slick/slick.min.js')}}"></script>
+    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('lib/slick/slick.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+    </script>
     @yield('script')
 </body>
 

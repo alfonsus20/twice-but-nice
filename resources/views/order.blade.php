@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 @section('content')
 
     <!-- Breadcrumb Start -->
@@ -119,4 +119,6 @@
         toastList[0].show();
 
     </script>
-@endsection
+@endsection --}}
+
+<h2>Order sukses</h2>
