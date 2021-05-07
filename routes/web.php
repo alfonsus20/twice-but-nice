@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CurlController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,5 +75,6 @@ Route::get('contact', function(){
     return view('contact');
 });
 
+Route::get("curl", [CurlController::class, 'getCity']);
 
 require __DIR__ . '/auth.php';

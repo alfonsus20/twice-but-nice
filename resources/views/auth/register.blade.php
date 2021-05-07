@@ -21,7 +21,30 @@
                                 <input class="form-control" type="tel" placeholder="Nomor Telepon" name="telephone">
                             </div>
                             <div class="col-md-12">
-                                <label>Alamat</label>
+                                <label>Provinsi</label>
+                                <select class="form-select" name="province_id" id="province">
+                                    <option value="none">Pilih Provinsi</option>
+                                    @foreach ($provinces as $province)
+                                        <option value="{{ $province->province_id }}">{{ $province->province }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12 my-2">
+                                <label>Kota</label>
+                                <select class="form-select" name="city_id" id="city">
+                                    <option value="none">Pilih Kota</option>
+                                    @foreach ($cities as $city)
+                                        <option value="{{ $city->city_id }}" province="{{ $city->province_id }}">
+                                            {{ $city->city_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Kode Pos</label>
+                                <input class="form-control" type="text" placeholder="Kode Pos" name="postal_code">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Alamat Lengkap</label>
                                 <input class="form-control" type="text" placeholder="Alamat" name="address">
                             </div>
                             <div class="col-md-12">
@@ -53,4 +76,31 @@
             </div>
         </div>
     </form>
+@endsection
+@section('script')
+    <script>
+        $("#city option").css({
+            "display": "none"
+        });
+        $("#province").change(() => {
+            $("#province option").css({
+                display: "block"
+            });
+            let province = $("#province").val();
+            console.log(province);
+            if (province !== "none") {
+                $("#city option").css({
+                    "display": "block"
+                });
+                $("#city option[province!=" + province + "]").css({
+                    "display": "none"
+                });
+            }else{
+                $("#city").val("none");
+                $("#city option").css({
+                    "display": "none"
+                });
+            }
+        })
+    </script>
 @endsection
