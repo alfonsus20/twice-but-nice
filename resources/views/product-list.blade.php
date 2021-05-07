@@ -17,25 +17,25 @@
                 <div class="col-lg-4 sidebar">
                     <div class="sidebar-widget brands">
                         <form class="row" action="/products" method="GET">
-                            <div class="col-md-10" style="padding : 0">
+                            <div class="col-md-12 position-relative" style="padding : 0">
                                 @if (Request::get('category'))
                                     <input type="hidden" name="category" value="{{ Request::get('category') }}">
                                 @endif
                                 <label class="form-label">Masukkan kata kunci</label>
                                 <input type="text" class="form-control" name="keyword" placeholder="Cari produk ..."
-                                    onchange="setURL(event.target.value)" value="{{ Request::get('keyword') }}">
+                                    onchange="setURL(event.target.value)" value="{{ Request::get('keyword') }}" style="padding-right: 34px">
                                 @if (Request::get('sort'))
                                     <input type="hidden" name="sort" value="{{ Request::get('sort') }}">
                                 @endif
-
+                                <button type="submit" id="searchByKeyword"
+                                class="btn d-flex align-items-center justify-content-center"
+                                style="background-color : #897853;color : white;text-decoration : none;"><i
+                                    class="fa fa-search"></i></button>
                             </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <div style="margin-bottom: 15px; color : white;" class="product-search">
-                                    <button type="submit" id="searchByKeyword"
-                                        class="btn d-flex align-items-center justify-content-center"
-                                        style="background-color : #897853;color : white;text-decoration : none;"><i
-                                            class="fa fa-search"></i></button>
-                                </div>
+                            <div class="col-md-2 d-flex align-items-end position-relative">
+                                {{-- <div style="margin-bottom: 15px; color : white;" class="product-search"> --}}
+                           
+                                {{-- </div> --}}
                             </div>
                         </form>
                         <h2 class="title">Kategori</h2>

@@ -84,7 +84,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @if (@isset(auth()->user()->name))
-                                    <li><a class="dropdown-item" href="/login">Akun Saya</a></li>
+                                    <li><a class="dropdown-item" href="/profile">Akun Saya</a></li>
                                     <li><a class="dropdown-item" href="/wishlist">Wishlist</a></li>
                                     @role('admin')
                                     <li><a class="dropdown-item" href="/admin">Admin</a></li>
@@ -120,10 +120,6 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <form class="search position-relative" action="/products" method="GET">
-                        <input type="text" placeholder="Search" name="keyword">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </form>
                 </div>
                 <div class="col-md-3">
                     <div class="user">

@@ -19,10 +19,19 @@ class CartController extends Controller
     {
         $cart_items = Cart::where('user_id', Auth::id())->pluck('product_id')->toArray();
         $added_products = Product::whereIn("products.id", $cart_items)->join('sizes', 'size_id', 'sizes.id')
-        ->select("products.*", "size_name")
-        ->get();
+            ->select("products.*", "size_name")
+            ->get();
         $products_images = ProductsImage::whereIn('product_id', $cart_items)->get();
         return view('cart', ['added_products' => $added_products, 'products_images' => $products_images]);
+    }
+
+    public function getUserCartItems()
+    {
+        $cart_items = Cart::where('user_id', Auth::id())->pluck('product_id')->toArray();
+        $added_products = Product::whereIn("products.id", $cart_items)->join('sizes', 'size_id', 'sizes.id')
+            ->select("products.*", "size_name")
+            ->get();
+        return $added_products;
     }
 
     /**

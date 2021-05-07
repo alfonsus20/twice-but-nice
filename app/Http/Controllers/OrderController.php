@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -11,6 +12,23 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showCheckoutPage(){
+        $cart = new CartController();
+        $curl = new CurlController();
+        $cart_items = $cart->getUserCartItems();
+    
+        foreach($cart_items as $item){
+            if(!$item->available){
+                return back()->with('error', 'Terdapat produk yang stoknya habis');
+            }
+        }
+
+        $user = Auth::user();
+        $delivery_costs = $curl->getDeliveryCosts($user->city_id, 256, 1200);
+        return view('checkout', ['cart_items' => $cart_items, 'delivery_costs' => $delivery_costs]);
+    }
+
+
     public function index()
     {
         //
@@ -34,7 +52,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

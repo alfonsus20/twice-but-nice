@@ -4,6 +4,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CurlController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,22 +60,21 @@ Route::group(['prefix' => 'cart', 'middleware' => ['auth']], function () {
     Route::get('/{product_id}/delete', [CartController::class, 'destroy']);
 });
 
-Route::group(['prefix' => 'profil', 'middleware' => ['auth']], function () {
-    Route::get('/', [CartController::class, 'index']);
+Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
+    Route::get('/', [ProfileController::class, 'index']);
 
-    // Route::get('/{product_id}/add', [CartController::class, 'store']);
+    Route::post('/update', [ProfileController::class, 'update']);
 
     // Route::get('/{product_id}/delete', [CartController::class, 'destroy']);
 });
 
 
-Route::get('checkout', function(){
-    return view('checkout');
-});
+Route::get('checkout',[OrderController::class, 'showCheckoutPage']);
 
 Route::get('contact', function(){
     return view('contact');
 });
+
 
 Route::get("curl", [CurlController::class, 'getCity']);
 
