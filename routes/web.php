@@ -73,9 +73,9 @@ Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
 });
 
 
-Route::get('checkout',[OrderController::class, 'showCheckoutPage']);
+Route::get('checkout', [OrderController::class, 'showCheckoutPage']);
 
-Route::get('contact', function(){
+Route::get('contact', function () {
     return view('contact');
 });
 
@@ -83,3 +83,13 @@ Route::get('contact', function(){
 Route::get("curl", [CurlController::class, 'getCity']);
 
 require __DIR__ . '/auth.php';
+
+Route::get('/categories', 'CategoryController@index');
+Route::get('/categories/{id}', 'CategoryController@show');
+Route::get('/categories/{id}/edit', 'CategoryController@edit');
+Route::post('/categories/{id}/update', 'CategoryController@update');
+
+Route::get('/size', 'SizeController@index');
+Route::get('/size/{id}', 'SizeController@show');
+Route::get('/size/{id}/edit', 'SizeController@edit');
+Route::post('/size/{id}/update', 'SizeController@update');
