@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -32,6 +33,8 @@ class OrderController extends Controller
             $weight = $weight + $item->weight;
         }
 
+        // var_dump($weight);
+
         $user = Auth::user();
         $delivery_costs = $curl->getDeliveryCosts(256, $user->city_id, $weight);
 
@@ -42,7 +45,19 @@ class OrderController extends Controller
 
     public function index()
     {
-        return view("order");
+        $user_id = Auth::id();
+        $orders = Order::where('user_id', $user_id)->get();
+        
+        $order_items = OrderItem::whereIn('order_id', $orders->pluck('id'))
+        ->join("products", "products.id", "order_items.product_id")
+        ->select("products.*", "order_items.order_id")
+        ->get();
+
+        $products_images = ProductsImage::whereIn('product_id', $order_items->pluck('id')->toArray())->get();
+
+        // var_dump($products_images);
+        // $products_images = ProductsImage::whereIn('product_id', $orders->pluck('product_id')->toArray())->get();
+        return view("order", ["orders"=>$orders, "products_images" => $products_images, "order_items" => $order_items]);
     }
 
     /**
@@ -80,6 +95,8 @@ class OrderController extends Controller
             $weight = $weight + $item->weight;
         }
 
+        
+
         $user = Auth::user();
         $delivery_cost = $curl->getDeliveryCosts(256, $user->city_id, $weight);
 
@@ -100,15 +117,23 @@ class OrderController extends Controller
         $order->user_id = $user->id;
         $order->save();
 
+        $total = 0;
         foreach ($cart_items as $item) {
             $order_item = new OrderItem;
             $order_item->order_id = $order->id;
             $order_item->product_id = $item->id;
             $order_item->save();
             $product = Product::find($item->id);
+            $total = $total + $item->price;
             $product->available = false;
             $product->save();
+            $user_cart = Cart::where('product_id', $item->id);
+            $user_cart->delete();
         }
+
+        $found_order = Order::find($order->id);
+        $found_order->total = $total;
+        $found_order->save();
 
         $shipping =  new Shipping;
         $shipping->order_id = $order->id;
@@ -164,6 +189,19 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $order = Order::find($id);
+        $order_items = OrderItem::where('order_id', $id);
+        $products = Product::whereIn("id", $order_items->pluck('product_id')->toArray())->get();
+        foreach($products as $product){
+            var_dump($product);
+            $product->available = true;
+            $product->save();
+            print('hei');
+        }
+        $order_items->delete();
+        $shipping = Shipping::where('order_id', $id);
+        $shipping->delete();
+        $order->delete();
+        return back()->with('success', 'Pesanan berhasil dihapus');
     }
 }

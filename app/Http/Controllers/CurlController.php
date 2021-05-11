@@ -81,6 +81,7 @@ class CurlController extends Controller
         foreach ($couriers as $courier) {
             $query = http_build_query(["origin" => $origin, "destination" => $destination, "weight" => $weight, "courier" => $courier]);
             $res = $this->getCurlResult("cost" ,"POST", $query);
+            // var_dump($res);
             $delivery_cost[$courier] = json_decode($res['response'])->rajaongkir->results;
         }
 

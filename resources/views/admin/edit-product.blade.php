@@ -96,6 +96,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Berat (dalam gram)</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control currency" name="weight" value="{{$product->weight}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label>Kualitas (skala 10)</label>
                             <div class="input-group">
                                 <input type="number" class="form-control currency" name="quality" value="{{$product->quality}}">

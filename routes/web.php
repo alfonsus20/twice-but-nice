@@ -68,7 +68,7 @@ Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
 
 Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
     Route::get('/', [OrderController::class, 'index']);
-
+    Route::get('/{id}/delete', [OrderController::class, 'destroy']);
     Route::post('/create', [OrderController::class, 'store']);
 });
 
