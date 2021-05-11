@@ -37,11 +37,11 @@
             <div class="row">
                 <div class="col-sm-6">
                     <i class="fa fa-envelope"></i>
-                    support@email.com
+                    <a href="mailto:twice_but_nice@email.com" class="text-decoration-none">twice_but_nice@email.com</a>
                 </div>
                 <div class="col-sm-6">
                     <i class="fa fa-phone-alt"></i>
-                    +012-345-6789
+                   <a href="tel:+628129120221" class="text-decoration-none">+628129120221</a>
                 </div>
             </div>
         </div>

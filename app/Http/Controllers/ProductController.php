@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')
+        $products = DB::table('products')->where("available","1")->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
             ->select(
                 'products.id',
@@ -133,6 +133,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'category' => 'required',
             'size' => 'required',
+            'weight' => 'required|integer',
             'product_images' => 'required',
             'product_images.*' => 'image|mimes:jpeg,png,jpg',
             'price' => 'required|integer',
@@ -157,6 +158,7 @@ class ProductController extends Controller
         $product->size_id = $request->size;
         $product->sex = $request->sex;
         $product->quality = $request->quality;
+        $product->weight = $request->weight;
         $product->price = $request->price;
         $product->save();
 
@@ -235,6 +237,7 @@ class ProductController extends Controller
             'description' => 'required',
             'category' => 'required',
             'size' => 'required',
+            'weight' => 'required|integer',
             'price' => 'required|integer',
         ]);
         $product = Product::find($id);
@@ -245,6 +248,7 @@ class ProductController extends Controller
         $product->size_id = $request->size;
         $product->sex = $request->sex;
         $product->quality = $request->quality;
+        $product->weight = $request->weight;
         $product->price = $request->price;
         $product->save();
         return back()->with('success', 'Produk berhasil diupdate');
