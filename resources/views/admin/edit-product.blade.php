@@ -61,6 +61,11 @@
                                 value="{{ $product->description }}">
                         </div>
                         <div class="form-group">
+                            <label>Kondisi Produk</label>
+                            <input type="text" class="form-control" name="condition"
+                                value="{{ $product->condition }}">
+                        </div>
+                        <div class="form-group">
                             <label>Sex</label>
                             <select class="form-control" name="sex">
                                 <option value="0" {{ $product->sex == 0 || $product->sex == '0' ? 'selected = selected' : '' }}>
@@ -122,13 +127,13 @@
                             </div>
                         </div>
 
-                        {{-- @if ($errors->any())
+                        @if ($errors->any())
                             <div class="mb-4">
                                 @foreach ($errors->all() as $error)
                                     <div class="text-danger my-2">{{ $error }}</div>
                                 @endforeach
                             </div>
-                        @endif --}}
+                        @endif
 
                         <button class="btn btn-primary" type="submit">Update Produk</button>
                     </form>

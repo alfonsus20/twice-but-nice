@@ -25,6 +25,7 @@
                                     <th>Nama</th>
                                     <th>Brand</th>
                                     <th>Deskripsi</th>
+                                    <th>Kondisi</th>
                                     <th>Sex</th>
                                     <th>Kategori</th>
                                     <th>Size</th>
@@ -45,6 +46,7 @@
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->brand }}</td>
                                         <td>{{ $product->description }}</td>
+                                        <td>{{ $product->condition }}</td>
                                         <td>
                                             <div class="badge badge-{{ $product->sex ? 'info' : 'secondary' }}">
                                                 {{ $product->sex ? 'Pria' : 'Wanita' }}</div>

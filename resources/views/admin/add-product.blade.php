@@ -4,6 +4,8 @@
         <h1>Tambah Produk</h1>
     </div>
 
+    @include('components.message')
+
     <div class="section-body">
         <div class="row">
             <div class="col-12">
@@ -21,6 +23,10 @@
                         <div class="form-group">
                             <label>Deskripsi Produk</label>
                             <input type="text" class="form-control" name="description">
+                        </div>
+                        <div class="form-group">
+                            <label>Kondisi Produk</label>
+                            <input type="text" class="form-control" name="condition">
                         </div>
                         <div class="form-group">
                             <label>Sex</label>

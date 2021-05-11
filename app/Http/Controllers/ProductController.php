@@ -111,7 +111,7 @@ class ProductController extends Controller
 
         $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
+            ->select('products.id', 'products.name', 'products.brand', 'products.description',"products.condition" ,'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
             ->paginate(10);
         return view('admin.products', ['products' => $products]);
     }
@@ -129,8 +129,9 @@ class ProductController extends Controller
             'name' => 'required|string',
             'brand' => 'required|string',
             'sex' => 'required|boolean',
-            'quality' => 'required|integer',
+            'quality' => 'required|integer|min:1|max:10',
             'description' => 'required|string',
+            'condition' => 'required|string',
             'category' => 'required',
             'size' => 'required',
             'weight' => 'required|integer',
@@ -154,6 +155,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->brand = $request->brand;
         $product->description = $request->description;
+        $product->condition = $request->condition;
         $product->category_id = $request->category;
         $product->size_id = $request->size;
         $product->sex = $request->sex;
@@ -177,7 +179,7 @@ class ProductController extends Controller
     {
         $product = DB::table('products')->where("products.id", $id)->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.brand', 'products.description', 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
+            ->select('products.id', 'products.name', 'products.brand', 'products.description', "products.condition", 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
             ->first();
         $product_images = ProductsImage::where('product_id', $id)->get();
         return view('product-detail', ['product' => $product, 'product_images' => $product_images]);
@@ -233,10 +235,11 @@ class ProductController extends Controller
             'name' => 'required',
             'brand' => 'required',
             'sex' => 'required|boolean',
-            'quality' => 'required|integer',
-            'description' => 'required',
-            'category' => 'required',
-            'size' => 'required',
+            'quality' => 'required|integer|min:1|max:10',
+            'description' => 'required|string',
+            'condition' => 'required|string',
+            'category' => 'required|string',
+            'size' => 'required|string',
             'weight' => 'required|integer',
             'price' => 'required|integer',
         ]);
@@ -244,6 +247,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->brand = $request->brand;
         $product->description = $request->description;
+        $product->condition = $request->condition;
         $product->category_id = $request->category;
         $product->size_id = $request->size;
         $product->sex = $request->sex;
@@ -251,7 +255,7 @@ class ProductController extends Controller
         $product->weight = $request->weight;
         $product->price = $request->price;
         $product->save();
-        return back()->with('success', 'Produk berhasil diupdate');
+        return redirect('/admin/products')->with('success', 'Produk berhasil diupdate');
     }
 
     public function destroy($id)
