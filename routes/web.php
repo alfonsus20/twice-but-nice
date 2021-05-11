@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CurlController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -41,7 +42,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     Route::post('/products/{id}/edit', [ProductController::class, 'update']);
     Route::post('/products/{id}/editpicture', [ProductController::class, 'editProductImages']);
 
-    // Route::get('/products/{id}/delete', [ProductController::class, 'destroy']);
+    Route::get('/category', [CategoryController::class, 'index']);
+    Route::get('/category/add', [CategoryController::class, 'create']);
+    Route::post('/category/add', [CategoryController::class, 'store']);
+    Route::get('/category/{id}/edit', [CategoryController::class, 'edit']);
+    Route::post('/category/{id}/edit', [CategoryController::class, 'update']);
 });
 
 Route::group(['prefix' => 'wishlist', 'middleware' => ['auth']], function () {

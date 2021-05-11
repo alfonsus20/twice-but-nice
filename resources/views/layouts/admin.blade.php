@@ -64,13 +64,13 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="fas fa-fire"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="index-0.html">Rekap Penjualan</a></li>
+                                <li><a class="nav-link" href="/admin">Rekap Penjualan</a></li>
                             </ul>
                         </li>
                         <li class="menu-header">Fitur</li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                    class="fas fa-columns"></i> <span>Produk</span></a>
+                                    class="fas fa-tshirt"></i><span>Produk</span></a>
                             <ul class="dropdown-menu">
                                 <li><a class="nav-link" href="/admin/products">Daftar Produk</a></li>
                                 <li><a class="nav-link" href="/admin/products/add">Tambah Produk</a></li>
@@ -78,7 +78,16 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                    class="fas fa-columns"></i> <span>Pengiriman</span></a>
+                                    class="fas fa-shipping-fast"></i> <span>Pengiriman</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
+                                <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
+                                <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-gift"></i>
+                                <span>Voucher</span></a>
                             <ul class="dropdown-menu">
                                 <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
                                 <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
@@ -87,11 +96,18 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                    class="fas fa-columns"></i> <span>Voucher</span></a>
+                                    class="fas fa-columns"></i> <span>Kategori</span></a>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-                                <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-                                <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
+                                <li><a class="nav-link" href="/admin/category">Daftar Kategori</a></li>
+                                <li><a class="nav-link" href="/admin/category/add">Tambah Kategori</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                                    class="fas fa-ruler"></i> <span>Size</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="/admin/size">Daftar Size</a></li>
+                                <li><a class="nav-link" href="/admin/size/add">Tambah Size</a></li>
                             </ul>
                         </li>
 
