@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -94,7 +95,7 @@ class OrderController extends Controller
             $weight = $weight + $item->weight;
         }
 
-        // var_dump($weight);
+        
 
         $user = Auth::user();
         $delivery_cost = $curl->getDeliveryCosts(256, $user->city_id, $weight);
@@ -126,6 +127,8 @@ class OrderController extends Controller
             $total = $total + $item->price;
             $product->available = false;
             $product->save();
+            $user_cart = Cart::where('product_id', $item->id);
+            $user_cart->delete();
         }
 
         $found_order = Order::find($order->id);
@@ -188,15 +191,17 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         $order_items = OrderItem::where('order_id', $id);
-        $products = Product::whereIn("id", $order_items->pluck('product_id')->toArray());
+        $products = Product::whereIn("id", $order_items->pluck('product_id')->toArray())->get();
         foreach($products as $product){
+            var_dump($product);
             $product->available = true;
             $product->save();
+            print('hei');
         }
         $order_items->delete();
         $shipping = Shipping::where('order_id', $id);
         $shipping->delete();
         $order->delete();
-        return view('/order')->with('success', 'Pesanan berhasil dihapus');
+        return back()->with('success', 'Pesanan berhasil dihapus');
     }
 }

@@ -70,6 +70,9 @@
                                 @endforeach
                             @endforeach
                         </div>
+                        @error('delivery')
+                            <p class="text-danger">{{$message}}</p>
+                        @enderror
                         <p class="ship-cost">Biaya Pengiriman<span id="ship-cost">Rp</span></p>
                         <h2>Grand Total<span id="grand-total"></span></h2>
                     </div>
