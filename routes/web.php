@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CurlController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SizeController;
 use Illuminate\Support\Facades\Route;
@@ -79,8 +80,12 @@ Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
 
 Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
     Route::get('/', [OrderController::class, 'index']);
+    Route::get('/{id}', [OrderController::class, 'show']);
+    
     Route::get('/{id}/delete', [OrderController::class, 'destroy']);
     Route::post('/create', [OrderController::class, 'store']);
+    
+    Route::post('/{id}/pay', [PaymentController::class, 'store']);
 });
 
 
@@ -89,6 +94,9 @@ Route::get('checkout', [OrderController::class, 'showCheckoutPage']);
 Route::get('contact', function () {
     return view('contact');
 });
+
+Route::post('/payment/',[PaymentController::class, 'pay']);
+Route::get('/after-payment/{id}',[PaymentController::class, 'paymentStatus']);
 
 
 Route::get("curl", [CurlController::class, 'getCity']);

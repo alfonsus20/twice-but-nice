@@ -2459,3 +2459,7 @@ h2 {
     right: 0;
     bottom: 15px;
 }
+
+.pay-order:hover{
+    color: white!important;
+}

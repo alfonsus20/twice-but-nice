@@ -18,69 +18,72 @@
         <div class="container-fluid my-4">
             <div class="row">
                 @if ($orders->count() > 0)
-                <div class="col-lg-12">
-                    <div class="cart-page-inner">
-                        <div class="table-responsive">
+                    <div class="col-lg-12">
+                        <div class="cart-page-inner">
+                            <div class="table-responsive">
 
-                            <table class="table table-bordered">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>ID Order</th>
-                                        <th>Produk Yang Dibeli</th>
-                                        <th>Total Harga</th>
-                                        <th>Waktu Pemesanan</th>
-                                        <th>Bayar</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="align-middle">
-                                    @foreach ($orders as $order)
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <td>{{ $order->id }}</td>
-                                            <td>
-                                                @foreach ($order_items as $item)
-                                                    @if ($item->order_id === $order->id)
-                                                        <div class="d-flex flex-row items-center">                                                            
-                                                            <div class="img">
-                                                                @foreach ($products_images as $products_image)
-                                                                    @if ($item->id === $products_image->product_id)
-                                                                        <img src="{{ asset('img/products/' . $products_image->path) }}"
-                                                                            alt="Product Image">
+                                            <th>ID Order</th>
+                                            <th>Produk Yang Dibeli</th>
+                                            <th>Total Harga</th>
+                                            <th>Waktu Pemesanan</th>
+                                            <th>Bayar</th>
+                                            <th>Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                        @foreach ($orders as $order)
+                                            <tr>
+                                                <td>{{ $order->id }}</td>
+                                                <td>
+                                                    @foreach ($order_items as $item)
+                                                        @if ($item->order_id === $order->id)
+                                                            <div class="d-flex flex-row items-center">
+                                                                <div class="img">
+                                                                    @foreach ($products_images as $products_image)
+                                                                        @if ($item->id === $products_image->product_id)
+                                                                            <img src="{{ asset('img/products/' . $products_image->path) }}"
+                                                                                alt="Product Image">
                                                                         @break
                                                                     @endif
-                                                                @endforeach
-                                                            </div>
-                                                            <div class="d-flex justify-content-center align-items-center">{{$item->name}}</div>
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                {{$order->total}}
-                                            </td>
-                                            <td>{{ $order->created_at }}</td>
-                                            <td>
-                                                @if ($order->paid)
-                                                    Sudah dibayar
-                                                @else
-                                                    <a class="btn btn-danger" href="/order/{{$order->id}}/delete">Batal</a>
-                                                    <a class="btn" href="/order/{{$order->id}}/pay">Bayar</a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
+                                                        @endforeach
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">{{ $item->name }}</div>
                         </div>
-                    </div>
-                </div>
-                @else
-                <div style="min-height: 40vh" class="d-flex justify-content-center align-items-center">
-                    <h5 class="text-center">Belum ada produk yang dipesan</h5>
-                </div>
                 @endif
+                @endforeach
+                </td>
+                <td>
+                    {{ $order->total }}
+                </td>
+                <td>{{ $order->created_at }}</td>
+                <td>
+                    @if ($order->paid)
+                        Sudah dibayar
+                    @else
+                        Belum dibayar
+                    @endif
+                </td>
+                <td>
+                    <a href="/order/{{$order->id}}" class="btn">Detail</a>
+                </td>
+                </tr>
+                @endforeach
+                </tbody>
+                </table>
+
             </div>
         </div>
+    </div>
+@else
+    <div style="min-height: 40vh" class="d-flex justify-content-center align-items-center">
+        <h5 class="text-center">Belum ada produk yang dipesan</h5>
+    </div>
+    @endif
+    </div>
+    </div>
     </div>
     <!-- Cart End -->
 @endsection

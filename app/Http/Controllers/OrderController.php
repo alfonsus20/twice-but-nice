@@ -10,6 +10,15 @@ use App\Models\ProductsImage;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+// Set your Merchant Server Key
+\Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+// Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+\Midtrans\Config::$isProduction = false;
+// Set sanitization on (default)
+\Midtrans\Config::$isSanitized = true;
+// Set 3DS transaction for credit card to true
+\Midtrans\Config::$is3ds = true;
 
 class OrderController extends Controller
 {
@@ -47,17 +56,17 @@ class OrderController extends Controller
     {
         $user_id = Auth::id();
         $orders = Order::where('user_id', $user_id)->get();
-        
+
         $order_items = OrderItem::whereIn('order_id', $orders->pluck('id'))
-        ->join("products", "products.id", "order_items.product_id")
-        ->select("products.*", "order_items.order_id")
-        ->get();
+            ->join("products", "products.id", "order_items.product_id")
+            ->select("products.*", "order_items.order_id")
+            ->get();
 
         $products_images = ProductsImage::whereIn('product_id', $order_items->pluck('id')->toArray())->get();
 
         // var_dump($products_images);
         // $products_images = ProductsImage::whereIn('product_id', $orders->pluck('product_id')->toArray())->get();
-        return view("order", ["orders"=>$orders, "products_images" => $products_images, "order_items" => $order_items]);
+        return view("order", ["orders" => $orders, "products_images" => $products_images, "order_items" => $order_items]);
     }
 
     /**
@@ -95,7 +104,7 @@ class OrderController extends Controller
             $weight = $weight + $item->weight;
         }
 
-        
+
 
         $user = Auth::user();
         $delivery_cost = $curl->getDeliveryCosts(256, $user->city_id, $weight);
@@ -144,7 +153,6 @@ class OrderController extends Controller
         $shipping->save();
 
         return redirect("/order")->with("success", "Pesanan berhasil dibuat");
-        // return "hello world";
     }
 
     /**
@@ -155,7 +163,37 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id);
+        $order_items = OrderItem::where('order_id', $id)->get();
+        $products = Product::whereIn('products.id', $order_items->pluck('product_id')->toArray())
+            ->join('sizes', 'products.size_id', "sizes.id")
+            ->select('products.*', 'sizes.size_name')
+            ->get();
+        $products_images = ProductsImage::whereIn('product_id', $order_items->pluck('product_id')->toArray())->get();
+
+        // Midtrans Payment Gateway
+        $user = Auth::user();
+
+
+
+        $snapToken = "";
+
+        if (!$order->paid) {
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => $order->id,
+                    'gross_amount' => $order->total,
+                ),
+                'customer_details' => array(
+                    'first_name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->telephone,
+                ),
+            );
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+        }
+
+        return view('order-detail', ['products' => $products, 'products_images' => $products_images, 'order' => $order, 'snapToken' => $snapToken]);
     }
 
     /**
@@ -192,7 +230,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         $order_items = OrderItem::where('order_id', $id);
         $products = Product::whereIn("id", $order_items->pluck('product_id')->toArray())->get();
-        foreach($products as $product){
+        foreach ($products as $product) {
             var_dump($product);
             $product->available = true;
             $product->save();

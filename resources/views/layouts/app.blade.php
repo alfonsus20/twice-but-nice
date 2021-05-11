@@ -27,6 +27,9 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/c09ccc772c.js" crossorigin="anonymous"></script>
+    <script type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="SB-Mid-client-PvBug4sqIuZ8dl9Z"></script>
 
 </head>
 
