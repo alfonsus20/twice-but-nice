@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CurlController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SizeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,7 +38,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     Route::get('/products', [ProductController::class, 'index_admin']);
     Route::get('/products/add', [ProductController::class, 'create']);
     Route::post('/products/add', [ProductController::class, 'store']);
-
     Route::get('/products/{id}/edit', [ProductController::class, 'edit']);
     Route::post('/products/{id}/edit', [ProductController::class, 'update']);
     Route::post('/products/{id}/editpicture', [ProductController::class, 'editProductImages']);
@@ -47,6 +47,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     Route::post('/category/add', [CategoryController::class, 'store']);
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit']);
     Route::post('/category/{id}/edit', [CategoryController::class, 'update']);
+    
+    Route::get('/size', [SizeController::class, 'index']);
+    Route::get('/size/add', [SizeController::class, 'create']);
+    Route::post('/size/add', [SizeController::class, 'store']);
+    Route::get('/size/{id}/edit', [SizeController::class, 'edit']);
+    Route::post('/size/{id}/edit', [SizeController::class, 'update']);
 });
 
 Route::group(['prefix' => 'wishlist', 'middleware' => ['auth']], function () {
