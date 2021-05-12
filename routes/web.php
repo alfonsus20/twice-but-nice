@@ -10,7 +10,6 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SizeController;
-use App\Models\Shipping;
 use Illuminate\Support\Facades\Route;
 
 /*

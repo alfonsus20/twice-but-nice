@@ -6,30 +6,21 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+{   
+    // Menampilkan daftar kategori
     public function index()
     {
         $categories = Category::paginate(10);
         return view('admin.category', ['categories' => $categories]);
     }
 
+    // Menampilkan form untuk menambahkan kategori baru
     public function create()
     {
         return view('admin.add-category');
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // Menambahkan kategori baru    
     public function store(Request $request)
     {
         $request->validate([
@@ -41,25 +32,14 @@ class CategoryController extends Controller
         return redirect('/admin/category/add')->with('success', 'Kategori berhasil ditambahkan');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Menampilkan form untuk mengedit kategori
     public function edit($id)
     {
         $category = Category::find($id);
         return view('admin.edit-category', ['category' => $category]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Mengupdate kategori produk
     public function update(Request $request, $id)
     {
         $request->validate([

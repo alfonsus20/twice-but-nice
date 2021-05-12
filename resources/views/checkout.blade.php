@@ -34,65 +34,63 @@
                                 @endphp
                                 @foreach ($cart_items as $item)
                                     <div class="d-flex">
-                                        @foreach ($products_images as $products_image)
-                                            @if ($item->id == $products_image->product_id)
-                                                <img src="{{ asset('img/products/' . $products_image->path) }}"
-                                                    alt="Product Image" style="width: 5rem">
-                                            @break
-                                        @endif
-                                @endforeach
-                                <p style="flex-grow: 1; margin-left : 2rem; margin-bottom:0"
-                                    class="d-flex align-items-center justify-content-between">
-                                    <span>{{ $item->name }}</span>
-                                    <span>Rp {{ $item->price }}</span>
-                                </p>
-                                @php
-                                    $sub_total = $sub_total + $item->price;
-                                @endphp
-                            </div>
-                    @endforeach
-                    <p class="sub-total">Sub Total<span id="subtotal">Rp {{ $sub_total }}</span></p>
-                    <p class="ship-cost">Pilih Kurir Pengiriman</p>
-                    @php
-                        $i = 1;
-                    @endphp
-                    <div class="ms-3">
-                        @foreach ($delivery_costs as $name => $delivery_info)
-                            @foreach ($delivery_info as $info)
-                                <b>{{ $info->name }}</b>
-                                @foreach ($info->costs as $cost)
-                                    <div class="form-check">
-                                        <input class="form-check-input" value="{{ $info->code . '|' . $cost->service }}"
-                                            type="radio" name="delivery" id="delivery{{ $i }}">
-                                        <label class="form-check-label w-100" for="delivery{{ $i }}">
-                                            <p>{{ $cost->service }}<span>Rp {{ $cost->cost[0]->value }}</span>
-                                            </p>
-                                        </label>
+                                        <img src="{{ asset('img/products/' . $products_images[$product->id]) }}"
+                                            alt="Product Image" style="width: 5rem">
+                                        <p style="flex-grow: 1; margin-left : 2rem; margin-bottom:0"
+                                            class="d-flex align-items-center justify-content-between">
+                                            <span>{{ $item->name }}</span>
+                                            <span>Rp {{ $item->price }}</span>
+                                        </p>
+                                        @php
+                                            $sub_total = $sub_total + $item->price;
+                                        @endphp
                                     </div>
-                                    @php
-                                        $i = $i + 1;
-                                    @endphp
                                 @endforeach
-                            @endforeach
-                        @endforeach
-                    </div>
-                    @error('delivery')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                    <p class="ship-cost">Biaya Pengiriman<span id="ship-cost">Rp</span></p>
-                    <h2>Grand Total<span id="grand-total"></span></h2>
-                </div>
+                                <p class="sub-total">Sub Total<span id="subtotal">Rp {{ $sub_total }}</span></p>
+                                <p class="ship-cost">Pilih Kurir Pengiriman</p>
+                                @php
+                                    $i = 1;
+                                @endphp
+                                <div class="ms-3">
+                                    @foreach ($delivery_costs as $name => $delivery_info)
+                                        @foreach ($delivery_info as $info)
+                                            <b>{{ $info->name }}</b>
+                                            @foreach ($info->costs as $cost)
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                        value="{{ $info->code . '|' . $cost->service }}" type="radio"
+                                                        name="delivery" id="delivery{{ $i }}">
+                                                    <label class="form-check-label w-100"
+                                                        for="delivery{{ $i }}">
+                                                        <p>{{ $cost->service }}<span>Rp
+                                                                {{ $cost->cost[0]->value }}</span>
+                                                        </p>
+                                                    </label>
+                                                </div>
+                                                @php
+                                                    $i = $i + 1;
+                                                @endphp
+                                            @endforeach
+                                        @endforeach
+                                    @endforeach
+                                </div>
+                                @error('delivery')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                                <p class="ship-cost">Biaya Pengiriman<span id="ship-cost">Rp</span></p>
+                                <h2>Grand Total<span id="grand-total"></span></h2>
+                            </div>
 
-                <div class="checkout-payment">
-                    <div class="checkout-btn">
-                        <button type="submit">Buat Pesanan</button>
-                    </div>
+                            <div class="checkout-payment">
+                                <div class="checkout-btn">
+                                    <button type="submit">Buat Pesanan</button>
+                                </div>
+                            </div>
+                        </form>
+                    @endif
                 </div>
-                </form>
-                @endif
             </div>
         </div>
-    </div>
     </div>
     <!-- Checkout End -->
 @endsection
@@ -106,6 +104,5 @@
             $('#grand-total').text("Rp " + (Number(subtotal.replace("Rp ", "")) + Number(deliveryCost.replace("Rp ",
                 ""))));
         })
-
     </script>
 @endsection

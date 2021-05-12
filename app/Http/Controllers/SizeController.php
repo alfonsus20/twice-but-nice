@@ -7,29 +7,20 @@ use Illuminate\Http\Request;
 
 class SizeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Menampilkan daftar size
     public function index()
     {
         $sizes = Size::paginate(10);
         return view('admin.size', ['sizes' => $sizes]);
     }
 
+    // Menampilkan form untuk menambahkan size baru
     public function create()
     {
         return view('admin.add-size');
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // Menambahkan size baru 
     public function store(Request $request)
     {
         $request->validate([
@@ -41,25 +32,14 @@ class SizeController extends Controller
         return redirect('/admin/size/add')->with('success', 'Size berhasil ditambahkan');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Menampilkan form untuk mengedit size
     public function edit($id)
     {
         $size = Size::find($id);
         return view('admin.edit-size', ['size' => $size]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Mengupdate size produk
     public function update(Request $request, $id)
     {
         $request->validate([

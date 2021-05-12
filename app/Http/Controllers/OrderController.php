@@ -11,7 +11,7 @@ use App\Models\ProductsImage;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 // Set your Merchant Server Key
 \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
 // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
@@ -23,15 +23,11 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Menampilkan halaman checkout
     public function showCheckoutPage()
     {
-        $cart = new CartController();
-        $curl = new CurlController();
+        $cart = new Cart();
+        $shipping = new Shipping();
         $cart_items = $cart->getUserCartItems();
 
         $weight = 50;
@@ -44,13 +40,13 @@ class OrderController extends Controller
         }
 
         $user = Auth::user();
-        $delivery_costs = $curl->getDeliveryCosts(256, $user->city_id, $weight);
+        $shipping_cost = $shipping->getDeliveryCosts(256, $user->city_id, $weight);
 
         $products_images = ProductsImage::whereIn('product_id', $cart_items->pluck('id')->toArray())->get();
-        return view('checkout', ['cart_items' => $cart_items, 'delivery_costs' => $delivery_costs, 'products_images' => $products_images]);
+        return view('checkout', ['cart_items' => $cart_items, 'shipping_cost' => $shipping_cost, 'products_images' => $products_images]);
     }
 
-
+    // Menampilkan pesanan user
     public function index()
     {
         $user_id = Auth::id();
@@ -68,32 +64,17 @@ class OrderController extends Controller
         return view("order", ["orders" => $orders, "products_images" => $products_images, "order_items" => $order_items]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // Membuat pesanan baru
     public function store(Request $request)
     {
         $request->validate([
             "delivery" => "required"
         ]);
 
-        $cart = new CartController();
-        $curl = new CurlController();
+        $cart = new Cart();
+        $shipping = new Shipping();
         $cart_items = $cart->getUserCartItems();
-
+        $user = Auth::user();
         $weight = 0;
 
         foreach ($cart_items as $item) {
@@ -102,37 +83,38 @@ class OrderController extends Controller
             }
             $weight = $weight + $item->weight;
         }
-
-        $user = Auth::user();
-        $delivery_cost = $curl->getDeliveryCosts(256, $user->city_id, $weight);
-
-        $delivery_info = explode("|", $request->delivery);
-
+       
+        // Dapatkan info mengenai pengiriman dari API RajaOngkir
+        $shipping_costs = $shipping->getDeliveryCosts(256, $user->city_id, $weight);
+        $shipping_info = explode("|", $request->delivery);
         $shipping_cost = 0;
 
-        if ($delivery_cost[$delivery_info[0]][0]->code == $delivery_info[0]) {
-            foreach ($delivery_cost[$delivery_info[0]][0]->costs as $cost) {
-                if ($cost->service == $delivery_info[1]) {
+        if ($shipping_costs[$shipping_info[0]][0]->code == $shipping_info[0]) {
+            foreach ($shipping_costs[$shipping_info[0]][0]->costs as $cost) {
+                if ($cost->service == $shipping_info[1]) {
                     $shipping_cost = $cost->cost[0]->value;
                     break;
                 }
             }
         }
-
+        
         $order = new Order;
         $order->user_id = $user->id;
         $order->save();
 
         $total = 0;
+
         foreach ($cart_items as $item) {
             $order_item = new OrderItem;
             $order_item->order_id = $order->id;
             $order_item->product_id = $item->id;
             $order_item->save();
+
             $product = Product::find($item->id);
             $total = $total + $item->price;
             $product->available = false;
             $product->save();
+
             $user_cart = Cart::where('product_id', $item->id);
             $user_cart->delete();
         }
@@ -144,20 +126,15 @@ class OrderController extends Controller
         $shipping =  new Shipping;
         $shipping->order_id = $order->id;
         $shipping->delivered = false;
-        $shipping->courier = $delivery_info[0];
-        $shipping->service = $delivery_info[1];
+        $shipping->courier = $shipping_info[0];
+        $shipping->service = $shipping_info[1];
         $shipping->cost = $shipping_cost;
         $shipping->save();
 
         return redirect("/order")->with("success", "Pesanan berhasil dibuat");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Menampilkan detail order
     public function show($id)
     {
         $order = Order::where('orders.id', $id)->join('shippings', 'orders.id', 'shippings.order_id')
@@ -172,14 +149,15 @@ class OrderController extends Controller
         $products_images = ProductsImage::whereIn('product_id', $order_items->pluck('product_id')->toArray())->get();
 
         $payment = Payment::where('order_id', $order->id)->first();
-        // Midtrans Payment Gateway
+
+        // Integrasi dengan Midtrans Payment Gateway
         $user = Auth::user();
 
         $snapToken = "";
 
         $current_status = 'unpaid';
 
-        if (!$order->paid && !$payment) {
+        if (!$order->paid && !$payment) { // Jika order merupakan order yang baru, maka minta snap token ke API Midtrans
             $params = array(
                 'transaction_details' => array(
                     'order_id' => $order->id,
@@ -192,16 +170,16 @@ class OrderController extends Controller
                 ),
             );
             $snapToken = \Midtrans\Snap::getSnapToken($params);
-        } else if (!$order->paid && $payment) {
-            $payment_controller = new PaymentController();
-            $payment_data = $payment_controller->getPaymentData($order->id);
+        } else if (!$order->paid && $payment) { //Jika order yang ditampilkan adalah order lama, namun pembayarannya belum selesai
+            $payment_obj = new Payment();
+            $payment_data = $payment_obj->getPaymentData($order->id); // Dapatkan info terbaru tentang pembayaran
             $current_status = $payment_data->transaction_status;
             $payment = Payment::find($payment_data->transaction_id);
             $payment->status = $current_status;
             $payment->save();
 
-            if ($current_status == Payment::SETTLEMENT || $current_status == Payment::CAPTURE) {
-                $order->paid = true;
+            if ($current_status == Payment::SETTLEMENT || $current_status == Payment::CAPTURE) { // Jika pembayaran berhasil dilakukan
+                $order->paid = true; // Status pembayaran order diubah menjadi true yang artinya sudah dibayar
                 $order->save();
             }
         }
@@ -209,52 +187,24 @@ class OrderController extends Controller
         return view('order-detail', ['products' => $products, 'products_images' => $products_images, 'order' => $order, 'snapToken' => $snapToken, 'current_status' => $current_status]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Membatalkan/menghapus order
     public function destroy($id)
     {
         $order = Order::find($id);
-        // $payment = Payment::where('order_id', $id)->get();
-        // $payment->delete();
         $order_items = OrderItem::where('order_id', $id);
+        
         $products = Product::whereIn("id", $order_items->pluck('product_id')->toArray())->get();
         foreach ($products as $product) {
             var_dump($product);
-            $product->available = true;
+            $product->available = true; // Jika order dibatalkan, stok setiap produk dalam order dikembalikan menjadi tersedia
             $product->save();
-            print('hei');
         }
-        $order_items->delete();
+        
+        $order_items->delete(); // Data produk order dihapus 
         $shipping = Shipping::where('order_id', $id);
-        $shipping->delete();
-        $order->delete();
-        return back()->with('success', 'Pesanan berhasil dihapus');
+        $shipping->delete(); // Pengiriman order dibatalkan
+        $order->delete(); // Order dihapus
+        
+        return back()->with('success', 'Pesanan berhasil dibatalkan');
     }
 }

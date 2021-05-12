@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shipping;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ShippingController extends Controller
 {
+    // Menampilkan daftar pengiriman barang
     public function index()
     {
         $shippings = DB::table('shippings')
@@ -18,6 +18,7 @@ class ShippingController extends Controller
         return view('admin.shipping', ['shippings' => $shippings]);
     }
 
+    // Mengubah delivery dari false menjadi true yang menandakan barang telah terkirim
     public function send($id){
         $shipping = Shipping::find($id);
         $shipping->delivered = true;
