@@ -27,10 +27,10 @@ class WishlistController extends Controller
     public function store($product_id)
     {
         $user_id = Auth::id();
-        $found_wishlist = Wishlist::where("user_id", $user_id)->where("product_id", $product_id);
+        $user_wishlist = Wishlist::where("user_id", $user_id)->where("product_id", $product_id);
         
-        if ($found_wishlist->count() > 0) { // Kondisi ketika barang sudah ada di wishlist, maka barang tsb akan dihapus
-            $found_wishlist->delete();
+        if ($user_wishlist->count() > 0) { // Kondisi ketika barang sudah ada di wishlist, maka barang tsb akan dihapus
+            $user_wishlist->delete();
             return back()->with('success', 'Produk dihapus dari wishlist');
         } 
         else {// Kondisi ketika barang belum ada di wishlist

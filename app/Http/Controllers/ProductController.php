@@ -15,12 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware(['auth', 'role:admin'], ['except' => ['index', 'show']]);
-    }
-
+    // Tampilkan semua produk beserta informasi lengkapnya
     public function index(Request $request)
     {
         $products = DB::table('products')->where("available","1")->join('categories', 'products.category_id', 'categories.id')
@@ -40,14 +35,13 @@ class ProductController extends Controller
             );
         $user_id = Auth::id();
 
-        $liked_products =  Wishlist::where("user_id", $user_id)->whereIn("product_id", $products->pluck('id'))->pluck('product_id')->toArray();
-
-        // var_dump($liked_products);
+        $liked_products =  Wishlist::where("user_id", $user_id)->pluck('product_id')->toArray();
 
         if ($request->has('keyword')) {
             $products->where('name', 'LIKE', '%' . $request->input('keyword') . '%');
         }
 
+        // Sorting
         if ($request->has('sort')) {
             if ($request->sort == 'oldest') {
                 $products->orderBy('created_at', 'asc');
@@ -60,6 +54,7 @@ class ProductController extends Controller
             }
         }
 
+        // Filtering
         if ($request->has('category')) {
             if ($request->category == "pria") {
                 $products->where('sex', 1);
@@ -90,22 +85,20 @@ class ProductController extends Controller
             $products->where('quality', "<=", $request->max_quality);
         }
 
-        $brands = DB::table('products')->groupBy('brand')->select('brand')->get();
-        $categories = DB::table('categories')->get();
-
+        $brands = Product::getBrands();
+        $categories = Category::getCategories();
         $products = $products->paginate(9);
-
+        
         $product_ids = array();
-
         foreach ($products as $product) {
             $product_ids[] = $product->id;
         }
-
-        $products_images = ProductsImage::whereIn('product_id', $product_ids)->get();
+        $products_images = ProductsImage::getProductImage($product_ids);
 
         return view('product-list', ['products' => $products, 'products_images' => $products_images, 'brands' => $brands, 'categories' => $categories, 'liked_products' => $liked_products]);
     }
 
+    // Tampilkan produk untuk admin
     public function index_admin()
     {
 
@@ -116,6 +109,7 @@ class ProductController extends Controller
         return view('admin.products', ['products' => $products]);
     }
 
+    // Tampilkan halaman form untuk menambahkan produk baru
     public function create()
     {
         $categories = Category::all();
@@ -123,6 +117,7 @@ class ProductController extends Controller
         return view('admin.add-product', ['categories' => $categories, 'sizes' => $sizes]);
     }
 
+    // Menambahkan produk baru
     public function store(Request $request)
     {
         $request->validate([
@@ -164,7 +159,6 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->save();
 
-
         foreach ($image_paths as $image_path) {
             $products_image = new ProductsImage;
             $products_image->product_id = $product->id;
@@ -175,6 +169,7 @@ class ProductController extends Controller
         return redirect('/admin/products/add')->with('success', 'Produk berhasil ditambahkan');
     }
 
+    // Menampilkan halaman detail produk
     public function show($id)
     {
         $product = DB::table('products')->where("products.id", $id)->join('categories', 'products.category_id', 'categories.id')
@@ -185,6 +180,7 @@ class ProductController extends Controller
         return view('product-detail', ['product' => $product, 'product_images' => $product_images]);
     }
 
+    // Mengubah foto produk
     public function editProductImages(Request $request, $id)
     {
         $images = $request->file('product_images');
@@ -220,6 +216,7 @@ class ProductController extends Controller
         }
     }
 
+    // Menampilkan halaman edit produk
     public function edit($id)
     {
         $product = Product::find($id);
@@ -229,6 +226,7 @@ class ProductController extends Controller
         return view('admin.edit-product', ['product' => $product, 'categories' => $categories, 'sizes' => $sizes, 'images' => $images]);
     }
 
+    // Mengupdate data produk
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -258,6 +256,7 @@ class ProductController extends Controller
         return redirect('/admin/products')->with('success', 'Produk berhasil diupdate');
     }
 
+    // Menghapus produk
     public function destroy($id)
     {
         $product = Product::find($id);
