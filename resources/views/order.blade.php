@@ -30,6 +30,7 @@
                                             <th>Total Harga</th>
                                             <th>Waktu Pemesanan</th>
                                             <th>Bayar</th>
+                                            <th>Pengiriman</th>
                                             <th>Detail</th>
                                         </tr>
                                     </thead>
@@ -67,7 +68,22 @@
                     @endif
                 </td>
                 <td>
-                    <a href="/order/{{$order->id}}" class="btn">Detail</a>
+                    <div>
+                        @if ($order->delivered)
+                            Sudah dikirim
+                        @else
+                            Belum dikirim
+                        @endif
+                    </div>
+                    <div>
+                        {{$order->courier}}
+                    </div>
+                    <div>
+                        ({{$order->service}})
+                    </div>
+                </td>
+                <td>
+                    <a href="/order/{{ $order->id }}" class="btn">Detail</a>
                 </td>
                 </tr>
                 @endforeach

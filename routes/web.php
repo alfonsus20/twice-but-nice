@@ -8,7 +8,9 @@ use App\Http\Controllers\CurlController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SizeController;
+use App\Models\Shipping;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,12 +50,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
     Route::post('/category/add', [CategoryController::class, 'store']);
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit']);
     Route::post('/category/{id}/edit', [CategoryController::class, 'update']);
-    
+
     Route::get('/size', [SizeController::class, 'index']);
     Route::get('/size/add', [SizeController::class, 'create']);
     Route::post('/size/add', [SizeController::class, 'store']);
     Route::get('/size/{id}/edit', [SizeController::class, 'edit']);
     Route::post('/size/{id}/edit', [SizeController::class, 'update']);
+
+    Route::get('shipping', [ShippingController::class, 'index']);
+    Route::get('shipping/{id}/send', [ShippingController::class, 'send']);
 });
 
 Route::group(['prefix' => 'wishlist', 'middleware' => ['auth']], function () {
@@ -81,12 +86,13 @@ Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
     Route::get('/', [OrderController::class, 'index']);
     Route::get('/{id}', [OrderController::class, 'show']);
-    
+
     Route::get('/{id}/delete', [OrderController::class, 'destroy']);
     Route::post('/create', [OrderController::class, 'store']);
-    
+
     Route::post('/{id}/pay', [PaymentController::class, 'store']);
 });
+
 
 
 Route::get('checkout', [OrderController::class, 'showCheckoutPage'])->middleware('auth');
@@ -95,8 +101,8 @@ Route::get('contact', function () {
     return view('contact');
 });
 
-Route::post('/payment/',[PaymentController::class, 'pay'])->middleware('auth');
-Route::get('/after-payment/{id}',[PaymentController::class, 'paymentStatus'])->middleware('auth');
+Route::post('/payment/', [PaymentController::class, 'pay'])->middleware('auth');
+Route::get('/after-payment/{id}', [PaymentController::class, 'paymentStatus'])->middleware('auth');
 
 
 Route::get("curl", [CurlController::class, 'getCity']);

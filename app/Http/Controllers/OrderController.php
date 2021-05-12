@@ -54,17 +54,17 @@ class OrderController extends Controller
     public function index()
     {
         $user_id = Auth::id();
-        $orders = Order::where('user_id', $user_id)->get();
+        $orders = Order::where('user_id', $user_id)
+            ->join("shippings", "shippings.order_id", "orders.id")
+            ->select('orders.*','shippings.delivered', 'shippings.courier', 'shippings.service')
+            ->get();
 
-        $order_items = OrderItem::whereIn('order_id', $orders->pluck('id'))
+        $order_items = OrderItem::whereIn('order_items.order_id', $orders->pluck('id'))
             ->join("products", "products.id", "order_items.product_id")
             ->select("products.*", "order_items.order_id")
             ->get();
 
         $products_images = ProductsImage::whereIn('product_id', $order_items->pluck('id')->toArray())->get();
-
-        // var_dump($products_images);
-        // $products_images = ProductsImage::whereIn('product_id', $orders->pluck('product_id')->toArray())->get();
         return view("order", ["orders" => $orders, "products_images" => $products_images, "order_items" => $order_items]);
     }
 
@@ -102,8 +102,6 @@ class OrderController extends Controller
             }
             $weight = $weight + $item->weight;
         }
-
-
 
         $user = Auth::user();
         $delivery_cost = $curl->getDeliveryCosts(256, $user->city_id, $weight);
@@ -163,7 +161,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::where('orders.id', $id)->join('shippings', 'orders.id', 'shippings.order_id')
-            ->select('orders.*', 'shippings.cost')
+            ->select('orders.*', 'shippings.cost',  'shippings.courier', 'shippings.service')
             ->first();
         $order_items = OrderItem::where('order_id', $id)
             ->get();
@@ -176,7 +174,7 @@ class OrderController extends Controller
         $payment = Payment::where('order_id', $order->id)->first();
         // Midtrans Payment Gateway
         $user = Auth::user();
-        
+
         $snapToken = "";
 
         $current_status = 'unpaid';

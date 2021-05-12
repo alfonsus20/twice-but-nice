@@ -76,6 +76,7 @@
                     <tr>
                         <td colspan="4">
                             Ongkos kirim
+                            ({{$order->courier}} : {{$order->service}})
                         </td>
                         <td>
                             Rp {{$order->cost}}
