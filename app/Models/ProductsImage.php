@@ -11,7 +11,8 @@ class ProductsImage extends Model
     protected $table = 'products_images';
 
     // Mendapatkan 1 buah gambar produk berdasarkan id product yang diberikan
-    public static function getProductImage($ids){
+    public static function getProductImage(){
+        $ids = Product::all()->pluck('id')->toArray();
         $products_images = [];
         foreach ($ids as $id) {
             $products_images[$id] = ProductsImage::where('product_id', $id)->first()->path;

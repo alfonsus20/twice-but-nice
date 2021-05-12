@@ -38,33 +38,13 @@
 
                                     <div class="price my-4">
                                         <p>Rp {{ $product->price }}</p>
-                                        {{-- <p>$99 <span>$149</span></p> --}}
                                     </div>
-                                    {{-- <div class="quantity">
-                                        <h4>Merek:</h4>
-                                        {{ $product->brand }}
-                                    </div>
-                                    <div class="quantity">
-                                        <h4>Stok:</h4>
-                                        {{ $product->available ? 'Ada' : 'Kosong' }}
-                                    </div>
-                                    <div class="p-size">
-                                        <h4>Size:</h4>
-                                        {{ $product->size_name }}
-                                    </div>
-                                    <div class="p-color">
-                                        <h4>Kualitas:</h4>
-                                        <div class="progress mt-2 mb-4" style="height: 15px;">
-                                            <div class="progress-bar" role="progressbar"
-                                                style="width: {{ $product->quality * 10 }}%; background-color : #4e3620"
-                                                aria-valuenow="{{ $product->quality }}" aria-valuemin="0"
-                                                aria-valuemax="10">{{ $product->quality }}</div>
-                                        </div>
-                                    </div> --}}
 
-                                    <div class="action">
-                                        <a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
-                                        <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a>
+                                    <div class="action d-flex flex-row">
+                                        <a class="btn {{in_array($product->id, $user_wishlist_items_ids) ? 'active-button' : ''}}" href="/wishlist/{{ $product->id }}/add"><i class="fa fa-heart"></i>
+                                            +Wishlist</a>
+                                        <a class="btn {{in_array($product->id, $user_cart_items_ids) ? 'active-button' : ''}}" href="/cart/{{ $product->id }}/add"><i
+                                                class="fa fa-shopping-cart"></i> +Keranjang</a>
                                     </div>
                                 </div>
                             </div>
@@ -75,29 +55,21 @@
                         <div class="col-lg-12">
                             <ul class="nav nav-pills nav-justified">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
+                                    <a class="nav-link active" data-toggle="pill" href="#description">Deskripsi</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
+                                    <a class="nav-link" data-toggle="pill" href="#specification">Spesifikasi</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#reviews">Reviews (1)</a>
+                                    <a class="nav-link" data-toggle="pill" href="#reviews">Kondisi</a>
                                 </li>
                             </ul>
 
                             <div class="tab-content">
                                 <div id="description" class="container tab-pane active">
-                                    <h4>Product description</h4>
+                                    <h4>Deskripsi Produk</h4>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi
-                                        viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus
-                                        tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante
-                                        suscipit non. Praesent in faucibus tellus, sed gravida lacus. Vivamus eu diam eros.
-                                        Aliquam et sapien eget arcu rhoncus scelerisque. Suspendisse sit amet neque neque.
-                                        Praesent suscipit et magna eu iaculis. Donec arcu libero, commodo ac est a,
-                                        malesuada finibus dolor. Aenean in ex eu velit semper fermentum. In leo dui, aliquet
-                                        sit amet eleifend sit amet, varius in turpis. Maecenas fermentum ut ligula at
-                                        consectetur. Nullam et tortor leo.
+                                        {{ $product->description }}
                                     </p>
                                 </div>
                                 <div id="specification" class="container tab-pane fade">
@@ -106,7 +78,7 @@
                                         <tbody>
                                             <tr class=spec-row>
                                                 <td class="spec">Kategori</td>
-                                                <td>{{$product->category_name}}</td>
+                                                <td>{{ $product->category_name }}</td>
                                             </tr>
                                             <tr class=spec-row>
                                                 <td class="spec">Merek</td>
@@ -120,48 +92,18 @@
                                                 <td class="spec">Size</td>
                                                 <td>{{ $product->size_name }}</td>
                                             </tr>
+                                            <tr class=spec-row>
+                                                <td class="spec">Kualitas</td>
+                                                <td>{{ $product->quality }} / 10</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div id="reviews" class="container tab-pane fade">
-                                    <div class="reviews-submitted">
-                                        <div class="reviewer">Phasellus Gravida - <span>01 Jan 2020</span></div>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <p>
-                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                            doloremque laudantium, totam rem aperiam.
-                                        </p>
-                                    </div>
-                                    <div class="reviews-submit">
-                                        <h4>Give your Review:</h4>
-                                        <div class="ratting">
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="row form">
-                                            <div class="col-sm-6">
-                                                <input type="text" placeholder="Name">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <input type="email" placeholder="Email">
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <textarea placeholder="Review"></textarea>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <button>Submit</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <h4>Kondisi Produk</h4>
+                                    <p>
+                                        {{ $product->condition }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -169,7 +111,7 @@
 
                     <div class="product">
                         <div class="section-header">
-                            <h1>Related Products</h1>
+                            <h1>Produk Berkaitan</h1>
                         </div>
 
                         <div class="row align-items-center product-slider product-slider-3">
@@ -257,69 +199,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
-                                <div class="product-item">
-                                    <div class="product-title">
-                                        <a href="#">Product Name</a>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="{{ asset('img/product-4.jpg') }}" alt="Product Image">
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-price">
-                                        <h3><span>$</span>99</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="product-item">
-                                    <div class="product-title">
-                                        <a href="#">Product Name</a>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="{{ asset('img/product-2.jpg') }}" alt="Product Image">
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-price">
-                                        <h3><span>$</span>99</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
+    @include('components.toast')
     <!-- Product Detail End -->
 @endsection
+@include('script.toast')

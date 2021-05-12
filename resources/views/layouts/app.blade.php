@@ -124,11 +124,14 @@
                                 @php
                                     use App\Models\Wishlist;
                                     if (isset(auth()->user()->name)) {
-                                        $wistlish_items = Wishlist::where('user_id', auth()->user()->id)->count();
-                                        echo $wistlish_items;
+                                        $user_wistlist_items = Wishlist::where('user_id', auth()->user()->id)->get();
+                                        echo $user_wistlist_items->count();
                                     } else {
                                         echo '0';
                                     }
+                                @endphp
+                                @php
+                                    $hello = "hei"
                                 @endphp
                             </span>
                         </a>
@@ -138,8 +141,8 @@
                                 @php
                                     use App\Models\Cart;
                                     if (isset(auth()->user()->name)) {
-                                        $cart_items = Cart::where('user_id', auth()->user()->id)->count();
-                                        echo $cart_items;
+                                        $user_cart_items = Cart::where('user_id', auth()->user()->id)->get();
+                                        echo $user_cart_items->count();
                                     } else {
                                         echo '0';
                                     }

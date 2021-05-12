@@ -118,7 +118,8 @@ h2 {
 
 .btn:hover,
 .btn:active,
-.btn:focus {
+.btn:focus,
+.active-button {
     color: #ffffff;
     background: var(--primary-color);
     box-shadow: none;
@@ -2435,7 +2436,7 @@ h2 {
     text-decoration: underline;
 }
 
-.liked-product {
+.liked-product, .cart-product {
     background-color: white !important;
     color: var(--primary-color) !important;
 }
