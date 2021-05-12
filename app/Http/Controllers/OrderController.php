@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductsImage;
 use App\Models\Shipping;
@@ -162,22 +163,25 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::where('orders.id', $id)->join('shippings', 'orders.id', 'shippings.order_id')
-        ->select('orders.*', 'shippings.cost')
-        ->first();
+            ->select('orders.*', 'shippings.cost')
+            ->first();
         $order_items = OrderItem::where('order_id', $id)
-        ->get();
+            ->get();
         $products = Product::whereIn('products.id', $order_items->pluck('product_id')->toArray())
             ->join('sizes', 'products.size_id', "sizes.id")
             ->select('products.*', 'sizes.size_name')
             ->get();
         $products_images = ProductsImage::whereIn('product_id', $order_items->pluck('product_id')->toArray())->get();
 
+        $payment = Payment::where('order_id', $order->id)->first();
         // Midtrans Payment Gateway
         $user = Auth::user();
-
+        
         $snapToken = "";
 
-        if (!$order->paid) {
+        $current_status = 'unpaid';
+
+        if (!$order->paid && !$payment) {
             $params = array(
                 'transaction_details' => array(
                     'order_id' => $order->id,
@@ -190,9 +194,21 @@ class OrderController extends Controller
                 ),
             );
             $snapToken = \Midtrans\Snap::getSnapToken($params);
+        } else if (!$order->paid && $payment) {
+            $payment_controller = new PaymentController();
+            $payment_data = $payment_controller->getPaymentData($order->id);
+            $current_status = $payment_data->transaction_status;
+            $payment = Payment::find($payment_data->transaction_id);
+            $payment->status = $current_status;
+            $payment->save();
+
+            if ($current_status == Payment::SETTLEMENT || $current_status == Payment::CAPTURE) {
+                $order->paid = true;
+                $order->save();
+            }
         }
 
-        return view('order-detail', ['products' => $products, 'products_images' => $products_images, 'order' => $order, 'snapToken' => $snapToken]);
+        return view('order-detail', ['products' => $products, 'products_images' => $products_images, 'order' => $order, 'snapToken' => $snapToken, 'current_status' => $current_status]);
     }
 
     /**
@@ -227,6 +243,8 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::find($id);
+        // $payment = Payment::where('order_id', $id)->get();
+        // $payment->delete();
         $order_items = OrderItem::where('order_id', $id);
         $products = Product::whereIn("id", $order_items->pluck('product_id')->toArray())->get();
         foreach ($products as $product) {

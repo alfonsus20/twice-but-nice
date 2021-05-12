@@ -94,18 +94,32 @@
                             Pembayaran
                         </td>
                         <td>
-                            <strong>{{$order->paid  ? "Sudah dibayar" : "Belum dibayar"}}</strong>
+                            {{-- <strong>{{$order->paid  ? "Sudah dibayar" : "Belum dibayar"}}</strong> --}}
+                            <strong>
+                                @if($order->paid)
+                                    Sudah dibayar
+                                @elseif (!$order->paid && $current_status == 'unpaid')
+                                    Belum dibayar
+                                @else
+                                    Pembayaran {{$current_status}}
+                                @endif
+                            </strong>
                         </td>
                     </tr>
                     </tbody>
                     </table>
                 </div>
             </div>
+
             @if (!$order->paid)
                 <div class="d-flex">
                     <div class="ms-auto">
-                        <a class="btn btn-danger " href="/order/{{ $order->id }}/delete">Batal</a>
-                        <a class="btn" type="submit" id='pay-button'>Bayar</a>
+                        @if ($current_status != 'pending')
+                            <a class="btn btn-danger " href="/order/{{ $order->id }}/delete">Batal</a>
+                        @endif
+                        @if ($current_status == 'unpaid')
+                            <a class="btn" type="submit" id='pay-button'>Bayar</a>
+                        @endif
                     </div>
                 </div>
             @endif
