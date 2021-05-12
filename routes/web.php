@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Shipping;
 use Illuminate\Support\Facades\Route;
 
@@ -35,9 +36,7 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
-    Route::get('/', function () {
-        return view('admin.index');
-    });
+    Route::get('/', [DashboardController::class, 'index']);
     Route::get('/products', [ProductController::class, 'index_admin']);
     Route::get('/products/add', [ProductController::class, 'create']);
     Route::post('/products/add', [ProductController::class, 'store']);
