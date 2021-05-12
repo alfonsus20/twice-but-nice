@@ -23,19 +23,15 @@
                                 @endif
                                 <label class="form-label">Masukkan kata kunci</label>
                                 <input type="text" class="form-control" name="keyword" placeholder="Cari produk ..."
-                                    onchange="setURL(event.target.value)" value="{{ Request::get('keyword') }}" style="padding-right: 34px">
+                                    onchange="setURL(event.target.value)" value="{{ Request::get('keyword') }}"
+                                    style="padding-right: 34px">
                                 @if (Request::get('sort'))
                                     <input type="hidden" name="sort" value="{{ Request::get('sort') }}">
                                 @endif
                                 <button type="submit" id="searchByKeyword"
-                                class="btn d-flex align-items-center justify-content-center"
-                                style="background-color : #897853;color : white;text-decoration : none;"><i
-                                    class="fa fa-search"></i></button>
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end position-relative">
-                                {{-- <div style="margin-bottom: 15px; color : white;" class="product-search"> --}}
-                           
-                                {{-- </div> --}}
+                                    class="btn d-flex align-items-center justify-content-center"
+                                    style="background-color : #897853;color : white;text-decoration : none;"><i
+                                        class="fa fa-search"></i></button>
                             </div>
                         </form>
                         <h2 class="title">Kategori</h2>
@@ -169,52 +165,44 @@
                                     </div>
                                     <div class="product-image">
                                         <a href="/products/{{ $product->id }}">
-                                            @foreach ($products_images as $products_image)
-                                                @if ($product->id == $products_image->product_id)
-                                                    <img src="{{ asset('img/products/' . $products_image->path) }}"
-                                                        alt="Product Image">
-                                                @break
-                                            @endif
-                        @endforeach
-                        </a>
-                        <div class="product-action">
-                            <a href="/cart/{{$product->id}}/add"><i class="fa fa-cart-plus"></i></a>
-                            <a href="/wishlist/{{$product->id}}/add" class="{{ in_array($product->id, $liked_products) ? "liked-product" : "" }}"><i class="fa fa-heart"></i></a>
-                            <a href="/products/{{ $product->id }}"><i class="fa fa-search"></i></a>
-                        </div>
+                                            <img src="{{ asset('img/products/' . $products_images[$product->id]) }}"
+                                                alt="Product Image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="/cart/{{ $product->id }}/add"><i class="fa fa-cart-plus"></i></a>
+                                            <a href="/wishlist/{{ $product->id }}/add"
+                                                class="{{ in_array($product->id, $liked_products) ? 'liked-product' : '' }}"><i
+                                                    class="fa fa-heart"></i></a>
+                                            <a href="/products/{{ $product->id }}"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-price">
+                                        <h3><span>Rp</span>{{ $product->price }}</h3>
+                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <h3 class="text-center my-4">Produk tidak ditemukan</h3>
+                        @endforelse
                     </div>
-                    <div class="product-price">
-                        <h3><span>Rp</span>{{ $product->price }}</h3>
-                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                    <div class="col-md-12">
+                        {{ $products->links() }}
                     </div>
                 </div>
             </div>
-            @empty
-                <h3 class="text-center my-4">Produk tidak ditemukan</h3>
-                @endforelse
-            </div>
-            <!-- Pagination Start -->
-            <div class="col-md-12">
-                {{ $products->links() }}
-            </div>
-            <!-- Pagination Start -->
         </div>
-
-        <!-- Side Bar Start -->
-        <!-- Side Bar End -->
-        </div>
-        </div>
-        </div>
-        <!-- Product List End -->
-        @include('components.toast')
-    @endsection
-    @section('script')
-        <script>
-            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-            var toastList = toastElList.map(function(toastEl) {
-                return new bootstrap.Toast(toastEl, {})
-            })
-            var toast = document.getElementById("toast");
-            toastList[0].show();
-        </script>
-    @endsection
+    </div>
+    <!-- Product List End -->
+    @include('components.toast')
+@endsection
+@section('script')
+<script>
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function(toastEl) {
+        return new bootstrap.Toast(toastEl, {})
+    })
+    var toast = document.getElementById("toast");
+    toastList[0].show();
+</script>
+@endsection
