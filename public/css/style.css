@@ -2463,3 +2463,9 @@ h2 {
 .pay-order:hover{
     color: white!important;
 }
+
+.cart-active{
+    color: #ffffff;
+    background: var(--primary-color);
+    box-shadow: none;
+}

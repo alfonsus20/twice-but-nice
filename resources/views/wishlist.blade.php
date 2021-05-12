@@ -4,8 +4,8 @@
     <div class="breadcrumb-wrap">
         <div class="container-fluid">
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/products">Products</a></li>
                 <li class="breadcrumb-item active">Wishlist</li>
             </ul>
         </div>
@@ -26,8 +26,7 @@
                                             <th>Nama Produk</th>
                                             <th>Brand</th>
                                             <th>Harga</th>
-                                            <th>Add to Cart</th>
-                                            <th>Remove</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="align-middle">
@@ -35,13 +34,8 @@
                                             <tr>
                                                 <td>
                                                     <div class="img">
-                                                        @foreach ($products_images as $products_image)
-                                                            @if ($product->id == $products_image->product_id)
-                                                                <img src="{{ asset('img/products/' . $products_image->path) }}"
-                                                                    alt="Product Image">
-                                                            @break
-                                                            @endif
-                                                        @endforeach
+                                                        <img src="{{ asset('img/products/' . $products_images[$product->id]) }}"
+                                                            alt="Product Image">
                                                         <p>{{ $product->name }}</p>
                                                     </div>
                                                 </td>
@@ -49,8 +43,11 @@
                                                     {{ ucfirst(trans($product->brand)) }}
                                                 </td>
                                                 <td>{{ $product->price }}</td>
-                                                <td><button class="btn-cart">Add to Cart</button></td>
-                                                <td><a href="/wishlist/{{ $product->id }}/delete"><i class="fa fa-trash"></i></a></td>
+                                                <td>
+                                                    <a class="btn me-4" href="/cart/{{$product->id}}/add"><i class="fas fa-shopping-cart"></i></a>
+                                                    <a class="btn" href="/wishlist/{{ $product->id }}/delete"><i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -66,11 +63,10 @@
             </div>
         </div>
     </div>
-
+    @include('components.toast')
     <!-- Wishlist End -->
 @endsection
-
-{{-- @section('script')
+@section('script')
     <script>
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
         var toastList = toastElList.map(function(toastEl) {
@@ -79,4 +75,4 @@
         var toast = document.getElementById("toast");
         toastList[0].show();
     </script>
-@endsection --}}
+@endsection
