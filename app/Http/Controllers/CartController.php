@@ -10,35 +10,26 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-
+    // Menampilkan semua produk yang ada di keranjang belanja
     public function index()
     {
-        $cart_items = Cart::where('user_id', Auth::id())->pluck('product_id')->toArray();
-        $added_products = Product::whereIn("products.id", $cart_items)->join('sizes', 'size_id', 'sizes.id')
+        $cart_items_id = Cart::where('user_id', Auth::id())->pluck('product_id')->toArray();
+        $cart_items = Product::whereIn("products.id", $cart_items_id)->join('sizes', 'size_id', 'sizes.id')
             ->select("products.*", "size_name")
             ->get();
-        $products_images = ProductsImage::whereIn('product_id', $cart_items)->get();
-        return view('cart', ['added_products' => $added_products, 'products_images' => $products_images]);
+        $products_images = ProductsImage::getProductImage($cart_items_id);
+        return view('cart', ['cart_items' => $cart_items, 'products_images' => $products_images]);
     }
 
-    public function getUserCartItems()
-    {
-        $cart_items = Cart::where('user_id', Auth::id())->pluck('product_id')->toArray();
-        $added_products = Product::whereIn("products.id", $cart_items)->join('sizes', 'size_id', 'sizes.id')
-            ->select("products.*", "size_name")
-            ->get();
-        return $added_products;
-    }
-
-
+    // Menambahkan barang ke keranjang 
     public function store($product_id)
     {
         $user_id = Auth::id();
         $found_cart = Cart::where("user_id", $user_id)->where("product_id", $product_id);
-        if ($found_cart->count() > 0) {
+        if ($found_cart->count() > 0) { // Jika barang sebelumnya sudah ada di keranjang, maka barang tsb akan dihapus
             $found_cart->delete();
             return back()->with('success', 'Produk dihapus dari keranjang');
-        } else {
+        } else { // Jika belum, maka akan ditambahkan ke keranjang
             $cart = new Cart;
             $cart->user_id = $user_id;
             $cart->product_id = $product_id;
@@ -47,6 +38,7 @@ class CartController extends Controller
         }
     }
 
+    // Menghapus barang dari keranjang
     public function destroy($product_id)
     {
         $user_id = Auth::id();

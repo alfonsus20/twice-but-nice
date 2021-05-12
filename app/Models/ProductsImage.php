@@ -10,6 +10,7 @@ class ProductsImage extends Model
     use HasFactory;
     protected $table = 'products_images';
 
+    // Mendapatkan 1 buah gambar produk berdasarkan id product yang diberikan
     public static function getProductImage($ids){
         $products_images = [];
         foreach ($ids as $id) {

@@ -17,7 +17,7 @@
     <div class="cart-page">
         <div class="container-fluid">
             <div class="row">
-                @if ($added_products->count() > 0)
+                @if ($cart_items->count() > 0)
                     <div class="col-lg-8">
                         <div class="cart-page-inner">
                             <div class="table-responsive">
@@ -34,89 +34,75 @@
                                         </tr>
                                     </thead>
                                     <tbody class="align-middle">
-                                        @foreach ($added_products as $product)
-                                            <tr class="{{ $product->available ? '' : 'text-danger' }}">
+                                        @foreach ($cart_items as $item)
+                                            <tr class="{{ $item->available ? '' : 'text-danger' }}">
                                                 <td>
                                                     <div class="img">
-                                                        @foreach ($products_images as $products_image)
-                                                            @if ($product->id == $products_image->product_id)
-                                                                <img src="{{ asset('img/products/' . $products_image->path) }}"
-                                                                    alt="Product Image">
-                                                            @break
-                                                        @endif
-                                        @endforeach
-                                        <p>{{ $product->name }}</p>
-                            </div>
-                            </td>
-                            <td>
-                                {{ ucfirst(trans($product->brand)) }}
-                            </td>
-                            <td>
-                                {{ $product->size_name }}
-                            </td>
-                            <td>{{ $product->price }}</td>
-                            <td>{{ $product->available ? 'Ada' : 'Kosong' }}</td>
-                            <td><a href="/cart/{{ $product->id }}/delete"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                @endforeach
-                </tbody>
-                </table>
+                                                        <img src="{{ asset('img/products/' . $products_images[$item->id]) }}"
+                                                            alt="Product Image">
 
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="cart-page-inner">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="coupon">
-                        <input type="text" placeholder="Coupon Code">
-                        <button>Apply Code</button>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="cart-summary">
-                        <div class="cart-content">
-                            <h1>Ringkasan Belanja</h1>
-                            @php
-                                $total = 0;
-                            @endphp
-                            @foreach ($added_products as $product)
-                                <p>{{ $product->name }}<span>Rp {{ $product->price }}</span></p>
-                                @php
-                                    $total += $product->price;
-                                @endphp
-                            @endforeach
-                            <h2>Total<span>Rp {{ $total }}</span></h2>
-                        </div>
-                        <div class="cart-btn d-flex justify-content-center align-items-center">
-                            <a href="/products">Tambah Produk</a>
-                            <a href="/checkout">Checkout</a>
+                                                        <p>{{ $item->name }}</p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{ ucfirst(trans($item->brand)) }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->size_name }}
+                                                </td>
+                                                <td>{{ $item->price }}</td>
+                                                <td>{{ $item->available ? 'Ada' : 'Kosong' }}</td>
+                                                <td><a href="/cart/{{ $item->id }}/delete"><i
+                                                            class="fa fa-trash"></i></a></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4">
+                        <div class="cart-page-inner">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="coupon">
+                                        <input type="text" placeholder="Coupon Code">
+                                        <button>Apply Code</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="cart-summary">
+                                        <div class="cart-content">
+                                            <h1>Ringkasan Belanja</h1>
+                                            @php
+                                                $total = 0;
+                                            @endphp
+                                            @foreach ($cart_items as $item)
+                                                <p>{{ $item->name }}<span>Rp {{ $item->price }}</span></p>
+                                                @php
+                                                    $total += $item->price;
+                                                @endphp
+                                            @endforeach
+                                            <h2>Total<span>Rp {{ $total }}</span></h2>
+                                        </div>
+                                        <div class="cart-btn d-flex justify-content-center align-items-center">
+                                            <a href="/products">Tambah Produk</a>
+                                            <a href="/checkout">Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div style="min-height: 40vh" class="d-flex justify-content-center align-items-center">
+                        <h5 class="text-center">Belum ada produk yang ditambahkan ke keranjang</h5>
+                    </div>
+                @endif
             </div>
         </div>
-    </div>
-@else
-    <div style="min-height: 40vh" class="d-flex justify-content-center align-items-center">
-        <h5 class="text-center">Belum ada produk yang ditambahkan ke keranjang</h5>
-    </div>
-    @endif
-    </div>
-    </div>
-    @include('components.toast')
+        @include('components.toast')
     </div>
     <!-- Cart End -->
 @endsection
-@section('script')
-    <script>
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        var toastList = toastElList.map(function(toastEl) {
-            return new bootstrap.Toast(toastEl, {})
-        })
-        var toast = document.getElementById("toast");
-        toastList[0].show();
-
-    </script>
-@endsection
+@include('script.toast')
