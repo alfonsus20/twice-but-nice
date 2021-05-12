@@ -33,7 +33,7 @@ class OrderController extends Controller
         $curl = new CurlController();
         $cart_items = $cart->getUserCartItems();
 
-        $weight = 0;
+        $weight = 50;
 
         foreach ($cart_items as $item) {
             if (!$item->available) {
@@ -41,8 +41,6 @@ class OrderController extends Controller
             }
             $weight = $weight + $item->weight;
         }
-
-        // var_dump($weight);
 
         $user = Auth::user();
         $delivery_costs = $curl->getDeliveryCosts(256, $user->city_id, $weight);
@@ -141,7 +139,7 @@ class OrderController extends Controller
         }
 
         $found_order = Order::find($order->id);
-        $found_order->total = $total;
+        $found_order->total = $total + $shipping_cost;
         $found_order->save();
 
         $shipping =  new Shipping;
@@ -163,8 +161,11 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::find($id);
-        $order_items = OrderItem::where('order_id', $id)->get();
+        $order = Order::where('orders.id', $id)->join('shippings', 'orders.id', 'shippings.order_id')
+        ->select('orders.*', 'shippings.cost')
+        ->first();
+        $order_items = OrderItem::where('order_id', $id)
+        ->get();
         $products = Product::whereIn('products.id', $order_items->pluck('product_id')->toArray())
             ->join('sizes', 'products.size_id', "sizes.id")
             ->select('products.*', 'sizes.size_name')
@@ -173,8 +174,6 @@ class OrderController extends Controller
 
         // Midtrans Payment Gateway
         $user = Auth::user();
-
-
 
         $snapToken = "";
 

@@ -89,14 +89,14 @@ Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
 });
 
 
-Route::get('checkout', [OrderController::class, 'showCheckoutPage']);
+Route::get('checkout', [OrderController::class, 'showCheckoutPage'])->middleware('auth');
 
 Route::get('contact', function () {
     return view('contact');
 });
 
-Route::post('/payment/',[PaymentController::class, 'pay']);
-Route::get('/after-payment/{id}',[PaymentController::class, 'paymentStatus']);
+Route::post('/payment/',[PaymentController::class, 'pay'])->middleware('auth');
+Route::get('/after-payment/{id}',[PaymentController::class, 'paymentStatus'])->middleware('auth');
 
 
 Route::get("curl", [CurlController::class, 'getCity']);

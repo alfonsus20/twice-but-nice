@@ -9,6 +9,7 @@ class Payment extends Model
 {
     use HasFactory;
     protected $table = 'payments';
+    public const CAPTURE = 'capture';
     public const SETTLEMENT = 'settlement';
     public const PENDING = 'pending';
     public const DENY = 'deny';

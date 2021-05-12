@@ -8,7 +8,7 @@
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item"><a href="/products">Products</a></li>
-                <li class="breadcrumb-item">Order</li>
+                <li class="breadcrumb-item"><a href="/order">Order</a></li>
                 <li class="breadcrumb-item active">Order Detail</li>
             </ul>
         </div>
@@ -29,9 +29,9 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Produk</th>
-                                        <th>Harga</th>
                                         <th>Brand</th>
                                         <th>Size</th>
+                                        <th>Harga</th>
                                     </tr>
                                 </thead>
                                 @php
@@ -55,31 +55,61 @@
                         <div class="d-flex justify-content-center align-items-center">{{ $product->name }}</div>
                     </div>
                     </td>
-                    <td>
-                        {{ $product->price }}
-                    </td>
                     <td>{{ $product->brand }}</td>
                     <td>{{ $product->size_name }}</td>
+                    <td>
+                        Rp {{ $product->price }}
+                    </td>
                     </tr>
                     @php
                         $i = $i + 1;
                     @endphp
                     @endforeach
+                    <tr>
+                        <td colspan="4">
+                            Total
+                        </td>
+                        <td>
+                            Rp {{$order->total - $order->cost}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            Ongkos kirim
+                        </td>
+                        <td>
+                            Rp {{$order->cost}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            Subtotal
+                        </td>
+                        <td>
+                            Rp {{$order->total}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            Pembayaran
+                        </td>
+                        <td>
+                            <strong>{{$order->paid  ? "Sudah dibayar" : "Belum dibayar"}}</strong>
+                        </td>
+                    </tr>
                     </tbody>
                     </table>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="ms-auto">
-                    <a class="btn btn-danger " href="/order/{{ $order->id }}/delete">Batal</a>
-                    {{-- <form class="btn p-0" action="/order/{{ $order->id }}/pay" method="POST"> --}}
-                    {{-- @csrf --}}
-                    <button class="w-auto h-auto pay-order btn" type="submit" id='pay-button'
-                        style="background-color: transparent; padding: 6px 12px; font-size:1rem; color: #897853">Bayar</button>
-                    {{-- </form> --}}
+            @if (!$order->paid)
+                <div class="d-flex">
+                    <div class="ms-auto">
+                        <a class="btn btn-danger " href="/order/{{ $order->id }}/delete">Batal</a>
+                        <a class="btn" type="submit" id='pay-button'>Bayar</a>
+                    </div>
                 </div>
-            </div>
-            <div id="snapToken">
+            @endif
+            <div id="snapToken" class="d-none">
                 {{ $snapToken }}
             </div>
             <form action="/payment" method="POST" id="form-payment">
@@ -109,8 +139,8 @@
         var resultData = $("#result_data");
         var resultType = $("#result_type");
         payButton.addEventListener('click', function() {
-            var token = document.getElementById('snapToken').innerText;
-            console.log(token);
+            var token = document.getElementById('snapToken').innerText.trim();
+            // console.log(token.trim());
             snap.pay(token, {
                 onSuccess: function(result) {
                     resultType.val('success');
@@ -136,5 +166,6 @@
                 }
             });
         });
+
     </script>
 @endsection

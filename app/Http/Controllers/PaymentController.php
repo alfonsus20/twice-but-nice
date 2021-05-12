@@ -35,13 +35,18 @@ class PaymentController extends Controller
      */
     public function paymentStatus($id)
     {
-        $payment = Payment::where('transaction_id',$id)->first();
-        // var_dump($payment);
+        $status = 'tidak ditemukan';
+        $payment = Payment::where('transaction_id', $id)->first();
         if ($payment) {
-            return view('payment-status', ['status' => $payment->status]);
-        }else{
-            return view('payment-status', ['status' => 'tidak ditemukan']);
+            if ($payment->status == Payment::SETTLEMENT || $payment->status == Payment::CAPTURE) {
+                $status = 'sukses';
+            } else if ($payment->status === Payment::PENDING) {
+                $status = 'tertunda';
+            } else {
+                $status = 'gagal';
+            }
         }
+        return view('payment-status', ['status' => $status]);
     }
 
     public function pay(Request $request)
@@ -51,7 +56,10 @@ class PaymentController extends Controller
 
         $transaction_status = $paymentData->transaction_status;
 
-        if ($transaction_status == "settlement") {
+        if($transaction_status == "capture"){
+            $paymentStatus = Payment::CAPTURE;
+        }
+        else if ($transaction_status == "settlement") {
             $paymentStatus = Payment::SETTLEMENT;
         } else if ($transaction_status == 'pending') {
             $paymentStatus = Payment::PENDING;
@@ -70,7 +78,7 @@ class PaymentController extends Controller
         $payment->status = $paymentData->transaction_status;
         $payment->save();
 
-        if ($paymentStatus == 'settlement') {
+        if ($paymentStatus == 'settlement' || $paymentStatus == 'capture') {
             $order = Order::find($paymentData->order_id);
             $order->paid = true;
             $order->save();

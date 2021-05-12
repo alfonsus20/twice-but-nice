@@ -27,9 +27,8 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/c09ccc772c.js" crossorigin="anonymous"></script>
-    <script type="text/javascript"
-    src="https://app.sandbox.midtrans.com/snap/snap.js"
-    data-client-key="SB-Mid-client-PvBug4sqIuZ8dl9Z"></script>
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-PvBug4sqIuZ8dl9Z"></script>
 
 </head>
 
@@ -44,7 +43,7 @@
                 </div>
                 <div class="col-sm-6">
                     <i class="fa fa-phone-alt"></i>
-                   <a href="tel:+628129120221" class="text-decoration-none">+628129120221</a>
+                    <a href="tel:+628129120221" class="text-decoration-none">+628129120221</a>
                 </div>
             </div>
         </div>
@@ -66,14 +65,7 @@
                         <a href="/products" class="nav-item nav-link">Products</a>
                         <a href="/cart" class="nav-item nav-link">Cart</a>
                         <a href="/checkout" class="nav-item nav-link">Checkout</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
-                            <div class="dropdown-menu">
-                                <a href="/wishlist" class="dropdown-item">Wishlist</a>
-                                <a href="login.html" class="dropdown-item">Login & Register</a>
-                                <a href="contact.html" class="dropdown-item">Contact Us</a>
-                            </div>
-                        </div>
+                        <a href="/order" class="nav-item nav-link">Pesanan</a>
                     </div>
                     <div class="navbar-nav ml-auto">
                         <div class="nav-item dropdown">
@@ -128,11 +120,31 @@
                     <div class="user">
                         <a href="/wishlist" class="btn wishlist">
                             <i class="fa fa-heart"></i>
-                            <span>(0)</span>
+                            <span>
+                                @php
+                                    use App\Models\Wishlist;
+                                    if (isset(auth()->user()->name)) {
+                                        $wistlish_items = Wishlist::where('user_id', auth()->user()->id)->count();
+                                        echo $wistlish_items;
+                                    } else {
+                                        echo '0';
+                                    }
+                                @endphp
+                            </span>
                         </a>
                         <a href="/cart" class="btn cart">
                             <i class="fa fa-shopping-cart"></i>
-                            <span>(0)</span>
+                            <span>
+                                @php
+                                    use App\Models\Cart;
+                                    if (isset(auth()->user()->name)) {
+                                        $cart_items = Cart::where('user_id', auth()->user()->id)->count();
+                                        echo $cart_items;
+                                    } else {
+                                        echo '0';
+                                    }
+                                @endphp
+                            </span>
                         </a>
                     </div>
                 </div>
