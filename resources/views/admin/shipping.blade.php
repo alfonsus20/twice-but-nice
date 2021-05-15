@@ -51,11 +51,11 @@
                                                     <div class="badge badge-danger">Belum dikirim</div>
                                                 @endif
                                             </td>                                          
-                                            <td>
-                                                @if (!$shipping->delivered)
+                                            <td class="text-center">
+                                                @if (!$shipping->delivered && $shipping->paid)
                                                     <a href="/shipping/{{$shipping->id}}/send" class="btn btn-primary">Kirim</a>
                                                 @else
-                                                    None
+                                                    -
                                                 @endif
                                             </td>
                                         </tr>

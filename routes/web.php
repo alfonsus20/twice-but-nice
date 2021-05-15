@@ -33,6 +33,8 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/orders/{id}', [DashboardController::class, 'getOrderDetail']);
+
     Route::get('/products', [ProductController::class, 'index_admin']);
     Route::get('/products/add', [ProductController::class, 'create']);
     Route::post('/products/add', [ProductController::class, 'store']);
