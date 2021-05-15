@@ -72,7 +72,8 @@
                                     <tr>
                                         <td colspan="4">
                                             Ongkos kirim
-                                            (<span class="text-uppercase">{{ $order->courier }}</span> : {{ $order->service }})
+                                            (<span class="text-uppercase">{{ $order->courier }}</span> :
+                                            {{ $order->service }})
                                         </td>
                                         <td>
                                             Rp {{ $order->cost }}
@@ -100,6 +101,26 @@
                                                     Pembayaran {{ $current_status }}
                                                 @endif
                                             </strong>
+                                        </td>
+                                    </tr>
+                                    @if ($payment->type)
+                                        <tr>
+                                            <td colspan="4">
+                                                Metode Pembayaran
+                                            </td>
+                                            <td>
+                                                <strong>
+                                                    {{ $payment->type }}
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    <tr>
+                                        <td colspan="4">
+                                            Status Pengiriman
+                                        </td>
+                                        <td class="fw-bold">
+                                            {{ $order->delivered ? 'Sudah terkirim' : 'Belum dikirim'  }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -167,5 +188,6 @@
                 }
             });
         });
+
     </script>
 @endsection

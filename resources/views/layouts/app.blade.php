@@ -95,7 +95,7 @@
                                 @else
                                     <li><a class="dropdown-item" href="/login">Login</a></li>
                                     <li><a class="dropdown-item" href="/register">Register</a></li>
-                                    <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                    <li><a class="dropdown-item" href="/wishlist">Wishlist</a></li>
                                 @endif
                             </ul>
                         </div>

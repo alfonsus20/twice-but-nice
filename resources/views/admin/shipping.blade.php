@@ -53,7 +53,7 @@
                                             </td>                                          
                                             <td class="text-center">
                                                 @if (!$shipping->delivered && $shipping->paid)
-                                                    <a href="/shipping/{{$shipping->id}}/send" class="btn btn-primary">Kirim</a>
+                                                    <a href="/admin/shipping/{{$shipping->id}}/send" class="btn btn-primary">Kirim</a>
                                                 @else
                                                     -
                                                 @endif

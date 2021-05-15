@@ -30,7 +30,6 @@ Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
-
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/orders/{id}', [DashboardController::class, 'getOrderDetail']);
@@ -86,11 +85,7 @@ Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
 
     Route::get('/{id}/delete', [OrderController::class, 'destroy']);
     Route::post('/create', [OrderController::class, 'store']);
-
-    Route::post('/{id}/pay', [PaymentController::class, 'store']);
 });
-
-
 
 Route::get('checkout', [OrderController::class, 'showCheckoutPage'])->middleware('auth');
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\CurlController;
+use App\Models\Shipping;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -20,9 +20,9 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        $curl  = new CurlController();
-        $provinces = $curl->getProvince();
-        $cities = $curl->getCity();
+        $shipping  = new Shipping();
+        $provinces = $shipping->getProvince();
+        $cities = $shipping->getCity();
         return view('auth.register', ['provinces' => $provinces, 'cities' => $cities]);
     }
 

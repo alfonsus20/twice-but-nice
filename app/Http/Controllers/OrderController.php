@@ -150,8 +150,11 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::where('orders.id', $id)->join('shippings', 'orders.id', 'shippings.order_id')
-            ->select('orders.*', 'shippings.cost',  'shippings.courier', 'shippings.service')
+            ->select('orders.*', 'shippings.cost',  'shippings.courier', 'shippings.service', 'shippings.delivered')
             ->first();
+        if(!$order){
+            abort(404);
+        }
         $order_items = OrderItem::where('order_id', $id)
             ->get();
         $products = Product::whereIn('products.id', $order_items->pluck('product_id')->toArray())
@@ -201,6 +204,7 @@ class OrderController extends Controller
             'order' => $order,
             'snapToken' => $snapToken,
             'current_status' => $current_status,
+            'payment' => $payment
         ]);
     }
 
