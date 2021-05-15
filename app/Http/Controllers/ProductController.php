@@ -185,19 +185,26 @@ class ProductController extends Controller
     {
         $product = DB::table('products')->where("products.id", $id)->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.brand', 'products.description', "products.condition", 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
+            ->select('products.id', 'products.name', 'products.brand', 'products.description', "products.condition", 
+                    'categories.category_name',DB::raw("categories.id AS category_id"),  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 
+                    'products.available')
             ->first();
         $product_images = ProductsImage::where('product_id', $id)->get();
 
         $user_wishlist_items_ids = Wishlist::getUserWishlistItemsIds();
         $user_cart_items_ids = Cart::getUserCartItemsIds();
 
+        $related_products = Product::where('category_id', $product->category_id)->get();
+        $products_images = ProductsImage::getProductImage();
+
         return view(
             'product-detail',
             [
                 'product' => $product, 'product_images' => $product_images,
+                'related_products' => $related_products,
                 'user_cart_items_ids' => $user_cart_items_ids,
-                'user_wishlist_items_ids' => $user_wishlist_items_ids
+                'user_wishlist_items_ids' => $user_wishlist_items_ids,
+                'products_images' => $products_images
             ]
         );
     }

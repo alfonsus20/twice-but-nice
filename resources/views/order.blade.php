@@ -43,63 +43,60 @@
                                                         @if ($item->order_id === $order->id)
                                                             <div class="d-flex flex-row items-center">
                                                                 <div class="img">
-                                                                    @foreach ($products_images as $products_image)
-                                                                        @if ($item->id === $products_image->product_id)
-                                                                            <img src="{{ asset('img/products/' . $products_image->path) }}"
-                                                                                alt="Product Image">
-                                                                        @break
-                                                                    @endif
-                                                        @endforeach
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center">{{ $item->name }}</div>
-                        </div>
-                @endif
-                @endforeach
-                </td>
-                <td>
-                    {{ $order->total }}
-                </td>
-                <td>{{ $order->created_at }}</td>
-                <td>
-                    @if ($order->paid)
-                        Sudah dibayar
-                    @else
-                        Belum dibayar
-                    @endif
-                </td>
-                <td>
-                    <div>
-                        @if ($order->delivered)
-                            Sudah dikirim
-                        @else
-                            Belum dikirim
-                        @endif
-                    </div>
-                    <div>
-                        {{$order->courier}}
-                    </div>
-                    <div>
-                        ({{$order->service}})
-                    </div>
-                </td>
-                <td>
-                    <a href="/order/{{ $order->id }}" class="btn">Detail</a>
-                </td>
-                </tr>
-                @endforeach
-                </tbody>
-                </table>
+                                                                    <img src="{{ asset('img/products/' . $products_images[$item->id]) }}"
+                                                                        alt="Product Image">
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-center align-items-center">
+                                                                    {{ $item->name }}</div>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    {{ $order->total }}
+                                                </td>
+                                                <td>{{ $order->created_at }}</td>
+                                                <td>
+                                                    @if ($order->paid)
+                                                        Sudah dibayar
+                                                    @else
+                                                        Belum dibayar
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        @if ($order->delivered)
+                                                            Sudah dikirim
+                                                        @else
+                                                            Belum dikirim
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        {{ $order->courier }}
+                                                    </div>
+                                                    <div>
+                                                        ({{ $order->service }})
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="/order/{{ $order->id }}" class="btn">Detail</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
 
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div style="min-height: 40vh" class="d-flex justify-content-center align-items-center">
+                        <h5 class="text-center">Belum ada produk yang dipesan</h5>
+                    </div>
+                @endif
             </div>
         </div>
-    </div>
-@else
-    <div style="min-height: 40vh" class="d-flex justify-content-center align-items-center">
-        <h5 class="text-center">Belum ada produk yang dipesan</h5>
-    </div>
-    @endif
-    </div>
-    </div>
     </div>
     <!-- Cart End -->
 @endsection
@@ -115,5 +112,3 @@
 
     </script>
 @endsection
-
-{{-- <h2>Order sukses</h2> --}}

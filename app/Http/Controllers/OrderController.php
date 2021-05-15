@@ -42,7 +42,7 @@ class OrderController extends Controller
         $user = Auth::user();
         $shipping_cost = $shipping->getDeliveryCosts(256, $user->city_id, $weight);
 
-        $products_images = ProductsImage::whereIn('product_id', $cart_items->pluck('id')->toArray())->get();
+        $products_images = ProductsImage::getProductImage();
         return view('checkout', ['cart_items' => $cart_items, 'shipping_cost' => $shipping_cost, 'products_images' => $products_images]);
     }
 
@@ -52,7 +52,7 @@ class OrderController extends Controller
         $user_id = Auth::id();
         $orders = Order::where('user_id', $user_id)
             ->join("shippings", "shippings.order_id", "orders.id")
-            ->select('orders.*','shippings.delivered', 'shippings.courier', 'shippings.service')
+            ->select('orders.*', 'shippings.delivered', 'shippings.courier', 'shippings.service')
             ->get();
 
         $order_items = OrderItem::whereIn('order_items.order_id', $orders->pluck('id'))
@@ -60,7 +60,7 @@ class OrderController extends Controller
             ->select("products.*", "order_items.order_id")
             ->get();
 
-        $products_images = ProductsImage::whereIn('product_id', $order_items->pluck('id')->toArray())->get();
+        $products_images = ProductsImage::getProductImage();
         return view("order", ["orders" => $orders, "products_images" => $products_images, "order_items" => $order_items]);
     }
 
@@ -83,7 +83,7 @@ class OrderController extends Controller
             }
             $weight = $weight + $item->weight;
         }
-       
+
         // Dapatkan info mengenai pengiriman dari API RajaOngkir
         $shipping_costs = $shipping->getDeliveryCosts(256, $user->city_id, $weight);
         $shipping_info = explode("|", $request->delivery);
@@ -97,7 +97,7 @@ class OrderController extends Controller
                 }
             }
         }
-        
+
         $order = new Order;
         $order->user_id = $user->id;
         $order->save();
@@ -146,8 +146,7 @@ class OrderController extends Controller
             ->join('sizes', 'products.size_id', "sizes.id")
             ->select('products.*', 'sizes.size_name')
             ->get();
-        $products_images = ProductsImage::whereIn('product_id', $order_items->pluck('product_id')->toArray())->get();
-
+        $products_images = ProductsImage::getProductImage();
         $payment = Payment::where('order_id', $order->id)->first();
 
         // Integrasi dengan Midtrans Payment Gateway
@@ -192,19 +191,24 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         $order_items = OrderItem::where('order_id', $id);
-        
+
         $products = Product::whereIn("id", $order_items->pluck('product_id')->toArray())->get();
         foreach ($products as $product) {
             var_dump($product);
             $product->available = true; // Jika order dibatalkan, stok setiap produk dalam order dikembalikan menjadi tersedia
             $product->save();
         }
-        
+
         $order_items->delete(); // Data produk order dihapus 
+        
         $shipping = Shipping::where('order_id', $id);
         $shipping->delete(); // Pengiriman order dibatalkan
-        $order->delete(); // Order dihapus
         
-        return back()->with('success', 'Pesanan berhasil dibatalkan');
+        $payment = Payment::where('order_id' , $id);
+        $payment->delete();
+
+        $order->delete(); // Order dihapus
+
+        return redirect('/order')->with('success', 'Pesanan berhasil dibatalkan');
     }
 }

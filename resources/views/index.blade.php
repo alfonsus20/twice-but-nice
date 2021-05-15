@@ -316,4 +316,6 @@
         </div>
     </div>
     <!-- Review End -->
+@include('components.toast')
 @endsection
+@include('script.toast')

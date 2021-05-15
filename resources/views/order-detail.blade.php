@@ -44,108 +44,94 @@
                                             <td>
                                                 <div class="d-flex flex-row items-center">
                                                     <div class="img">
-                                                        @foreach ($products_images as $products_image)
-                                                            @if ($product->id === $products_image->product_id)
-                                                                <img src="{{ asset('img/products/' . $products_image->path) }}"
-                                                                    alt="Product Image">
-                                                            @break
-                                                        @endif
+                                                        <img src="{{ asset('img/products/' . $products_images[$product->id]) }}"
+                                                            alt="Product Image">
+                                                    </div>
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        {{ $product->name }}</div>
+                                                </div>
+                                            </td>
+                                            <td>{{ $product->brand }}</td>
+                                            <td>{{ $product->size_name }}</td>
+                                            <td>
+                                                Rp {{ $product->price }}
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $i = $i + 1;
+                                        @endphp
                                     @endforeach
+                                    <tr>
+                                        <td colspan="4">
+                                            Total
+                                        </td>
+                                        <td>
+                                            Rp {{ $order->total - $order->cost }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            Ongkos kirim
+                                            ({{ $order->courier }} : {{ $order->service }})
+                                        </td>
+                                        <td>
+                                            Rp {{ $order->cost }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            Subtotal
+                                        </td>
+                                        <td>
+                                            Rp {{ $order->total }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            Pembayaran
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                @if ($order->paid)
+                                                    Sudah dibayar
+                                                @elseif (!$order->paid && $current_status == 'unpaid')
+                                                    Belum dibayar
+                                                @else
+                                                    Pembayaran {{ $current_status }}
+                                                @endif
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center">{{ $product->name }}</div>
                     </div>
-                    </td>
-                    <td>{{ $product->brand }}</td>
-                    <td>{{ $product->size_name }}</td>
-                    <td>
-                        Rp {{ $product->price }}
-                    </td>
-                    </tr>
-                    @php
-                        $i = $i + 1;
-                    @endphp
-                    @endforeach
-                    <tr>
-                        <td colspan="4">
-                            Total
-                        </td>
-                        <td>
-                            Rp {{$order->total - $order->cost}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            Ongkos kirim
-                            ({{$order->courier}} : {{$order->service}})
-                        </td>
-                        <td>
-                            Rp {{$order->cost}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            Subtotal
-                        </td>
-                        <td>
-                            Rp {{$order->total}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            Pembayaran
-                        </td>
-                        <td>
-                            {{-- <strong>{{$order->paid  ? "Sudah dibayar" : "Belum dibayar"}}</strong> --}}
-                            <strong>
-                                @if($order->paid)
-                                    Sudah dibayar
-                                @elseif (!$order->paid && $current_status == 'unpaid')
-                                    Belum dibayar
-                                @else
-                                    Pembayaran {{$current_status}}
-                                @endif
-                            </strong>
-                        </td>
-                    </tr>
-                    </tbody>
-                    </table>
-                </div>
-            </div>
 
-            @if (!$order->paid)
-                <div class="d-flex">
-                    <div class="ms-auto">
-                        @if ($current_status != 'pending')
-                            <a class="btn btn-danger " href="/order/{{ $order->id }}/delete">Batal</a>
-                        @endif
-                        @if ($current_status == 'unpaid')
-                            <a class="btn" type="submit" id='pay-button'>Bayar</a>
-                        @endif
+                    @if (!$order->paid)
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                @if ($current_status != 'pending')
+                                    <a class="btn btn-danger " href="/order/{{ $order->id }}/delete">Batal</a>
+                                @endif
+                                @if ($current_status == 'unpaid')
+                                    <a class="btn" type="submit" id='pay-button'>Bayar</a>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+                    <div id="snapToken" class="d-none">
+                        {{ $snapToken }}
                     </div>
+                    <form action="/payment" method="POST" id="form-payment">
+                        @csrf
+                        <input type="hidden" name="result_data" id="result_data">
+                        <input type="hidden" name="result_type" id="result_type">
+                    </form>
                 </div>
-            @endif
-            <div id="snapToken" class="d-none">
-                {{ $snapToken }}
             </div>
-            <form action="/payment" method="POST" id="form-payment">
-                @csrf
-                <input type="hidden" name="result_data" id="result_data">
-                <input type="hidden" name="result_type" id="result_type">
-            </form>
         </div>
     </div>
-    </div>
-    </div>
 @endsection
-
-{{-- @section('content')
-    <a class="btn btn-danger " href="/order/{{ $order->id }}/delete">Batal</a>
-    <form class="btn p-0" action="/order/{{ $order->id }}/pay" method="POST">
-        @csrf
-        <button class="w-auto h-auto pay-order" type="submit"
-            style="background-color: transparent; padding: 6px 12px; font-size:1rem; color: #897853">Bayar</button>
-    </form>
-@endsection --}}
 
 @section('script')
     <script type="text/javascript">
@@ -181,6 +167,5 @@
                 }
             });
         });
-
     </script>
 @endsection

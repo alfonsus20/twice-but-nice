@@ -4,12 +4,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CurlController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,9 +32,7 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
-    Route::get('/', function () {
-        return view('admin.index');
-    });
+    Route::get('/', [DashboardController::class, 'index']);
     Route::get('/products', [ProductController::class, 'index_admin']);
     Route::get('/products/add', [ProductController::class, 'create']);
     Route::post('/products/add', [ProductController::class, 'store']);
@@ -100,9 +98,6 @@ Route::get('contact', function () {
 
 Route::post('/payment/', [PaymentController::class, 'pay'])->middleware('auth');
 Route::get('/after-payment/{id}', [PaymentController::class, 'paymentStatus'])->middleware('auth');
-
-
-Route::get("curl", [CurlController::class, 'getCity']);
 
 require __DIR__ . '/auth.php';
 

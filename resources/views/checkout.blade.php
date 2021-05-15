@@ -34,7 +34,7 @@
                                 @endphp
                                 @foreach ($cart_items as $item)
                                     <div class="d-flex">
-                                        <img src="{{ asset('img/products/' . $products_images[$product->id]) }}"
+                                        <img src="{{ asset('img/products/' . $products_images[$item->id]) }}"
                                             alt="Product Image" style="width: 5rem">
                                         <p style="flex-grow: 1; margin-left : 2rem; margin-bottom:0"
                                             class="d-flex align-items-center justify-content-between">
@@ -52,7 +52,7 @@
                                     $i = 1;
                                 @endphp
                                 <div class="ms-3">
-                                    @foreach ($delivery_costs as $name => $delivery_info)
+                                    @foreach ($shipping_cost as $name => $delivery_info)
                                         @foreach ($delivery_info as $info)
                                             <b>{{ $info->name }}</b>
                                             @foreach ($info->costs as $cost)
@@ -101,8 +101,7 @@
             let deliveryCost = $('input[name="delivery"]:checked').parent().children('label').children().children()
                 .text();
             $("#ship-cost").text(deliveryCost);
-            $('#grand-total').text("Rp " + (Number(subtotal.replace("Rp ", "")) + Number(deliveryCost.replace("Rp ",
-                ""))));
+            $('#grand-total').text("Rp " + (Number(subtotal.replace("Rp ", "").trim()) + Number(deliveryCost.replace("Rp","").trim())));
         })
     </script>
 @endsection
