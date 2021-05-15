@@ -72,7 +72,7 @@
                                                             Belum dikirim
                                                         @endif
                                                     </div>
-                                                    <div>
+                                                    <div class="text-uppercase">
                                                         {{ $order->courier }}
                                                     </div>
                                                     <div>

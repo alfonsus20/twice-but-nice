@@ -1,8 +1,5 @@
 <div class="col-md-4">
     <div class="product-item">
-        <div class="product-title">
-            <a href="#">{{ $product->name }}</a>
-        </div>
         <div class="product-image">
             <a href="/products/{{ $product->id }}">
                 <img src="{{ asset('img/products/' . $products_images[$product->id]) }}"
@@ -16,9 +13,10 @@
                 <a href="/products/{{ $product->id }}"><i class="fa fa-search"></i></a>
             </div>
         </div>
-        <div class="product-price">
-            <h3><span>Rp</span>{{ $product->price }}</h3>
-            <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+        <div class="text-center py-2 product-description bg-white shadow-sm d-flex flex-column">
+            <a href="/products/{{$product->id}}" class="text-decoration-none fw-bold fs-5">{{ $product->name }}</a>
+            <div class="text-muted my-1">{{$product->brand}}</div>
+            <div class="my-1 fs-6"><span>Rp</span>{{ $product->price }}</div>
         </div>
     </div>
 </div>

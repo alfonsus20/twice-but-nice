@@ -72,7 +72,7 @@
                                     <tr>
                                         <td colspan="4">
                                             Ongkos kirim
-                                            ({{ $order->courier }} : {{ $order->service }})
+                                            (<span class="text-uppercase">{{ $order->courier }}</span> : {{ $order->service }})
                                         </td>
                                         <td>
                                             Rp {{ $order->cost }}

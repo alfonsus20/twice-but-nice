@@ -86,7 +86,6 @@ class Shipping extends Model
             $res = $this->getCurlResult("cost", "POST", $query);
             $delivery_cost[$courier] = json_decode($res['response'])->rajaongkir->results;
         }
-
         return $delivery_cost;
     }
 }

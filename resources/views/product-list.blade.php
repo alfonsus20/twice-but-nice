@@ -36,24 +36,28 @@
                         </form>
                         <h2 class="title">Kategori</h2>
                         <nav class="navbar">
-                            <ul class="navbar-nav">
-                                @foreach ($categories as $category)
+                            <ul class="navbar-nav w-100">
+                                <div class="row">
+                                    @foreach ($categories as $category)
+                                        <li
+                                            class="nav-item  col-lg-4 col-md-6 col-sm-12 {{ Request::get('category') == $category->id ? 'active-query' : '' }}">
+                                            <a class="nav-link"
+                                                href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => $category->id])) }}"></i>{{ ucfirst(trans($category->category_name)) }}</a>
+                                        </li>
+                                    @endforeach
                                     <li
-                                        class="nav-item {{ Request::get('category') == $category->id ? 'active-query' : '' }}">
+                                        class="nav-item  col-lg-4 col-md-6 col-sm-12 {{ Request::get('category') == 'pria' ? 'active-query' : '' }}">
                                         <a class="nav-link"
-                                            href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => $category->id])) }}"></i>{{ ucfirst(trans($category->category_name)) }}</a>
+                                            href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => 'pria'])) }}"></i>Pakaian
+                                            Pria</a>
                                     </li>
-                                @endforeach
-                                <li class="nav-item {{ Request::get('category') == 'pria' ? 'active-query' : '' }}">
-                                    <a class="nav-link"
-                                        href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => 'pria'])) }}"></i>Pakaian
-                                        Pria</a>
-                                </li>
-                                <li class="nav-item {{ Request::get('category') == 'wanita' ? 'active-query' : '' }}">
-                                    <a class="nav-link"
-                                        href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => 'wanita'])) }}">Pakaian
-                                        Wanita</a>
-                                </li>
+                                    <li
+                                        class="nav-item col-lg-4 col-md-6 col-sm-12 {{ Request::get('category') == 'wanita' ? 'active-query' : '' }}">
+                                        <a class="nav-link"
+                                            href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['category' => 'wanita'])) }}">Pakaian
+                                            Wanita</a>
+                                    </li>
+                                </div>
                             </ul>
                         </nav>
                     </div>
@@ -98,12 +102,15 @@
                     <div class="sidebar-widget brands">
                         <h2 class="title">Brand</h2>
                         <ul class="navbar-nav">
-                            @foreach ($brands as $brand)
-                                <li class="nav-item {{ Request::get('brand') == $brand->brand ? 'active-query' : '' }}">
-                                    <a class="nav-link"
-                                        href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['brand' => $brand->brand])) }}">{{ $brand->brand }}</a>
-                                </li>
-                            @endforeach
+                            <div class="row">
+                                @foreach ($brands as $brand)
+                                    <li
+                                        class="nav-item col-lg-4 col-md-6 col-sm-12 {{ Request::get('brand') == $brand->brand ? 'active-query' : '' }}">
+                                        <a class="nav-link"
+                                            href="{{ url()->current() . '?' . http_build_query(array_merge(request()->all(), ['brand' => $brand->brand])) }}">{{ $brand->brand }}</a>
+                                    </li>
+                                @endforeach
+                            </div>
                         </ul>
                     </div>
                 </div>

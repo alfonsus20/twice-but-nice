@@ -43,7 +43,19 @@ class OrderController extends Controller
         $shipping_cost = $shipping->getDeliveryCosts(256, $user->city_id, $weight);
 
         $products_images = ProductsImage::getProductImage();
-        return view('checkout', ['cart_items' => $cart_items, 'shipping_cost' => $shipping_cost, 'products_images' => $products_images]);
+
+        // Dapatkan info mengenai kota dan provinsi user
+        $destination_details = $shipping->getCity($user->province_id, $user->city_id);
+        $province = $destination_details->province;
+        $city_name = $destination_details->city_name;
+
+        return view('checkout', [
+            'cart_items' => $cart_items,
+            'shipping_cost' => $shipping_cost,
+            'products_images' => $products_images,
+            'province' => $province,
+            'city_name' => $city_name,
+        ]);
     }
 
     // Menampilkan pesanan user
@@ -183,7 +195,13 @@ class OrderController extends Controller
             }
         }
 
-        return view('order-detail', ['products' => $products, 'products_images' => $products_images, 'order' => $order, 'snapToken' => $snapToken, 'current_status' => $current_status]);
+        return view('order-detail', [
+            'products' => $products,
+            'products_images' => $products_images,
+            'order' => $order,
+            'snapToken' => $snapToken,
+            'current_status' => $current_status,
+        ]);
     }
 
     // Membatalkan/menghapus order
@@ -200,11 +218,11 @@ class OrderController extends Controller
         }
 
         $order_items->delete(); // Data produk order dihapus 
-        
+
         $shipping = Shipping::where('order_id', $id);
         $shipping->delete(); // Pengiriman order dibatalkan
-        
-        $payment = Payment::where('order_id' , $id);
+
+        $payment = Payment::where('order_id', $id);
         $payment->delete();
 
         $order->delete(); // Order dihapus

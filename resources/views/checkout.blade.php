@@ -20,7 +20,7 @@
                                         {{ '(' . auth()->user()->telephone . ')' }}
                                     </div>
                                     <div class="col-md-6">
-                                        {{ auth()->user()->address }}
+                                        {{ auth()->user()->address }}, {{ $city_name }}, {{ $province }}
                                     </div>
                                     <div class="col-md-2 d-flex justify-content-end">
                                         <a class="btn" href="/profile">Ubah</a>
@@ -66,6 +66,12 @@
                                                                 {{ $cost->cost[0]->value }}</span>
                                                         </p>
                                                     </label>
+                                                    <p>Estimasi Pengantaran : <time
+                                                            class="text-lowercase">{{ $cost->cost[0]->etd }}</time>
+                                                        @if (!str_contains(strtolower($cost->cost[0]->etd), 'hari'))
+                                                            hari
+                                                        @endif
+                                                    </p>
                                                 </div>
                                                 @php
                                                     $i = $i + 1;
@@ -101,7 +107,9 @@
             let deliveryCost = $('input[name="delivery"]:checked').parent().children('label').children().children()
                 .text();
             $("#ship-cost").text(deliveryCost);
-            $('#grand-total').text("Rp " + (Number(subtotal.replace("Rp ", "").trim()) + Number(deliveryCost.replace("Rp","").trim())));
+            $('#grand-total').text("Rp " + (Number(subtotal.replace("Rp ", "").trim()) + Number(deliveryCost
+                .replace("Rp", "").trim())));
         })
+
     </script>
 @endsection

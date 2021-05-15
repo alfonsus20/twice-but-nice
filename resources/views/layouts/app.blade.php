@@ -11,10 +11,6 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('img/icon.png') }}">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap"
-        rel="stylesheet">
-
     <!-- CSS Libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
@@ -29,7 +25,13 @@
     <script src="https://kit.fontawesome.com/c09ccc772c.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="SB-Mid-client-PvBug4sqIuZ8dl9Z"></script>
+    
+    {{-- Google Fonts --}}
 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;700&family=Poppins:wght@300;400;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -131,7 +133,7 @@
                                     }
                                 @endphp
                                 @php
-                                    $hello = "hei"
+                                    $hello = 'hei';
                                 @endphp
                             </span>
                         </a>
@@ -164,18 +166,18 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget">
-                        <h2>Get in Touch</h2>
+                        <h2>Alamat Perusahaan</h2>
                         <div class="contact-info">
-                            <p><i class="fa fa-map-marker"></i>123 E Store, Los Angeles, USA</p>
-                            <p><i class="fa fa-envelope"></i>email@example.com</p>
-                            <p><i class="fa fa-phone"></i>+123-456-7890</p>
+                            <p><i class="fa fa-map-marker"></i>Jalan Melati No. 2, Malang, Jawa Timur</p>
+                            <p><i class="fa fa-envelope"></i>twice_but_nice@email.com</p>
+                            <p><i class="fa fa-phone"></i>+628129120221</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget">
-                        <h2>Follow Us</h2>
+                        <h2>Ikuti Kami</h2>
                         <div class="contact-info">
                             <div class="social">
                                 <a href=""><i class="fab fa-twitter"></i></a>
@@ -190,22 +192,21 @@
 
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget">
-                        <h2>Company Info</h2>
+                        <h2>Informasi Perusahaan</h2>
                         <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms & Condition</a></li>
+                            <li><a href="#">Tentang Kami</a></li>
+                            <li><a href="#">Kebijakan Privasi</a></li>
+                            <li><a href="#">Syarat dan Ketentuan</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget">
-                        <h2>Purchase Info</h2>
+                        <h2>Informasi Pembelian</h2>
                         <ul>
-                            <li><a href="#">Payment Policy</a></li>
-                            <li><a href="#">Shipping Policy</a></li>
-                            <li><a href="#">Return Policy</a></li>
+                            <li><a href="#">Kebijakan Pembayaran</a></li>
+                            <li><a href="#">Kebijakan Pengiriman</a></li>
                         </ul>
                     </div>
                 </div>
@@ -214,13 +215,13 @@
             <div class="row payment align-items-center">
                 <div class="col-md-6">
                     <div class="payment-method">
-                        <h2>We Accept:</h2>
+                        <h2>Kami Menerima:</h2>
                         <img src="{{ asset('img/payment-method.png') }}" alt="Payment Method" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="payment-security">
-                        <h2>Secured By:</h2>
+                        <h2>Keamanan Transaksi:</h2>
                         <img src="{{ asset('img/godaddy.svg') }}" alt="Payment Security" />
                         <img src="{{ asset('img/norton.svg') }}" alt="Payment Security" />
                         <img src="{{ asset('img/ssl.svg') }}" alt="Payment Security" />
@@ -236,7 +237,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 copyright">
-                    <p>Copyright &copy; <a href="https://htmlcodex.com">Twice But Nice 2021</a>. All Rights Reserved</p>
+                    <p>Copyright &copy; <a href="https://htmlcodex.com">Twice But Nice 2021</a></p>
                 </div>
             </div>
         </div>
