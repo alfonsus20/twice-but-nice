@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -107,3 +108,10 @@ Route::get('/size', 'SizeController@index');
 Route::get('/size/{id}', 'SizeController@show');
 Route::get('/size/{id}/edit', 'SizeController@edit');
 Route::post('/size/{id}/update', 'SizeController@update');
+
+Route::get('/send/{id}', [ShippingController::class, 'send']);
+
+Route::get('invoice', function () {
+    $markdown = new Markdown(view(), config('mail.markdown'));
+    return $markdown->render('emails.invoice');
+});

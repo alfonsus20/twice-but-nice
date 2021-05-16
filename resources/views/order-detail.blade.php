@@ -103,7 +103,7 @@
                                             </strong>
                                         </td>
                                     </tr>
-                                    @if ($payment->type)
+                                    @if (isset($payment->type))
                                         <tr>
                                             <td colspan="4">
                                                 Metode Pembayaran
