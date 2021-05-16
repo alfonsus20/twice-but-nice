@@ -141,7 +141,7 @@
                         </div>
                     @endif
                     <div class="container-fluid bg-white py-4">
-                        @if ($order->paid)
+                        @if ($order->paid )
                             <div>
                                 <h2>
                                     Review

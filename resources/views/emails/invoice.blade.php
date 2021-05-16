@@ -12,7 +12,7 @@ Terima kasih, telah berbelanja di Twice But Nice. Berikut rincian pembelajaan ka
 | No.      | Produk         | Harga  |
 | ------------- |:-------------:| --------:|
 @foreach ($products as $product)
-|{{$i}}.| <div style="display: flex; flex-direction : row; margin: 10px;align-items: center;"><img src="file://{{asset('img/products/'. $products_images[$product->id])}}" alt="product" style="width: 40px; height:auto;"> <div style="padding-left: 20px">{{$product->name}}</div> </div>  | {{$product->price}} |
+|{{$i}}.| <div style="display: flex; flex-direction : row; margin: 10px;align-items: center;"><img src="file://{{asset('img/products/'. $products_images[$product->id])}}" alt="product" style="width: 40px; height:auto;"> <div style="padding-left:20px;display:flex;align-items:center;">{{$product->name}}</div> </div>  | {{$product->price}} |
 @php
     $i+=1;
     $total += $product->price;
