@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Route;
 
@@ -86,6 +87,8 @@ Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
 
     Route::get('/{id}/delete', [OrderController::class, 'destroy']);
     Route::post('/create', [OrderController::class, 'store']);
+
+    Route::post('/{id}/review', [ReviewController::class, 'store']);
 });
 
 Route::get('checkout', [OrderController::class, 'showCheckoutPage'])->middleware('auth');

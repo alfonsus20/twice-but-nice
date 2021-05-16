@@ -21,10 +21,12 @@
                                 <a class="nav-link" href="/products?category=5"><i class="fas fa-shoe-prints"></i>Sepatu</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/products?category=pria"><i class="fa fa-male"></i>Pakaian Pria</a>
+                                <a class="nav-link" href="/products?category=pria"><i class="fa fa-male"></i>Pakaian
+                                    Pria</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/products?category=wanita"><i class="fa fa-female"></i>Pakaian Wanita</a>
+                                <a class="nav-link" href="/products?category=wanita"><i class="fa fa-female"></i>Pakaian
+                                    Wanita</a>
                             </li>
                         </ul>
                     </nav>
@@ -102,7 +104,7 @@
                         <i class="fa fa-check"></i>
                         <h2>Kualitas yang Terjamin</h2>
                         <p>
-                           Pakaian yang kami sediakan terjamin kualitasnya
+                            Pakaian yang kami sediakan terjamin kualitasnya
                         </p>
                     </div>
                 </div>
@@ -119,7 +121,7 @@
         </div>
     </div>
     <!-- Feature End-->
-    
+
     <!-- Call to Action Start -->
     <div class="call-to-action">
         <div class="container-fluid">
@@ -167,78 +169,38 @@
 
     <!-- Review Start -->
     <div class="review">
-        <div class="container-fluid">
+        <div class="container-fluid product">
+            <div class="section-header">
+                <h1>Review Customer Kami</h1>
+            </div>
             <div class="row align-items-center review-slider normal-slider">
-                <div class="col-md-6">
-                    <div class="review-slider-item">
-                        <div class="review-img">
-                            <img src="img/review-1.jpg" alt="Image">
-                        </div>
-                        <div class="review-text">
-                            <h2>Customer Name</h2>
-                            <h3>Profession</h3>
-                            <div class="ratting">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
+                @forelse ($reviews as $review)
+                    <div class="col-md-6">
+                        <div class="review-slider-item">
+                            <div class="review-img">
+                                <img src="{{ asset('img/users/' . ($review->profile_image ? $review->profile_image : 'no-user.jpg')) }}"
+                                    alt="profil photo">
                             </div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae nunc eget leo
-                                finibus luctus et vitae lorem
-                            </p>
+                            <div class="review-text">
+                                <h2>{{ $review->name }}</h2>
+                                <div class="ratting">
+                                    @for ($i = 0; $i < $review->rating; $i++)
+                                        <i class="fa fa-star"></i>
+                                    @endfor
+                                </div>
+                                <p>
+                                    {{ $review->message }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="review-slider-item">
-                        <div class="review-img">
-                            <img src="img/review-2.jpg" alt="Image">
-                        </div>
-                        <div class="review-text">
-                            <h2>Customer Name</h2>
-                            <h3>Profession</h3>
-                            <div class="ratting">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae nunc eget leo
-                                finibus luctus et vitae lorem
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="review-slider-item">
-                        <div class="review-img">
-                            <img src="img/review-3.jpg" alt="Image">
-                        </div>
-                        <div class="review-text">
-                            <h2>Customer Name</h2>
-                            <h3>Profession</h3>
-                            <div class="ratting">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae nunc eget leo
-                                finibus luctus et vitae lorem
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                @empty
+                    <h4 class="text-center py-5 bg-white w-100">Belum ada review</h4>
+                @endforelse
             </div>
         </div>
     </div>
     <!-- Review End -->
-@include('components.toast')
+    @include('components.toast')
 @endsection
 @include('script.toast')

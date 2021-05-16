@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductsImage;
+use App\Models\Review;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -163,6 +164,7 @@ class OrderController extends Controller
             ->get();
         $products_images = ProductsImage::getProductImage();
         $payment = Payment::where('order_id', $order->id)->first();
+        $review = Review::where('order_id', $order->id)->first();
 
         // Integrasi dengan Midtrans Payment Gateway
         $user = Auth::user();
@@ -204,7 +206,8 @@ class OrderController extends Controller
             'order' => $order,
             'snapToken' => $snapToken,
             'current_status' => $current_status,
-            'payment' => $payment
+            'payment' => $payment,
+            'review' => $review,
         ]);
     }
 

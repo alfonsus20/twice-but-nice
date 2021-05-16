@@ -120,7 +120,7 @@
                                             Status Pengiriman
                                         </td>
                                         <td class="fw-bold">
-                                            {{ $order->delivered ? 'Sudah terkirim' : 'Belum dikirim'  }}
+                                            {{ $order->delivered ? 'Sudah terkirim' : 'Belum dikirim' }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -140,6 +140,27 @@
                             </div>
                         </div>
                     @endif
+                    <div class="container-fluid bg-white py-4">
+                        @if ($order->paid)
+                            <div>
+                                <h2>
+                                    Review
+                                </h2>
+                                <p>
+                                    @if (!$review)
+                                        <p>Anda belum memberikan review</p>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            Beri Review
+                                        </button>
+
+                                    @else
+                                        {{ $review->message }}
+                                    @endif
+                                </p>
+                            </div>
+                        @endif
+                    </div>
                     <div id="snapToken" class="d-none">
                         {{ $snapToken }}
                     </div>
@@ -150,6 +171,37 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content" method="POST" action="/order/{{$order->id}}/review">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="review" class="form-label">Masukkan Komentar Anda</label>
+                        <input type="text" name="message" class="form-control" id="review" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="review" class="form-label">Penilaian Dalam Skala 1 - 5</label>
+                        <select class="form-select" aria-label="Default select example" name="rating" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button  class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary text-white" style="background-color: #897853;">Kirim</button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductsImage;
+use App\Models\Review;
 use App\Models\Size;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\File;
@@ -309,13 +310,16 @@ class ProductController extends Controller
         $products_images = ProductsImage::getProductImage();
         $user_wishlist_items_ids = Wishlist::getUserWishlistItemsIds();
         $user_cart_items_ids = Cart::getUserCartItemsIds();
+        $reviews = Review::getAllReviews();
 
+        // dd($reviews);
         return view('index', [
             'newest_products' => $newest_products,
             'featured_products' => $featured_products,
             'user_cart_items_ids' => $user_cart_items_ids,
             'user_wishlist_items_ids' => $user_wishlist_items_ids,
             'products_images' => $products_images,
+            'reviews' => $reviews
         ]);
     }
 }
