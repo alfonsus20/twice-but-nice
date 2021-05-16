@@ -169,7 +169,7 @@
 
     <!-- Review Start -->
     <div class="review">
-        <div class="container-fluid product">
+        <div class="container-fluid ">
             <div class="section-header">
                 <h1>Review Customer Kami</h1>
             </div>

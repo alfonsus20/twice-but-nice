@@ -65,12 +65,6 @@
                         <div class="cart-page-inner">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="coupon">
-                                        <input type="text" placeholder="Coupon Code">
-                                        <button>Apply Code</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
                                     <div class="cart-summary">
                                         <div class="cart-content">
                                             <h1>Ringkasan Belanja</h1>

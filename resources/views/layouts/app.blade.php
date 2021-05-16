@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <i class="fa fa-envelope"></i>
-                    <a href="mailto:twice_but_nice@email.com" class="text-decoration-none">twice_but_nice@email.com</a>
+                    <a href="mailto:twice_but_nice@email.com" class="text-decoration-none">twicebutnice80@gmail.com</a>
                 </div>
                 <div class="col-sm-6">
                     <i class="fa fa-phone-alt"></i>
@@ -169,7 +169,7 @@
                         <h2>Alamat Perusahaan</h2>
                         <div class="contact-info">
                             <p><i class="fa fa-map-marker"></i>Jalan Melati No. 2, Malang, Jawa Timur</p>
-                            <p><i class="fa fa-envelope"></i>twice_but_nice@email.com</p>
+                            <p><i class="fa fa-envelope"></i>twicebutnice80@gmail.com</p>
                             <p><i class="fa fa-phone"></i>+628129120221</p>
                         </div>
                     </div>

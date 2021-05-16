@@ -165,6 +165,7 @@ class OrderController extends Controller
         $products_images = ProductsImage::getProductImage();
         $payment = Payment::where('order_id', $order->id)->first();
         $review = Review::where('order_id', $order->id)->first();
+        $shipping = Shipping::where('order_id', $order->id)->first();
 
         // Integrasi dengan Midtrans Payment Gateway
         $user = Auth::user();
@@ -208,6 +209,7 @@ class OrderController extends Controller
             'current_status' => $current_status,
             'payment' => $payment,
             'review' => $review,
+            'shipping' => $shipping
         ]);
     }
 

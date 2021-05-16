@@ -141,7 +141,7 @@
                         </div>
                     @endif
                     <div class="container-fluid bg-white py-4">
-                        @if ($order->paid )
+                        @if ($order->paid && $shipping->delivered)
                             <div>
                                 <h2>
                                     Review
@@ -178,7 +178,7 @@
             <form class="modal-content" method="POST" action="/order/{{$order->id}}/review">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Beri Review</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
