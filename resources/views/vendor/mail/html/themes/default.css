@@ -11,7 +11,7 @@ body *:not(html):not(style):not(br):not(tr):not(code) {
 body {
     -webkit-text-size-adjust: none;
     background-color: #ffffff;
-    color: #718096;
+    color: black;
     height: 100%;
     line-height: 1.4;
     margin: 0;
@@ -38,7 +38,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #3d4852;
+    color: black;
     font-size: 18px;
     font-weight: bold;
     margin-top: 0;
@@ -80,7 +80,7 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #edf2f7;
+    background-color: #f2f2f2;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -103,7 +103,7 @@ img {
 }
 
 .header a {
-    color: #3d4852;
+    color: black;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
@@ -123,9 +123,9 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #edf2f7;
-    border-bottom: 1px solid #edf2f7;
-    border-top: 1px solid #edf2f7;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+    border-top: 1px solid #f2f2f2;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -197,7 +197,7 @@ img {
 }
 
 .table td {
-    color: #74787e;
+    color: black;
     font-size: 15px;
     line-height: 18px;
     margin: 0;
@@ -232,11 +232,11 @@ img {
 
 .button-blue,
 .button-primary {
-    background-color: #2d3748;
-    border-bottom: 8px solid #2d3748;
-    border-left: 18px solid #2d3748;
-    border-right: 18px solid #2d3748;
-    border-top: 8px solid #2d3748;
+    background-color: #897853;
+    border-bottom: 8px solid #897853;
+    border-left: 18px solid #897853;
+    border-right: 18px solid #897853;
+    border-top: 8px solid #897853;
 }
 
 .button-green,
@@ -265,13 +265,13 @@ img {
 }
 
 .panel-content {
-    background-color: #edf2f7;
-    color: #718096;
+    background-color: #f2f2f2;
+    color: black;
     padding: 16px;
 }
 
 .panel-content p {
-    color: #718096;
+    color: black;
 }
 
 .panel-item {

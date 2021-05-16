@@ -76,8 +76,8 @@ Route::group(['prefix' => 'cart', 'middleware' => ['auth']], function () {
 
 Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
     Route::get('/', [ProfileController::class, 'index']);
-
     Route::post('/update', [ProfileController::class, 'update']);
+    Route::post('/update/profile-image', [ProfileController::class, 'editProfileImage']);
 });
 
 Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {

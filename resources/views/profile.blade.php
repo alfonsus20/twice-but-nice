@@ -1,5 +1,26 @@
 @extends('layouts.app')
 @section('content')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 mx-auto">
+                <div class="d-flex justify-content-center">
+                    <img style="width: 18rem"
+                    class="rounded-circle"
+                        src="{{ asset('img/users/' . ($user->profile_image ? $user->profile_image : 'no-user.jpg')) }}"
+                        alt="profile image" id="profile-image">
+                </div>
+                <h4 class="mt-3 text-center">{{$user->name}}</h4>
+                <form action="/profile/update/profile-image" method="POST" class="d-flex justify-content-center" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="profile_image" id="profile-image-input" accept="image/*" onchange="changeProfileImage(event)">
+                    @error('profile_image')
+                       <div class="text-danger">{{$message}}</div>
+                    @enderror
+                    <button class="btn" type="submit">Update Foto</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <form class="login" method="POST" action="/profile/update">
         @csrf
         <div class="container-fluid">
@@ -109,5 +130,9 @@
         })
         var toast = document.getElementById("toast");
         toastList[0].show();
+
+        function changeProfileImage(event){
+            $('#profile-image').attr('src', URL.createObjectURL(event.target.files[0]));
+        }
     </script>
 @endsection

@@ -24,6 +24,7 @@ class DashboardController extends Controller
             ->join('users', 'users.id', 'orders.user_id')
             ->join('payments', 'payments.order_id', 'orders.id')
             ->select('orders.*', 'users.name', 'payments.type', 'payments.updated_at as payment_time')
+            ->orderBy('payment_time', 'desc')
             ->get();
 
         return view('admin.index', [

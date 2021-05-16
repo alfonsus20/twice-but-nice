@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Shipping;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -24,8 +26,8 @@ class ProfileController extends Controller
     {
         $user_id = Auth::id();
         $user = User::find($user_id);
-        
-        if($user->email == $request->email){
+
+        if ($user->email == $request->email) {
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255',
@@ -35,7 +37,7 @@ class ProfileController extends Controller
                 'province_id' => 'required',
                 'city_id' => 'required',
             ]);
-        }else{
+        } else {
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -58,5 +60,29 @@ class ProfileController extends Controller
         $user->save();
 
         return back()->with('success', "Profile berhasil diubah");
+    }
+
+    // Mengubah foto profile
+    public function editProfileImage(Request $request)
+    {
+        $image = $request->file('profile_image');
+        if (!$image) {
+            return back();
+        } else {
+            $request->validate(['profile_image' => 'required|image|mimes:jpeg,png,jpg']);
+            $fileName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $ext = $image->getClientOriginalExtension();
+            $fileNameToStore = $fileName . "_" . time() . "_" . ((string)Str::uuid()) . "." . $ext;
+            $image->move(public_path('img/users'), $fileNameToStore);
+
+            $user = User::find(Auth::id());
+
+            File::delete(asset('img/users') . '/' . $user->profile_image);
+
+            $user->profile_image = $fileNameToStore;
+            $user->save();
+
+            return back()->with('success', 'Foto profil berhasil diubah');
+        }
     }
 }

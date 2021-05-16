@@ -44,6 +44,7 @@ class RegisteredUserController extends Controller
             'address' => 'required|string|max:255',
             'birth_date' => 'required|date',
             'province_id' => 'required',
+            'postal_code' => 'required',
             'city_id' => 'required',
         ]);
 
@@ -55,6 +56,7 @@ class RegisteredUserController extends Controller
             'birth_date' => $request->birth_date,
             'province_id' => (int)$request->province_id,
             'city_id' => (int)$request->city_id,
+            'postal_code' => (int)$request->postal_code,
             'password' => Hash::make($request->password),
         ]);
 

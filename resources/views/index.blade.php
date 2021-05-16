@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 feature-col">
                     <div class="feature-content">
-                        <i class="fas fa-dollar-sign"></i>>
+                        <i class="fas fa-dollar-sign"></i>
                         <h2>Harga yang Terjangkau</h2>
                         <p>
                             Kualitas bintang lima namun harga kaki lima

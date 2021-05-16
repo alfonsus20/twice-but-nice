@@ -19,12 +19,12 @@ Terima kasih, telah berbelanja di Twice But Nice. Berikut rincian pembelajaan ka
 @endphp
 @endforeach
 |       | Subtotal | {{$total}}     |
-|       | Ongkos Kirim <br> ({{$shipping->courier}} : {{$shipping->service}}) | {{$shipping->cost}}      |
+|       | Ongkos Kirim <br> (<span style="text-transform: uppercase">{{$shipping->courier}}</span> : {{$shipping->service}}) | {{$shipping->cost}}      |
 |       | Grand Total | {{$total + $shipping->cost}}      |
 @endcomponent
 
 Kamu dapat memantau pengiriman barangmu di sini:
-@component('mail::button', ['url' => $url, 'color' => '#897853'])
+@component('mail::button', ['url' => $url])
 Pantau Pesanan
 @endcomponent
 

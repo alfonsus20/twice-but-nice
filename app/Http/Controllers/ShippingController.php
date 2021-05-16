@@ -18,6 +18,7 @@ class ShippingController extends Controller
     public function index()
     {
         $shippings = DB::table('shippings')
+        ->orderBy('shippings.created_at', 'desc')
         ->join('orders', 'order_id', 'orders.id')
         ->join('users', 'users.id', 'orders.user_id')
         ->select('shippings.*', 'orders.paid', 'users.name')
