@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {

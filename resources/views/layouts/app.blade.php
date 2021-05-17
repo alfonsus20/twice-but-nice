@@ -25,7 +25,7 @@
     <script src="https://kit.fontawesome.com/c09ccc772c.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="SB-Mid-client-PvBug4sqIuZ8dl9Z"></script>
-    
+
     {{-- Google Fonts --}}
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
