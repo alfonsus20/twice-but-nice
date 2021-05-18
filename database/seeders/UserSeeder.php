@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
 
         $admin_3 = new User;
         $admin_3->name = 'Abdi';
-        $admin_3->email = 'abdi@gmail.com';
+        $admin_3->email = 'abdidarsono11@gmail.com';
         $admin_3->address = 'Pekanbaru';
         $admin_3->telephone = '08123121312';
         $admin_3->birth_date = '2001-02-02';
