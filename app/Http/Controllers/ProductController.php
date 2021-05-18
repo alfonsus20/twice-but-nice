@@ -304,8 +304,8 @@ class ProductController extends Controller
     // Menampilkan produk di halaman produk
     public function index_home()
     {
-        $newest_products = DB::table('products')->where('available', 1)->orderBy('created_at')->get();
-        $featured_products = DB::table('products')->where('available', 1)->orderBy('quality')->get();
+        $newest_products = DB::table('products')->where('available', 1)->orderBy('created_at', 'desc')->take(5)->get();
+        $featured_products = DB::table('products')->where('available', 1)->orderBy('quality', 'desc')->take(5)->get();
         $products_images = ProductsImage::getProductImage();
         $user_wishlist_items_ids = Wishlist::getUserWishlistItemsIds();
         $user_cart_items_ids = Cart::getUserCartItemsIds();

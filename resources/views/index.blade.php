@@ -36,7 +36,7 @@
                         <div class="header-slider-item">
                             <img src="img/slider-1.jpg" alt="Slider Image" class="w-100" />
                             <div class="header-slider-caption">
-                                <p>Pakaian thrifting dengan harga bersaing</p>
+                                <p>Pakaian thrifting dengan harga bersahabat</p>
                                 <a class="btn" href="/products"><i class="fa fa-shopping-cart"></i>Belanja</a>
                             </div>
                         </div>

@@ -2482,3 +2482,7 @@ h2 {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
 }
+
+a{
+    white-space: inherit!important;
+}
