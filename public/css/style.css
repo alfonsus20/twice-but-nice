@@ -2431,7 +2431,7 @@ h2 {
     }
 }
 
-.active-query a {
+.active-query {
     color: var(--primary-color) !important;
     font-weight: 600;
 }
@@ -2485,4 +2485,9 @@ h2 {
 
 a{
     white-space: inherit!important;
+}
+
+.nav-item input[type=radio]:checked + label{
+    color: var(--primary-color)!important;
+    font-weight: 600;
 }

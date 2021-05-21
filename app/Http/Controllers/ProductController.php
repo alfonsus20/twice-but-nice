@@ -17,96 +17,9 @@ use illuminate\Support\Str;
 class ProductController extends Controller
 {
     // Tampilkan semua produk beserta informasi lengkapnya
-    public function index(Request $request)
+    public function index()
     {
-        $products = DB::table('products')->where("available", "1")->join('categories', 'products.category_id', 'categories.id')
-            ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select(
-                'products.id',
-                'products.name',
-                'products.brand',
-                'products.description',
-                DB::raw("categories.id AS category_id"),
-                'categories.category_name',
-                'sizes.size_name',
-                'products.quality',
-                'products.price',
-                'products.available',
-                'products.created_at'
-            );
-
-        if ($request->has('keyword')) {
-            $products->where('name', 'LIKE', '%' . $request->input('keyword') . '%');
-        }
-
-        // Sorting
-        if ($request->has('sort')) {
-            if ($request->sort == 'oldest') {
-                $products->orderBy('created_at', 'asc');
-            } else if ($request->sort == 'newest') {
-                $products->orderBy('created_at', 'desc');
-            } else if ($request->sort == 'lowestPrice') {
-                $products->orderBy('price', 'asc');
-            } else if ($request->sort == 'highestPrice') {
-                $products->orderBy('price', 'desc');
-            }
-        }
-
-        // Filtering
-        if ($request->has('category')) {
-            if ($request->category == "pria") {
-                $products->where('sex', 1);
-            } else if ($request->category == "wanita") {
-                $products->where('sex', 0);
-            } else {
-                $products->where('category_id', $request->category);
-            }
-        }
-
-        if ($request->has('brand')) {
-            $products->where('brand', $request->brand);
-        }
-
-        if ($request->has('min_price') && $request->filled('min_price')) {
-            $products->where('price', ">=", $request->min_price);
-        }
-
-        if ($request->has('max_price') && $request->filled('max_price')) {
-            $products->where('price', "<=", $request->max_price);
-        }
-
-        if ($request->has('min_quality') && $request->filled('min_quality')) {
-            $products->where('quality', ">=", $request->min_quality);
-        }
-
-        if ($request->has('max_quality') && $request->filled('max_quality')) {
-            $products->where('quality', "<=", $request->max_quality);
-        }
-
-        $brands = Product::getBrands();
-        $categories = Category::getCategories();
-        $products = $products->paginate(9);
-
-        $product_ids = array();
-        foreach ($products as $product) {
-            $product_ids[] = $product->id;
-        }
-        $products_images = ProductsImage::getProductImage();
-
-        $user_wishlist_items_ids = Wishlist::getUserWishlistItemsIds();
-        $user_cart_items_ids = Cart::getUserCartItemsIds();
-
-        return view(
-            'product-list',
-            [
-                'products' => $products,
-                'products_images' => $products_images,
-                'brands' => $brands,
-                'categories' => $categories,
-                'user_cart_items_ids' => $user_cart_items_ids,
-                'user_wishlist_items_ids' => $user_wishlist_items_ids
-            ]
-        );
+        return view('product-list');
     }
 
     // Tampilkan produk untuk admin
@@ -116,13 +29,13 @@ class ProductController extends Controller
         $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
             ->select('products.id', 'products.name', 'products.brand', 'products.description', "products.condition", 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available');
-        
+
         if ($request->has('keyword')) {
             $products->where('name', 'LIKE', '%' . $request->input('keyword') . '%');
         }
 
         $products = $products->paginate(10);
-        
+
         return view('admin.products', ['products' => $products]);
     }
 
@@ -191,9 +104,20 @@ class ProductController extends Controller
     {
         $product = DB::table('products')->where("products.id", $id)->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.brand', 'products.description', "products.condition", 
-                    'categories.category_name',DB::raw("categories.id AS category_id"),  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 
-                    'products.available')
+            ->select(
+                'products.id',
+                'products.name',
+                'products.brand',
+                'products.description',
+                "products.condition",
+                'categories.category_name',
+                DB::raw("categories.id AS category_id"),
+                'sizes.size_name',
+                'products.sex',
+                'products.quality',
+                'products.price',
+                'products.available'
+            )
             ->first();
         $product_images = ProductsImage::where('product_id', $id)->get();
 
