@@ -12,6 +12,15 @@
     </div>
 
     @include('components.message')
+    <form action="/admin/products" method="get">
+    <label class="form-label">Masukkan kata kunci</label>
+    <input type="text" class="form-control" name="keyword" placeholder="Cari produk ..."
+    style="padding-right: 34px">
+    <button type="submit" id="searchByKeyword"
+    class="btn d-flex align-items-center justify-content-center"
+    style="background-color : #007bff;color : white;text-decoration : none;"><i
+    class="fa fa-search"></i></button>
+    </form>
 
     <div class="section-body">
         <div class="row">

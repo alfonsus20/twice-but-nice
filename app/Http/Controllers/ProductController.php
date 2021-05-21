@@ -110,13 +110,19 @@ class ProductController extends Controller
     }
 
     // Tampilkan produk untuk admin
-    public function index_admin()
+    public function index_admin(Request $request)
     {
 
         $products = DB::table('products')->join('categories', 'products.category_id', 'categories.id')
             ->join('sizes', 'products.size_id', 'sizes.id')
-            ->select('products.id', 'products.name', 'products.brand', 'products.description', "products.condition", 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available')
-            ->paginate(10);
+            ->select('products.id', 'products.name', 'products.brand', 'products.description', "products.condition", 'categories.category_name',  'sizes.size_name', 'products.sex', 'products.quality', 'products.price', 'products.available');
+        
+        if ($request->has('keyword')) {
+            $products->where('name', 'LIKE', '%' . $request->input('keyword') . '%');
+        }
+
+        $products = $products->paginate(10);
+        
         return view('admin.products', ['products' => $products]);
     }
 
