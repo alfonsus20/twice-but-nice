@@ -9,7 +9,6 @@ use App\Models\Shipping;
 use App\Models\Product;
 use App\Models\ProductsImage;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -57,9 +56,9 @@ class DashboardController extends Controller
             'products' => $products,
             'products_images' => $products_images,
             'order' => $order,
-            'payment'=> $payment,
-            'user'=> $user,
-            'shipping'=> $shipping,
+            'payment' => $payment,
+            'user' => $user,
+            'shipping' => $shipping,
         ]);
     }
 }

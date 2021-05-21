@@ -11,6 +11,7 @@ use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\UserController;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], func
 
     Route::get('shipping', [ShippingController::class, 'index']);
     Route::get('shipping/{id}/send', [ShippingController::class, 'send']);
+
+    Route::get('users', [UserController::class, 'index']);
+    Route::get('users/{id}/makeadmin', [UserController::class, 'makeAdmin']);
+    Route::get('users/{id}/withdrawadmin', [UserController::class, 'withdrawAdmin']);
 });
 
 Route::group(['prefix' => 'wishlist', 'middleware' => ['auth']], function () {

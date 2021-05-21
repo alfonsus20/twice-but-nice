@@ -4,22 +4,14 @@
 
     <div class="section-header">
         <h1>Daftar Produk</h1>
-        <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-            <div class="breadcrumb-item"><a href="#">Components</a></div>
-            <div class="breadcrumb-item">Table</div>
-        </div>
     </div>
 
     @include('components.message')
-    <form action="/admin/products" method="get">
-    <label class="form-label">Masukkan kata kunci</label>
-    <input type="text" class="form-control" name="keyword" placeholder="Cari produk ..."
-    style="padding-right: 34px">
-    <button type="submit" id="searchByKeyword"
-    class="btn d-flex align-items-center justify-content-center"
-    style="background-color : #007bff;color : white;text-decoration : none;"><i
-    class="fa fa-search"></i></button>
+    <form action="/admin/products" class="position-relative" method="get">
+        <label class="form-label">Masukkan kata kunci</label>
+        <input type="text" class="form-control" value="{{Request::get('keyword')}}" name="keyword" placeholder="Cari produk ..." style="padding-right: 34px">
+        <button type="submit" class="btn btn-primary position-absolute top-0 end-0" style="color : white;text-decoration : none;    bottom: 5px;
+                right: 0;"><i class="fa fa-search"></i></button>
     </form>
 
     <div class="section-body">
@@ -75,24 +67,6 @@
                             </table>
                         </div>
                     </div>
-                    {{-- <div class="card-footer text-right">
-                        <nav class="d-inline-block">
-                            <ul class="pagination mb-0">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1 <span
-                                            class="sr-only">(current)</span></a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div> --}}
                     {{ $products->links() }}
                 </div>
             </div>

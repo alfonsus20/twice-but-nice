@@ -35,6 +35,9 @@
                             <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->name }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
+                            <a href="/" class="dropdown-item has-icon  d-flex flex-row  align-items-center">
+                                <i class="fas fa-home"></i> Halaman Utama
+                            </a>
                             <a href="#" class="dropdown-item has-icon text-danger d-flex flex-row  align-items-center">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <form action="{{ route('logout') }}" class="dropdown-item p-0" method="POST">
@@ -78,15 +81,6 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-gift"></i>
-                                <span>Voucher</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-                                <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-                                <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                     class="fas fa-columns"></i> <span>Kategori</span></a>
                             <ul class="dropdown-menu">
@@ -102,7 +96,13 @@
                                 <li><a class="nav-link" href="/admin/size/add">Tambah Size</a></li>
                             </ul>
                         </li>
-
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i>
+                                <span>User</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="/admin/users">Daftar User</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </aside>
             </div>
