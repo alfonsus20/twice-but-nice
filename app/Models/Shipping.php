@@ -46,7 +46,7 @@ class Shipping extends Model
         $response = curl_exec($this->curl);
         $err = curl_error($this->curl);
         $res = ['response' => $response, 'err' => $err];
-        curl_close($this->curl);
+        // curl_close($this->curl);
         return $res;
     }
 
